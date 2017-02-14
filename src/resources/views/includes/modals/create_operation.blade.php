@@ -97,6 +97,8 @@
 
 				</form>
 
+				<div class="clearfix"></div>
+
 			</div>
 
 			<div class="modal-footer"></div>
