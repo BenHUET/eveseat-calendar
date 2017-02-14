@@ -46,9 +46,9 @@
 @if(auth()->user()->has('calendar.cancelAll', false) || $op->user->id == auth()->user()->id)
 	@if($op->is_cancelled == true)
 		&nbsp;
-		<a href="{{ URL::to('calendar/operation/activate', $op->id) }}" class="text-danger" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.activate') }}">
-			<i class="fa fa-undo"></i>
-		</a>
+		<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.activate') }}">
+			<i class="fa fa-undo text-danger" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalConfirmActivate"></i>
+		</span>
 	@else
 		&nbsp;
 		<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.cancel') }}">

@@ -9,6 +9,7 @@
 	@include('calendar::includes.modals.confirm_delete')
 	@include('calendar::includes.modals.confirm_close')
 	@include('calendar::includes.modals.confirm_cancel')
+	@include('calendar::includes.modals.confirm_activate')
 	@include('calendar::includes.modals.subscribe')
 
 	@include('calendar::includes.panels.ongoing_operations')
