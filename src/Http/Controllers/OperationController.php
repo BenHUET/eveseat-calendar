@@ -74,12 +74,14 @@ class OperationController extends Controller
 		$operation->save();
 	}
 
-	public function delete($id)
+	public function delete(Request $request)
 	{
-		$operation = Operation::find($id);
-		if (auth()->user()->has('calendar.deleteAll') || $operation->user->id == auth()->user()->id) {
-			Operation::destroy($id);
-			return redirect()->back();
+		$operation = Operation::find($request->operation_id);
+		if ($operation != null) {
+			if (auth()->user()->has('calendar.deleteAll') || $operation->user->id == auth()->user()->id) {
+				Operation::destroy($operation->id);
+				return redirect()->back();
+			}
 		}
 		else {
 			return redirect()->route('auth.unauthorized');

@@ -60,9 +60,9 @@
 
 @if(auth()->user()->has('calendar.deleteAll', false)  || $op->user->id == auth()->user()->id )
 	&nbsp;
-	<a href="{{ URL::to('calendar/operation/delete', $op->id) }}" class="text-danger" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.delete') }}">
-		<i class="fa fa-trash"></i>
-	</a>
+	<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.delete') }}">
+		<i class="fa fa-trash" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalConfirmDelete"></i>
+	</span>
 @endif
 
 {{ $table = null }}

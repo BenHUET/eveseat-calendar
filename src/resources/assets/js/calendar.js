@@ -68,3 +68,8 @@ $('#modalSubscribe').on('show.bs.modal', function(e) {
 	$('.attending-' + status).removeClass('hidden');
 });
 
+$('#modalConfirmDelete').on('show.bs.modal', function(e) {
+	var operation_id = $(e.relatedTarget).data('op-id');
+
+	$(e.currentTarget).find('input[name="operation_id"]').val(operation_id);
+});
