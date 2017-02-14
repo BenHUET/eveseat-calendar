@@ -61,7 +61,7 @@
 @if(auth()->user()->has('calendar.deleteAll', false)  || $op->user->id == auth()->user()->id )
 	&nbsp;
 	<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.delete') }}">
-		<i class="fa fa-trash" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalConfirmDelete"></i>
+		<i class="fa fa-trash text-danger" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalConfirmDelete"></i>
 	</span>
 @endif
 
