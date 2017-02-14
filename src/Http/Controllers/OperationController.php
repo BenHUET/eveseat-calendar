@@ -131,16 +131,20 @@ class OperationController extends Controller
 
 	public function subscribe(Request $request)
 	{
-		Attendee::updateOrCreate(
-			[ 
-				'operation_id' => $request->operation_id, 
-				'user_id' => auth()->user()->id
-			],
-			[
-				'status' => $request->status, 
-				'comment' => $request->comment
-			]
-		);
+		$operation = Operation::find($request->operation_id);
+
+		if ($operation != null && $operation->status == "ongoing") {
+			Attendee::updateOrCreate(
+				[ 
+					'operation_id' => $request->operation_id, 
+					'user_id' => auth()->user()->id
+				],
+				[
+					'status' => $request->status, 
+					'comment' => $request->comment
+				]
+			);
+		}
 
 		return redirect()->back();
 	}
