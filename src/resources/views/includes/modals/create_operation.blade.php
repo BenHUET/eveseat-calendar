@@ -92,18 +92,14 @@
 						</div>
 					</div>
 
-					<div class="pull-right">
-						<button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('calendar::seat.close') }}</button>
-						<button type="submit" class="btn btn-success" id="create_operation_submit">{{ trans('calendar::seat.confirm') }}</button>
-					</div>
+					<button type="button" class="btn btn-block btn-default" data-dismiss="modal">{{ trans('calendar::seat.close') }}</button>
+					<button type="submit" class="btn btn-block btn-primary" id="create_operation_submit">{{ trans('calendar::seat.create_confirm_button_yes') }}</button>
 
 				</form>
 
 				<div class="clearfix"></div>
 
 			</div>
-
-			<div class="modal-footer"></div>
 
 		</div>
 	</div>

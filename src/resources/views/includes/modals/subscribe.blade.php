@@ -31,15 +31,13 @@
 							<input type="text" class="form-control" id="comment" name="comment" placeholder="{{ trans('calendar::seat.placeholder_comment') }}">
 						</div>
 					</div>
-					<div class="pull-right">
-						<button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('calendar::seat.close') }}</button>
-						<button type="submit" class="btn btn-success" id="subscibe_submit">{{ trans('calendar::seat.confirm') }}</button>
-					</div>
+
+					<button type="button" class="btn btn-block btn-default" data-dismiss="modal">{{ trans('calendar::seat.close') }}</button>
+					<button type="submit" class="btn btn-block btn-primary" id="subscibe_submit">{{ trans('calendar::seat.subscribe_confirm_button_yes') }}</button>
+
 				</form>
 				<div class="clearfix"></div>
 			</div>
-
-			<div class="modal-footer"></div>
 
 		</div>
 	</div>

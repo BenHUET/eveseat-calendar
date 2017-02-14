@@ -1,5 +1,5 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="modalConfirmDelete" data-backdrop="static" data-keyboard="false">
-	<div class="modal-dialog modal-lg" role="document">
+	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 
 			<div class="modal-header modal-calendar modal-calendar-red">
@@ -16,11 +16,9 @@
 					<input type="hidden" name="operation_id">
 				
 					<button type="button " class="btn btn-block btn-lg btn-primary" data-dismiss="modal">{{ trans('calendar::seat.delete_confirm_button_no') }}</button>
-					<button type="submit" class="btn btn-block btn-sm btn-default" id="confirm_delete_submit">{{ trans('calendar::seat.delete_confirm_button_yes') }}</button>
+					<button type="submit" class="btn btn-block btn-sm btn-danger" id="confirm_delete_submit">{{ trans('calendar::seat.delete_confirm_button_yes') }}</button>
 				</form>
 			</div>
-
-			<div class="modal-footer"></div>
 
 		</div>
 	</div>

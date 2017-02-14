@@ -3,7 +3,6 @@
 </a>
 
 @if($table == "incoming")
-
 	<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_yes') }}">
 		@if($op->getAttendeeStatus(auth()->user()->id) == "yes")
 			&nbsp;
