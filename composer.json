@@ -1,0 +1,18 @@
+{
+    "name": "kassie/calendar",
+    "description": "Calendar plugin for SeAT",
+    "type": "seat-plugin",
+    "autoload": {
+        "psr-4": {
+            "Kassie\\Seat\\Calendar\\": "src/"
+        }
+    },
+    "require": {
+        "eveseat/web": "^2.0"
+    },
+    "authors": [{
+        "name": "Kassie Yvo",
+        "email": "kassie.yvo@gmail.com"
+    }],
+    "minimum-stability": "dev"
+}
