@@ -142,8 +142,8 @@ class OperationController extends Controller
 	public function subscribe(Request $request)
 	{
 		$operation = Operation::find($request->operation_id);
-		
-		if ($operation != null) {}
+
+		if ($operation != null) {
 			if ($operation->status == "incoming") {
 				Attendee::updateOrCreate(
 					[ 
