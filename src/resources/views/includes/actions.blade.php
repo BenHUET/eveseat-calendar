@@ -47,12 +47,12 @@
 	@if($op->is_cancelled == true)
 		&nbsp;
 		<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.activate') }}">
-			<i class="fa fa-undo text-warning" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalConfirmActivate"></i>
+			<i class="fa fa-undo text-success" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalConfirmActivate"></i>
 		</span>
 	@else
 		&nbsp;
 		<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.cancel') }}">
-			<i class="fa fa-ban text-warning" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalConfirmCancel"></i>
+			<i class="fa fa-ban text-danger" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalConfirmCancel"></i>
 		</span>
 	@endif
 @endif
