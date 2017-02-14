@@ -119,13 +119,14 @@ class OperationController extends Controller
 				return redirect()->back();
 			}
 		}
-		
+
 		return redirect()->route('auth.unauthorized');
 	}
 
 	public function activate($id) 
 	{
 		$operation = Operation::find($id);
+
 		if (auth()->user()->has('calendar.closeAll') || $operation->user->id == auth()->user()->id) {
 			$operation->timestamps = false;
 			$operation->is_cancelled = false;
@@ -141,23 +142,24 @@ class OperationController extends Controller
 	public function subscribe(Request $request)
 	{
 		$operation = Operation::find($request->operation_id);
+		
+		if ($operation != null) {}
+			if ($operation->status == "incoming") {
+				Attendee::updateOrCreate(
+					[ 
+						'operation_id' => $request->operation_id, 
+						'user_id' => auth()->user()->id
+					],
+					[
+						'status' => $request->status,
+						'comment' => $request->comment
+					]
+				);
+				return redirect()->back();
+			}
+		}
 
-		if ($operation != null && $operation->status == "incoming") {
-			Attendee::updateOrCreate(
-				[ 
-					'operation_id' => $request->operation_id, 
-					'user_id' => auth()->user()->id
-				],
-				[
-					'status' => $request->status,
-					'comment' => $request->comment
-				]
-			);
-			return redirect()->back();
-		}
-		else {
-			return redirect()->route('auth.unauthorized');
-		}
+		return redirect()->route('auth.unauthorized');
 	}
 
 }
