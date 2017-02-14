@@ -83,11 +83,11 @@ class OperationController extends Controller
 				return redirect()->back();
 			}
 		}
-		
+
 		return redirect()->route('auth.unauthorized');
 	}
 
-	public function close(Request $request) 
+	public function close(Request $request)
 	{
 		$operation = Operation::find($request->operation_id);
 
@@ -106,7 +106,7 @@ class OperationController extends Controller
 		return redirect()->route('auth.unauthorized');
 	}
 
-	public function cancel($id) 
+	public function cancel($id)
 	{
 		$operation = Operation::find($id);
 
@@ -141,7 +141,7 @@ class OperationController extends Controller
 	{
 		$operation = Operation::find($request->operation_id);
 
-		if ($operation != null && $operation->status == "ongoing") {
+		if ($operation != null && $operation->status == "incoming") {
 			Attendee::updateOrCreate(
 				[ 
 					'operation_id' => $request->operation_id, 
