@@ -2,7 +2,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 
-			<div class="modal-header modal-calendar modal-calendar-yellow">
+			<div class="modal-header modal-calendar modal-calendar-orange">
 				<p>
 					<i class="fa fa-undo"></i>&nbsp;&nbsp;&nbsp;{{ trans('calendar::seat.activate') }}
 				</p>
