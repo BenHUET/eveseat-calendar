@@ -4,19 +4,19 @@
 
 			<div class="modal-header modal-attending attending-yes hidden">
 				<p>
-					<i class="fa fa-thumbs-up"></i>&nbsp;&nbsp;&nbsp;{{ trans('calendar::seat.attending_yes') }}
+					<i class="fa fa-smile-o"></i>&nbsp;&nbsp;&nbsp;{{ trans('calendar::seat.attending_yes') }}
 				</p>
 			</div>
 
 			<div class="modal-header modal-attending attending-maybe hidden">
 				<p>
-					<i class="fa fa-question-circle"></i>&nbsp;&nbsp;&nbsp;{{ trans('calendar::seat.attending_maybe') }}
+					<i class="fa fa-meh-o"></i>&nbsp;&nbsp;&nbsp;{{ trans('calendar::seat.attending_maybe') }}
 				</p>
 			</div>
 
 			<div class="modal-header modal-attending attending-no hidden">
 				<p>
-					<i class="fa fa-thumbs-down"></i>&nbsp;&nbsp;&nbsp;{{ trans('calendar::seat.attending_no') }}
+					<i class="fa fa-frown-o"></i>&nbsp;&nbsp;&nbsp;{{ trans('calendar::seat.attending_no') }}
 				</p>
 			</div>
 
