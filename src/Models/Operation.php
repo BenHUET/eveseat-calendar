@@ -44,21 +44,6 @@ class Operation extends Model
 	}
 
 	public function getStatusAttribute() {
-		// $ops_incoming = $ops->where('is_cancelled', '=', false)
-		// 				->where('start_at', '>', $this->now);
-
-		// $ops_ongoing = $ops->where('is_cancelled', '=', false)
-		// 				->where('end_at', '>', $this->now)
-		// 				->where('start_at', '<=', $this->now);
-
-		// $ops_faded = Operation::where('is_cancelled', '=', true)
-		// ->orWhere(function ($query) {
-		// 	$query->whereNull('end_at')
-		// 		->where('start_at', '<=', $this->now);
-		// })
-		// ->orWhere('end_at', '<=', $this->now)
-		// ->take(50)
-		// ->get();
 		$dt = new \DateTime('now', new \DateTimeZone('UTC'));
 		$dt->setTimestamp(time());
 		$now = $dt->format('Y-m-d H:i:s');
