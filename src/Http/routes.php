@@ -12,8 +12,10 @@ Route::group([
 		'as' => 'calendar.operation.subscribe',
 		'uses' => 'OperationController@subscribe'
 	]);
-	
-	Route::get('operation/cancel/{id}', 'OperationController@cancel');
+	Route::post('operation/cancel', [
+		'as' => 'calendar.operation.cancel',
+		'uses' => 'OperationController@cancel'
+	]);
 	Route::get('operation/activate/{id}', 'OperationController@activate');
 	Route::post('operation/close', [
 		'as' => 'calendar.operation.close',

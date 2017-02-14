@@ -51,9 +51,9 @@
 		</a>
 	@else
 		&nbsp;
-		<a href="{{ URL::to('calendar/operation/cancel', $op->id) }}" class="text-danger" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.cancel') }}">
-			<i class="fa fa-ban"></i>
-		</a>
+		<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.cancel') }}">
+			<i class="fa fa-ban text-danger" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalConfirmCancel"></i>
+		</span>
 	@endif
 @endif
 

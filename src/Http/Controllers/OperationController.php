@@ -106,20 +106,21 @@ class OperationController extends Controller
 		return redirect()->route('auth.unauthorized');
 	}
 
-	public function cancel($id)
+	public function cancel(Request $request)
 	{
-		$operation = Operation::find($id);
+		$operation = Operation::find($request->operation_id);
 
-		if (auth()->user()->has('calendar.closeAll') || $operation->user->id == auth()->user()->id) {
-			$operation->timestamps = false;
-			$operation->is_cancelled = true;
-			$operation->save();
+		if ($operation != null) {
+			if (auth()->user()->has('calendar.closeAll') || $operation->user->id == auth()->user()->id) {
+				$operation->timestamps = false;
+				$operation->is_cancelled = true;
+				$operation->save();
 
-			return redirect()->back();
+				return redirect()->back();
+			}
 		}
-		else {
-			return redirect()->route('auth.unauthorized');
-		}
+		
+		return redirect()->route('auth.unauthorized');
 	}
 
 	public function activate($id) 
