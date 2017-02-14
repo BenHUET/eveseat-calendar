@@ -1,0 +1,16 @@
+.modal-attending {
+	text-align: center;
+	font-size: 5em;
+}
+
+.attending-yes {
+	background-color: #00cc66;
+}
+
+.attending-maybe {
+	background-color: #ff9900;
+}
+
+.attending-no {
+	background-color: #ff3300;
+}

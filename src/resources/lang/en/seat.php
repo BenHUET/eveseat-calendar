@@ -39,6 +39,7 @@ return [
     'placeholder_staging' => 'Meetup location (system, station, citadel...)',
     'placeholder_fc' => 'Name of the fleet commander',
     'placeholder_description' => 'Additional information about the operation',
+    'placeholder_comment' => 'Additional information',
 
     'created_at' => 'Created at',
     'updated_at' => 'Updated at',
@@ -46,6 +47,7 @@ return [
     'title' => 'Title',
     'type' => 'Type',
     'description' => 'Description',
+    'comment' => 'Comment',
     'starts_at' => 'Starts at',
     'starts_in' => 'Starts in',
     'started' => 'Started',

@@ -33,7 +33,7 @@ class OperationController extends Controller
 		$ops_ongoing = $ops->filter(function($op) {
 			return $op->status == "ongoing";
 		});
-		
+
 		$ops_faded = $ops->filter(function($op) {
 			return $op->status == "faded";
 		});
@@ -129,11 +129,17 @@ class OperationController extends Controller
 		}
 	}
 
-	public function subscribe($id, $status)
+	public function subscribe(Request $request)
 	{
 		Attendee::updateOrCreate(
-			[ 'operation_id' => $id, 'user_id' => auth()->user()->id],
-			['status' => $status]
+			[ 
+				'operation_id' => $request->operation_id, 
+				'user_id' => auth()->user()->id
+			],
+			[
+				'status' => $request->status, 
+				'comment' => $request->comment
+			]
 		);
 
 		return redirect()->back();

@@ -8,7 +8,10 @@ Route::group([
 
 	Route::resource('operation', 'OperationController');
 
-	Route::get('operation/subscribe/{id}/{status}', 'OperationController@subscribe');
+	Route::post('operation/subscribe', [
+		'as' => 'calendar.operation.subscribe',
+		'uses' => 'OperationController@subscribe'
+	]);
 	
 	Route::get('operation/close/{id}', 'OperationController@close');
 	Route::get('operation/cancel/{id}', 'OperationController@cancel');

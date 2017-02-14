@@ -4,41 +4,41 @@
 
 @if($table == "incoming")
 
-	@if($op->getAttendeeStatus(auth()->user()->id) == "yes")
-		&nbsp;
-		<i class="fa fa-thumbs-up" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_yes') }}"></i>
-	@else
-		&nbsp;
-		<a href="{{ URL::to('calendar/operation/subscribe', [$op->id, "yes"]) }}" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_yes') }}">
-			<i class="fa fa-thumbs-o-up"></i>
-		</a>
-	@endif
+	<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_yes') }}">
+		@if($op->getAttendeeStatus(auth()->user()->id) == "yes")
+			&nbsp;
+			<i class="fa fa-thumbs-up text-success"></i>
+		@else
+			&nbsp;
+			<i class="fa fa-thumbs-o-up text-muted" data-toggle="modal" data-op-id="{{ $op->id }}" data-status="yes" data-target="#modalSubscribe"></i>
+		@endif
+	</span>
 
-	@if($op->getAttendeeStatus(auth()->user()->id) == "maybe")
-		&nbsp;
-		<i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_maybe') }}"></i>
-	@else
-		&nbsp;
-		<a href="{{ URL::to('calendar/operation/subscribe', [$op->id, "maybe"]) }}" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_maybe') }}">
-			<i class="fa fa-question-circle"></i>
-		</a>
-	@endif
+	<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_maybe') }}">
+		@if($op->getAttendeeStatus(auth()->user()->id) == "maybe")
+			&nbsp;
+			<i class="fa fa-question-circle text-success"></i>
+		@else
+			&nbsp;
+			<i class="fa fa-question-circle text-muted" data-toggle="modal" data-op-id="{{ $op->id }}" data-status="maybe" data-target="#modalSubscribe"></i>
+		@endif
+	</span>
 
-	@if($op->getAttendeeStatus(auth()->user()->id) == "no")
-		&nbsp;
-		<i class="fa fa-thumbs-down"  data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_no') }}"></i>
-	@else
-		&nbsp;
-		<a href="{{ URL::to('calendar/operation/subscribe', [$op->id, "no"]) }}" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_no') }}">
-			<i class="fa fa-thumbs-o-down"></i>
-		</a>
-	@endif
+	<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_no') }}">
+		@if($op->getAttendeeStatus(auth()->user()->id) == "no")
+			&nbsp;
+			<i class="fa fa-thumbs-down text-success"></i>
+		@else
+			&nbsp;
+			<i class="fa fa-thumbs-o-down text-muted" data-toggle="modal" data-op-id="{{ $op->id }}" data-status="no" data-target="#modalSubscribe"></i>
+		@endif
+	</span>
 @endif
 
 @if($table == "ongoing")
 	@if(auth()->user()->has('calendar.closeAll', false) || $op->user->id == auth()->user()->id)
 		&nbsp;
-		<a href="{{ URL::to('calendar/operation/close', $op->id) }}" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.close') }}">
+		<a href="{{ URL::to('calendar/operation/close', $op->id) }}" class="text-danger" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.close') }}">
 			<i class="fa fa-check"></i>
 		</a>
 	@endif

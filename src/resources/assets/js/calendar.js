@@ -55,3 +55,15 @@ $('#formCreateOperation').submit(function(e) {
 		}
 	});
 });
+
+$('#modalSubscribe').on('show.bs.modal', function(e) {
+	var operation_id = $(e.relatedTarget).data('op-id');
+	var status = $(e.relatedTarget).data('status');
+
+	$(e.currentTarget).find('input[name="operation_id"]').val(operation_id);
+	$(e.currentTarget).find('input[name="status"]').val(status);
+
+
+	$('.modal-attending').addClass('hidden')
+	$('.attending-' + status).removeClass('hidden');
+});

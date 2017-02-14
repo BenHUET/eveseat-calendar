@@ -6,6 +6,7 @@
 @section('full')
 
 	@include('calendar::includes.modals.create_operation')
+	@include('calendar::includes.modals.subscribe')
 
 	@include('calendar::includes.panels.ongoing_operations')
 	@include('calendar::includes.panels.incoming_operations')
