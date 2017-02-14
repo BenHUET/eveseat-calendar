@@ -36,7 +36,7 @@ return [
     'attending_no' => 'Not attending',
     'attending_maybe' => 'Maybe attending',
     'create_confirm_button_yes' => 'Create this operation',
-    'subscribe_confirm_button_yes' => 'Subscribe to this operation',
+    'subscribe_confirm_button_yes' => 'Send your status',
 
     'month' => 'month|months',
     'day' => 'day|days',
