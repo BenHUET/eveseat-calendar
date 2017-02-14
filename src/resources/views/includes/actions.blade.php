@@ -38,9 +38,9 @@
 @if($table == "ongoing")
 	@if(auth()->user()->has('calendar.closeAll', false) || $op->user->id == auth()->user()->id)
 		&nbsp;
-		<a href="{{ URL::to('calendar/operation/close', $op->id) }}" class="text-danger" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.close') }}">
-			<i class="fa fa-check"></i>
-		</a>
+		<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.close') }}">
+			<i class="fa fa-check text-danger" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalConfirmClose"></i>
+		</span>
 	@endif
 @endif
 

@@ -83,21 +83,27 @@ class OperationController extends Controller
 				return redirect()->back();
 			}
 		}
-		else {
-			return redirect()->route('auth.unauthorized');
-		}
+		
+		return redirect()->route('auth.unauthorized');
 	}
 
-	public function close($id) 
+	public function close(Request $request) 
 	{
-		$operation = Operation::find($id);
-		$dt = new \DateTime('now', new \DateTimeZone('UTC'));
-		$dt->setTimestamp(time());
-		$this->now = $dt->format('Y-m-d H:i:s');
-		$operation->end_at = $this->now;
-		$operation->save();
+		$operation = Operation::find($request->operation_id);
 
-		return redirect()->back();
+		if ($operation != null) {
+			if (auth()->user()->has('calendar.closeAll') || $operation->user->id == auth()->user()->id) {
+				$dt = new \DateTime('now', new \DateTimeZone('UTC'));
+				$dt->setTimestamp(time());
+				$this->now = $dt->format('Y-m-d H:i:s');
+				$operation->end_at = $this->now;
+				$operation->save();
+
+				return redirect()->back();
+			}
+		}
+
+		return redirect()->route('auth.unauthorized');
 	}
 
 	public function cancel($id) 

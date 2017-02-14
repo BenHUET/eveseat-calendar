@@ -15,6 +15,9 @@ return [
     'known_duration' => 'Duration is known',
 
     'close' => 'Close',
+    'close_confirm_notice' => 'Are you sure you want to close this operation ? Closing an operation will set its ending time as now.',
+    'close_confirm_button_no' => 'No, do not close this operation.',
+    'close_confirm_button_yes' => 'Yes, I want to close this operation.',
     'confirm' => 'Confirm',
     'delete' => 'Delete',
     'delete_confirm_notice' => 'Are you really sure you want to delete this operation ? This action is irreversible.',
