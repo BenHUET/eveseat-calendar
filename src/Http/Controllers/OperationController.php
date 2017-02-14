@@ -144,9 +144,11 @@ class OperationController extends Controller
 					'comment' => $request->comment
 				]
 			);
+			return redirect()->back();
 		}
-
-		return redirect()->back();
+		else {
+			return redirect()->route('auth.unauthorized');
+		}		
 	}
 
 }
