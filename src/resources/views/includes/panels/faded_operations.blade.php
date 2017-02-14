@@ -12,8 +12,9 @@
 					<th>{{ trans('calendar::seat.title') }}</th>
 					<th>{{ trans('calendar::seat.type') }}</th>
 					<th>{{ trans('calendar::seat.importance') }}</th>
-					<th>{{ trans('calendar::seat.starts_at') }}</th>
-					<th>{{ trans('calendar::seat.ends_at') }}</th>
+					<th>{{ trans('calendar::seat.started_at') }}</th>
+					<th>{{ trans('calendar::seat.ended_at') }}</th>
+					<th>{{ trans('calendar::seat.lasted') }}</th>
 					<th>{{ trans('calendar::seat.fleet_commander') }}</th>
 					<th>{{ trans('calendar::seat.staging') }}</th>
 					<th>{{ trans('calendar::seat.actions') }}</th>
@@ -28,6 +29,7 @@
 						<td>{{ $op->importance }}</td>
 						<td>{{ $op->start_at }}</td>
 						<td>{{ $op->end_at }}</td>
+						<td>{{ $op->duration }}</td>
 						<td>{{ $op->fc }}</td>
 						<td>{{ $op->staging }}</td>
 						<td>
