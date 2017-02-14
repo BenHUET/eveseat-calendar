@@ -2,19 +2,19 @@
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 
-			<div class="modal-header modal-attending attending-yes hidden">
+			<div class="modal-header modal-calendar modal-calendar-green modal-attending attending-yes hidden">
 				<p>
 					<i class="fa fa-smile-o"></i>&nbsp;&nbsp;&nbsp;{{ trans('calendar::seat.attending_yes') }}
 				</p>
 			</div>
 
-			<div class="modal-header modal-attending attending-maybe hidden">
+			<div class="modal-header modal-calendar modal-calendar-yellow modal-attending attending-maybe hidden">
 				<p>
 					<i class="fa fa-meh-o"></i>&nbsp;&nbsp;&nbsp;{{ trans('calendar::seat.attending_maybe') }}
 				</p>
 			</div>
 
-			<div class="modal-header modal-attending attending-no hidden">
+			<div class="modal-header modal-calendar modal-calendar-red modal-attending attending-no hidden">
 				<p>
 					<i class="fa fa-frown-o"></i>&nbsp;&nbsp;&nbsp;{{ trans('calendar::seat.attending_no') }}
 				</p>

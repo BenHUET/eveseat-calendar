@@ -140,7 +140,7 @@ class OperationController extends Controller
 					'user_id' => auth()->user()->id
 				],
 				[
-					'status' => $request->status, 
+					'status' => $request->status,
 					'comment' => $request->comment
 				]
 			);
@@ -148,7 +148,7 @@ class OperationController extends Controller
 		}
 		else {
 			return redirect()->route('auth.unauthorized');
-		}		
+		}
 	}
 
 }

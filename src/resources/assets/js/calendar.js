@@ -64,6 +64,7 @@ $('#modalSubscribe').on('show.bs.modal', function(e) {
 	$(e.currentTarget).find('input[name="status"]').val(status);
 
 
-	$('.modal-attending').addClass('hidden')
+	$('.modal-attending').addClass('hidden');
 	$('.attending-' + status).removeClass('hidden');
 });
+

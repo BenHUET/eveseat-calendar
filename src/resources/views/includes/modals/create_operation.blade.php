@@ -1,8 +1,10 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="modalCreateOperation" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
-			<div class="modal-header">
-				<h3 class="modal-title">{{ trans('calendar::seat.add_operation') }}</h3>
+			<div class="modal-header modal-calendar modal-calendar-green">
+				<p>
+					<i class="fa fa-space-shuttle"></i>&nbsp;&nbsp;&nbsp;{{ trans('calendar::seat.add_operation') }}
+				</p>
 			</div>
 			<div class="modal-body">
 

@@ -1,16 +1,16 @@
-.modal-attending {
+.modal-calendar {
 	text-align: center;
 	font-size: 5em;
 }
 
-.attending-yes {
-	background-color: #00cc66;
+.modal-calendar-green {
+	background-color: #baffc9;
 }
 
-.attending-maybe {
-	background-color: #ff9900;
+.modal-calendar-yellow {
+	background-color: #ffffba;
 }
 
-.attending-no {
-	background-color: #ff3300;
+.modal-calendar-red {
+	background-color: #ffb3ba;
 }
