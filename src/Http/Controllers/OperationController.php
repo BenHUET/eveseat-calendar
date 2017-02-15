@@ -4,12 +4,15 @@ namespace Kassie\Seat\Calendar\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Seat\Services\Repositories\Configuration\UserRespository;
 use Seat\Web\Http\Controllers\Controller;
 use Kassie\Seat\Calendar\Models\Operation;
 use Kassie\Seat\Calendar\Models\Attendee;
 
 class OperationController extends Controller
 {
+	use UserRespository;
+
 	private $now;
 
 	public function __construct() {
@@ -37,8 +40,11 @@ class OperationController extends Controller
 		$ops_faded = $ops->filter(function($op) {
 			return $op->status == "faded";
 		});
+
+		$userCharacters = $this->getUserCharacters(auth()->user()->id);
 		
 		return view('calendar::index', [
+			'userCharacters' => $userCharacters,
 			'ops_all' => $ops,
 			'ops_incoming' => $ops_incoming,
 			'ops_ongoing' => $ops_ongoing,
@@ -150,7 +156,7 @@ class OperationController extends Controller
 				Attendee::updateOrCreate(
 					[ 
 						'operation_id' => $request->operation_id, 
-						'user_id' => auth()->user()->id
+						'character_id' => $request->character_id
 					],
 					[
 						'status' => $request->status,

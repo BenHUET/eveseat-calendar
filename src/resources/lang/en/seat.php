@@ -74,6 +74,7 @@ return [
     'importance' => 'Importance',
     'staging' => 'Staging',
     'description' => 'Description',
-    'fleet_commander' => 'Fleet Commander'
+    'fleet_commander' => 'Fleet Commander',
+    'character' => 'Character'
 
 ];

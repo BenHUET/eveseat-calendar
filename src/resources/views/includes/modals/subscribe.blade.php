@@ -25,6 +25,18 @@
 					{{ csrf_field() }}
 					<input type="hidden" name="operation_id">
 					<input type="hidden" name="status">
+
+					<div class="form-group row">
+						<label for="character" class="col-sm-2 col-form-label">{{ trans('calendar::seat.character') }}</label>
+						<div class="col-sm-10">
+							<select name="character_id" class="selectpicker">
+								@foreach($userCharacters as $character)
+									<option value="{{ $character->characterID }}">{{ $character->characterName }}</option>
+								@endforeach
+							</select>
+						</div>
+					</div>
+
 					<div class="form-group row">
 						<label for="comment" class="col-sm-2 col-form-label">{{ trans('calendar::seat.comment') }}</label>
 						<div class="col-sm-10">
