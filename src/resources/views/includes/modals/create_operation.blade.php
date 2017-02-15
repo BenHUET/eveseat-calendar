@@ -24,11 +24,7 @@
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label">{{ trans('calendar::seat.importance') }} *</label>
 						<div class="col-sm-10">
-							@for ($i = 0; $i <= 10; $i++)
-								<label class="radio-inline">
-									<input type="radio" name="importance" id="{{ 'importanceRadio' . $i }}" value="{{ $i }}"> {{ $i }}
-								</label>
-							@endfor
+							<input id="sliderImportance" class="form-control" name="importance" data-slider-id='sliderImportance' type="text" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="1"/>
 						</div>
 					</div>
 

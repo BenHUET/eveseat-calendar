@@ -28,6 +28,16 @@ $("input[name=known_duration]:radio").change(function () {
 	$('.datepicker').toggleClass("hidden");
 });
 
+var slider = $('#sliderImportance').slider({
+	formatter: function(value) {
+		return value;
+	}
+});
+
+slider.on("slide", function(sliderValue) {
+	$('#sliderImportance .slider-selection').css('background', 'rgb(' + (128 + ((sliderValue.value * 25)/2)) + ', 60, 60)');
+});
+
 // AJAX Add Operation form
 $('#formCreateOperation').submit(function(e) {
 	e.preventDefault();

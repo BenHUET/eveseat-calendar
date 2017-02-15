@@ -20,10 +20,12 @@
 
 @push('head')
 	<link rel="stylesheet" href="{{ asset('web/css/daterangepicker.css') }}" />
+	<link rel="stylesheet" href="{{ asset('web/css/bootstrap-slider.min.css') }}" />
 	<link rel="stylesheet" href="{{ asset('web/css/calendar.css') }}" />
 @endpush
 
 @push('javascript')
 	<script src="{{ asset('web/js/daterangepicker.js') }}"></script>
+	<script src="{{ asset('web/js/bootstrap-slider.min.js') }}"></script>
 	<script src="{{ asset('web/js/calendar.js') }}"></script>
 @endpush
