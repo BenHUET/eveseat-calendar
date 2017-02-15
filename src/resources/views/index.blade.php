@@ -11,6 +11,7 @@
 	@include('calendar::includes.modals.confirm_cancel')
 	@include('calendar::includes.modals.confirm_activate')
 	@include('calendar::includes.modals.subscribe')
+	@include('calendar::includes.modals.details')
 
 	@include('calendar::includes.panels.ongoing_operations')
 	@include('calendar::includes.panels.incoming_operations')

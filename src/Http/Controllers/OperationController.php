@@ -24,7 +24,7 @@ class OperationController extends Controller
 
 	public function index()
 	{
-		$ops = Operation::all();
+		$ops = Operation::all()->take(50);
 
 		$ops_incoming = $ops->filter(function($op) {
 			return $op->status == "incoming";
@@ -39,6 +39,7 @@ class OperationController extends Controller
 		});
 		
 		return view('calendar::index', [
+			'ops_all' => $ops,
 			'ops_incoming' => $ops_incoming,
 			'ops_ongoing' => $ops_ongoing,
 			'ops_faded' => $ops_faded

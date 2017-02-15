@@ -1,6 +1,6 @@
-<a href="#" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.details') }}">
-	<i class="fa fa-eye"></i>
-</a>
+<span class="text-primary" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.details') }}">
+	<i class="fa fa-eye" data-toggle="modal" data-target="#modalDetails-{{ $op->id }}"></i>
+</span>
 
 @if($table == "incoming")
 	<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_yes') }}">
