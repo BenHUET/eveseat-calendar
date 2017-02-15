@@ -17,6 +17,7 @@
 					<th>{{ trans('calendar::seat.lasted') }}</th>
 					<th>{{ trans('calendar::seat.fleet_commander') }}</th>
 					<th>{{ trans('calendar::seat.staging') }}</th>
+					<th>{{ trans('calendar::seat.subscription') }}</th>
 					<th>{{ trans('calendar::seat.actions') }}</th>
 				</tr>
 			</thead>
@@ -32,6 +33,9 @@
 						<td>{{ $op->duration }}</td>
 						<td>{{ $op->fc }}</td>
 						<td>{{ $op->staging }}</td>
+						<td>
+							@include('calendar::includes.subscription')
+						</td>
 						<td>
 							@include('calendar::includes.actions')
 						</td>

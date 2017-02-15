@@ -16,6 +16,7 @@
 					<th>{{ trans('calendar::seat.ends_in') }}</th>
 					<th>{{ trans('calendar::seat.fleet_commander') }}</th>
 					<th>{{ trans('calendar::seat.staging') }}</th>
+					<th>{{ trans('calendar::seat.subscription') }}</th>
 					<th>{{ trans('calendar::seat.actions') }}</th>
 				</tr>
 			</thead>
@@ -30,6 +31,9 @@
 						<td><span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.ends_at') }} {{ $op->end_at }}">{{ $op->ends_in }}</span></td>
 						<td>{{ $op->fc }}</td>
 						<td>{{ $op->staging }}</td>
+						<td>
+							@include('calendar::includes.subscription')
+						</td>
 						<td>
 							@include('calendar::includes.actions')
 						</td>
