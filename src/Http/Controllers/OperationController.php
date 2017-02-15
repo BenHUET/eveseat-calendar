@@ -159,6 +159,7 @@ class OperationController extends Controller
 						'character_id' => $request->character_id
 					],
 					[
+						'user_id' => auth()->user()->id,
 						'status' => $request->status,
 						'comment' => $request->comment
 					]

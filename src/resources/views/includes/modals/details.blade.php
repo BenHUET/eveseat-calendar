@@ -14,10 +14,16 @@
 
 					<p>{{ $op->description }}</p>
 
-					@foreach($op->attendees as $attendee)
-						{{-- {!! img('character', $character->characterID, 64, ['class' => 'img-circle eve-icon small-icon']) !!} --}}
-						{{ $attendee->user }}
-					@endforeach
+					<table>
+						<thead>
+							<th></th>
+						</thead>
+						@foreach($op->attendees as $attendee)
+							<img src="http://image.eveonline.com/Character/{{ $attendee->character_id }}_64.jpg" class="img-circle eve-icon medium-icon" />
+							&nbsp;
+							{{ $attendee->character->characterName }}
+						@endforeach
+					</table>
 
 					<button type="button" class="btn btn-block btn-default" data-dismiss="modal">{{ trans('calendar::seat.close') }}</button>
 					<div class="clearfix"></div>

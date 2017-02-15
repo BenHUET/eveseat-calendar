@@ -39,6 +39,7 @@ class CreateCalendarTables extends Migration
 			$table->increments('id');
 			
 			$table->integer('operation_id')->unsigned();
+			$table->integer('user_id')->unsigned();
 			$table->integer('character_id');
 			$table->enum('status', ['yes', 'no', 'maybe']);
 			$table->string('comment')->nullable();
@@ -47,6 +48,10 @@ class CreateCalendarTables extends Migration
 			$table->foreign('operation_id')
 				->references('id')
 				->on('calendar_operations')
+				->onDelete('cascade');
+			$table->foreign('user_id')
+				->references('id')
+				->on('users')
 				->onDelete('cascade');
 			$table->foreign('character_id')
 				->references('characterID')

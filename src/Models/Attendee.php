@@ -15,12 +15,17 @@ class Attendee extends Model
 	protected $fillable = [
 		'character_id',
 		'operation_id',
+		'user_id',
 		'status',
 		'comment'
 	];
 
 	public function character() {
 		return $this->belongsTo(CharacterInfo::class);
+	}
+
+	public function user() {
+		return $this->belongsTo(User::class);
 	}
 
 }

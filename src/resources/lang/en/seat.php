@@ -43,6 +43,8 @@ return [
     'attending_maybe' => 'Maybe attending',
     'create_confirm_button_yes' => 'Create this operation',
     'subscribe_confirm_button_yes' => 'Send your status',
+    'subscription' => 'Subscription',
+    'not_answered' => 'Not answered !',
 
     'month' => 'month|months',
     'day' => 'day|days',

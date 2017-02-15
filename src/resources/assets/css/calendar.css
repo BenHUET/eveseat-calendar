@@ -3,21 +3,22 @@
 	font-size: 5em;
 }
 
-.modal-calendar-green {
+.modal-calendar-green, .text-bg-green {
 	background-color: #baffc9;
 }
 
-.modal-calendar-yellow {
+.modal-calendar-yellow, .text-bg-yellow {
 	background-color: #ffffba;
 }
 
-.modal-calendar-orange {
+.modal-calendar-orange, .text-bg-orange {
 	background-color: #ffdfba;
 }
 
-.modal-calendar-red {
+.modal-calendar-red, .text-bg-red {
 	background-color: #ffb3ba;
 }
+
 
 #sliderImportance {
 	width : 100% !important;
