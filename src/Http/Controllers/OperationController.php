@@ -5,13 +5,14 @@ namespace Kassie\Seat\Calendar\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Seat\Services\Repositories\Configuration\UserRespository;
+use Seat\Services\Repositories\Character\Character;
 use Seat\Web\Http\Controllers\Controller;
 use Kassie\Seat\Calendar\Models\Operation;
 use Kassie\Seat\Calendar\Models\Attendee;
 
 class OperationController extends Controller
 {
-	use UserRespository;
+	use UserRespository, Character;
 
 	private $now;
 
@@ -64,6 +65,10 @@ class OperationController extends Controller
 		]);
 		
 		$operation = new Operation($request->all());
+
+		foreach ($request->toArray() as $name => $value)
+			if (empty($value))
+				$operation->{$name} = null;
 
 		if ($request->known_duration == "no")
 			$operation->start_at = $request->time_start;

@@ -26,12 +26,17 @@ class CreateCalendarTables extends Migration
 			$table->string('description')->nullable();
 			$table->string('staging')->nullable();
 			$table->string('fc')->nullable();
+			$table->integer('fc_character_id')->nullable();
 			$table->boolean('is_cancelled')->default(false);
 			$table->nullableTimestamps();
 
 			$table->foreign('user_id')
 				->references('id')
 				->on('users')
+				->onDelete('cascade');
+			$table->foreign('fc_character_id')
+				->references('characterID')
+				->on('eve_character_infos')
 				->onDelete('cascade');
 		});
 

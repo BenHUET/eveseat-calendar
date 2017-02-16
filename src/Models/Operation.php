@@ -19,7 +19,8 @@ class Operation extends Model
 		'description',
 		'staging',
 		'is_cancelled',
-		'fc'
+		'fc',
+		'fc_character_id'
 	];
 
 	public function user() {

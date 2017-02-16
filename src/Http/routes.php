@@ -33,4 +33,6 @@ Route::group([
 		'uses' => 'OperationController@delete'
 	]);
 
+	Route::get('lookup/characters', 'LookupController@lookupCharacters');
+
 });

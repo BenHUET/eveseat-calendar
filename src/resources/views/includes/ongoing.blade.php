@@ -25,7 +25,9 @@
 			</td>
 			<td><span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.started_at') }} {{ $op->start_at }}">{{ $op->started }} ago</span></td>
 			<td><span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.ends_at') }} {{ $op->end_at }}">{{ $op->ends_in }}</span></td>
-			<td>{{ $op->fc }}</td>
+			<td>
+				@include('calendar::includes.fleet_commander')
+			</td>
 			<td>{{ $op->staging }}</td>
 			<td>
 				@include('calendar::includes.subscription')

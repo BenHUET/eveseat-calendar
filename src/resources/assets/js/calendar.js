@@ -33,8 +33,6 @@ var slider = $('#sliderImportance').slider({
 $('#formCreateOperation').submit(function(e) {
 	e.preventDefault();
 
-	console.log($(this).serializeArray());
-
 	$.ajax({
 		type: "POST",
 		url: "operation",
@@ -73,4 +71,15 @@ $('#modalConfirmDelete, #modalConfirmClose, #modalConfirmCancel, #modalConfirmAc
 	var operation_id = $(e.relatedTarget).data('op-id');
 
 	$(e.currentTarget).find('input[name="operation_id"]').val(operation_id);
+});
+
+$('input#fc').autocomplete({
+    serviceUrl: 'lookup/characters/',
+    onSelect: function (suggestion) {
+        $('input#fc_character_id').val(suggestion.data);
+    },
+    onInvalidateSelection: function () {
+    	$('input#fc_character_id').val(null);
+    },
+    minChars: 3
 });

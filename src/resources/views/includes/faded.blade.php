@@ -25,7 +25,9 @@
 			</td>
 			<td>{{ $op->start_at }}</td>
 			<td>{{ $op->end_at }}</td>
-			<td>{{ $op->fc }}</td>
+			<td>
+				@include('calendar::includes.fleet_commander')
+			</td>
 			<td>{{ $op->staging }}</td>
 			<td>
 				@include('calendar::includes.subscription')
