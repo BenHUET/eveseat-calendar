@@ -3,6 +3,10 @@
 	font-size: 5em;
 }
 
+.text-padding {
+	padding : 5px 10px;
+}
+
 .modal-calendar-green, .text-bg-green {
 	background-color: #baffc9;
 }
