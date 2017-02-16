@@ -21,9 +21,7 @@
 			<td>{{ $op->title }}</td>
 			<td>{{ $op->type }}</td>
 			<td>
-				@for ($i = 0; $i < $op->importance; $i++)
-					<i class="fa fa-star"></i>
-				@endfor
+				@include('calendar::includes.importance')
 			</td>
 			<td>{{ $op->start_at }}</td>
 			<td>{{ $op->end_at }}</td>

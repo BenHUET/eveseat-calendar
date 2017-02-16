@@ -24,7 +24,7 @@
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label">{{ trans('calendar::seat.importance') }} *</label>
 						<div class="col-sm-10">
-							<input id="sliderImportance" class="form-control" name="importance" data-slider-id='sliderImportance' type="text" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="1"/>
+							<input id="sliderImportance" class="form-control" name="importance" data-slider-id='sliderImportance' type="text" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="0"/>
 						</div>
 					</div>
 

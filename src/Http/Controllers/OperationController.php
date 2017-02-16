@@ -56,7 +56,7 @@ class OperationController extends Controller
 	{
 		$this->validate($request, [
 			'title' => 'required',
-			'importance' => 'required|between:1,10',
+			'importance' => 'required|between:0,5',
 			'type' => 'required',
 			'known_duration' => 'required',
 			'time_start' => 'required_without_all:time_start_end|date|after_or_equal:today',

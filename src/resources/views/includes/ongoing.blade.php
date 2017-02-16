@@ -21,9 +21,7 @@
 			<td>{{ $op->title }}</td>
 			<td>{{ $op->type }}</td>
 			<td>
-				@for ($i = 0; $i < $op->importance; $i++)
-					<i class="fa fa-star"></i>
-				@endfor
+				@include('calendar::includes.importance')
 			</td>
 			<td><span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.started_at') }} {{ $op->start_at }}">{{ $op->started }} ago</span></td>
 			<td><span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.ends_at') }} {{ $op->end_at }}">{{ $op->ends_in }}</span></td>

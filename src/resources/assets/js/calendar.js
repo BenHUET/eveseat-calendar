@@ -29,10 +29,6 @@ var slider = $('#sliderImportance').slider({
 	}
 });
 
-slider.on("slide", function(sliderValue) {
-	$('#sliderImportance .slider-selection').css('background', 'rgb(' + (128 + ((sliderValue.value * 25)/2)) + ', 60, 60)');
-});
-
 // AJAX Add Operation form
 $('#formCreateOperation').submit(function(e) {
 	e.preventDefault();
