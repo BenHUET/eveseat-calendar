@@ -1,16 +1,16 @@
 @if($op->attendees->where('user_id', '=', auth()->user()->id)->count())
 	@foreach($op->attendees->where('user_id', '=', auth()->user()->id) as $attendee)
 		@if($attendee->status == "yes")
-			<span class="text-bg-green text-padding" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_yes') }}"><b>{{ $attendee->character->characterName }}</b></span>
+			<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_yes') }}"><i class="fa fa-thumbs-o-up"></i>&nbsp;{{ $attendee->character->characterName }}</span>
 		@endif
 		@if($attendee->status == "maybe")
-			<span class="text-bg-orange text-padding" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_maybe') }}"><b>{{ $attendee->character->characterName }}</b></span>
+			<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_maybe') }}"><i class="fa fa-question-circle"></i>&nbsp;{{ $attendee->character->characterName }}</span>
 		@endif
 		@if($attendee->status == "no")
-			<span class="text-bg-red text-padding" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_no') }}"><b>{{ $attendee->character->characterName }}</b></span>
+			<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_no') }}"><i class="fa fa-thumbs-o-down"></i>&nbsp;{{ $attendee->character->characterName }}</span>
 		@endif
 		@if (!$loop->last)
-			&nbsp;&nbsp;
+			<br/>
 		@endif
 	@endforeach
 @else

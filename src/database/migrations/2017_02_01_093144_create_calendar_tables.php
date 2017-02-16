@@ -22,7 +22,7 @@ class CreateCalendarTables extends Migration
 			$table->timestamp('start_at')->nullable();
 			$table->timestamp('end_at')->nullable();
 			$table->enum('type', ['PvE', 'PvP', 'Other'])->nullable();
-			$table->string('importance')->nullable();
+			$table->string('importance')->default('0');
 			$table->string('description')->nullable();
 			$table->string('staging')->nullable();
 			$table->string('fc')->nullable();
