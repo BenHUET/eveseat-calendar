@@ -5,6 +5,15 @@
 
 @section('full')
 
+	@if(auth()->user()->has('calendar.create', false))
+		<div style="margin-bottom: 20px;" class="pull-right">
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCreateOperation">
+				<i class="fa fa-plus"></i>&nbsp;&nbsp;
+				{{ trans('calendar::seat.add_operation') }}
+			</button>
+		</div>
+	@endif
+
 	@include('calendar::includes.modals.create_operation')
 	@include('calendar::includes.modals.confirm_delete')
 	@include('calendar::includes.modals.confirm_close')
@@ -13,9 +22,11 @@
 	@include('calendar::includes.modals.subscribe')
 	@include('calendar::includes.modals.details')
 
-	@include('calendar::includes.panels.ongoing_operations')
-	@include('calendar::includes.panels.incoming_operations')
-	@include('calendar::includes.panels.faded_operations')
+	<table class="table table-bordered" id="incoming-operations">
+		@include('calendar::includes.ongoing')
+		@include('calendar::includes.incoming')
+		@include('calendar::includes.faded')
+	</table>
 
 @stop
 

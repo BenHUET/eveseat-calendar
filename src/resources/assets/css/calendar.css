@@ -19,6 +19,17 @@
 	background-color: #ffb3ba;
 }
 
+.table-title {
+	border-top: 2px solid darkgrey !important;
+	height: 60px;
+	line-height: 60px !important;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.bg-grey {
+	background-color: #dfdfdf;
+}
 
 #sliderImportance {
 	width : 100% !important;

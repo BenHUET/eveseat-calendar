@@ -5,12 +5,12 @@ return [
     'plugin_name' => 'Calendar',
 
     'all_operations' => 'All operations',
-    'incoming_operations' => 'Incoming operations',
-    'cancelled_operations' => 'Cancelled operations',
-    'ongoing_operations' => 'Ongoing operations',
-    'faded_operations' => 'Faded operations',
+    'incoming_operations' => 'Incoming',
+    'cancelled_operations' => 'Cancelled',
+    'ongoing_operations' => 'Ongoing',
+    'faded_operations' => 'Faded',
 
-    'add_operation' => 'Add a new operation',
+    'add_operation' => 'Create a new operation',
 
     'known_duration' => 'Duration is known',
 
@@ -45,7 +45,7 @@ return [
     'subscribe_confirm_button_yes' => 'Send your status',
     'subscription' => 'Subscription',
     'not_answered' => 'Not answered !',
-    'nothing_to_display' => 'Nothing to display', 
+    'none' => 'None', 
 
     'month' => 'month|months',
     'day' => 'day|days',
