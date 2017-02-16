@@ -1,8 +1,3 @@
-// Datatables init
-$('table#incoming-operations').DataTable({});
-$('table#ongoing-operations').DataTable({});
-$('table#faded-operations').DataTable({});
-
 // Datepickers
 var ROUNDING = 15 * 60 * 1000;
 nowRounded = moment.utc();

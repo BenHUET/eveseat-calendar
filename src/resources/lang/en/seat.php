@@ -45,6 +45,7 @@ return [
     'subscribe_confirm_button_yes' => 'Send your status',
     'subscription' => 'Subscription',
     'not_answered' => 'Not answered !',
+    'nothing_to_display' => 'Nothing to display', 
 
     'month' => 'month|months',
     'day' => 'day|days',

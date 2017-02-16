@@ -16,13 +16,31 @@
 
 					<table>
 						<thead>
-							<th></th>
+							<th>{{ trans('calendar::seat.character') }}</th>
+							<th>{{ trans('calendar::seat.status') }}</th>
 						</thead>
-						@foreach($op->attendees as $attendee)
-							<img src="http://image.eveonline.com/Character/{{ $attendee->character_id }}_64.jpg" class="img-circle eve-icon medium-icon" />
-							&nbsp;
-							{{ $attendee->character->characterName }}
-						@endforeach
+						<tbody class="table table-condensed table-hover">
+							@foreach($op->attendees as $attendee)
+								<tr>
+									<td>
+										<img src="http://image.eveonline.com/Character/{{ $attendee->character_id }}_64.jpg" class="img-circle eve-icon small-icon" />
+										&nbsp;
+										{{ $attendee->character->characterName }}
+									</td>
+									<td>
+										@if ($attendee->status == "yes")
+											{{ trans('calendar::seat.attending_yes') }}
+										@endif
+										@if ($attendee->status == "no")
+											{{ trans('calendar::seat.attending_no') }}
+										@endif
+										@if ($attendee->status == "maybe")
+											{{ trans('calendar::seat.attending_maybe') }}
+										@endif
+									</td>
+								</tr>
+							@endforeach
+						</tbody>
 					</table>
 
 					<button type="button" class="btn btn-block btn-default" data-dismiss="modal">{{ trans('calendar::seat.close') }}</button>
