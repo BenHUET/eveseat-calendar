@@ -51,6 +51,7 @@ return [
     'day' => 'day|days',
     'hour' => 'hour|hours',
     'minute' => 'minute|minutes',
+    'second' => 'second|seconds',
 
     'placeholder_title' => 'Name of the operation',
     'placeholder_staging' => 'Meetup location (system, station, citadel...)',

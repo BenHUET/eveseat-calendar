@@ -115,6 +115,10 @@ class Operation extends Model
 		if ($diff->i > 0)
 			$duration = $duration . $diff->i . ' ' . trans_choice('calendar::seat.minute', $diff->i) . ' ';
 
+		if ($duration == '')
+			if ($diff->s > 0)
+				$duration = $duration . $diff->s . ' ' . trans_choice('calendar::seat.second', $diff->s) . ' ';
+
 		return $duration;
 	}
 }
