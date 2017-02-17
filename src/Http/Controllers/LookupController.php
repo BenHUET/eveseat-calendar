@@ -1,6 +1,6 @@
 <?php
 
-namespace Kassie\Seat\Calendar\Http\Controllers;
+namespace Seat\Kassie\Calendar\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Seat\Eveapi\Models\Account\ApiKeyInfoCharacters;

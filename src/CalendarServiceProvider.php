@@ -1,6 +1,6 @@
 <?php
 
-namespace Kassie\Seat\Calendar;
+namespace Seat\Kassie\Calendar;
 
 use Illuminate\Support\ServiceProvider;
 

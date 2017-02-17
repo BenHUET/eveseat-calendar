@@ -1,7 +1,7 @@
 <?php
 
 Route::group([
-	'namespace' => 'Kassie\Seat\Calendar\Http\Controllers',
+	'namespace' => 'Seat\Kassie\Calendar\Http\Controllers',
 	'middleware' => 'web',
 	'prefix' => 'calendar'
 ], function () {

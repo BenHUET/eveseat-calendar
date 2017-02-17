@@ -1,6 +1,6 @@
 <?php
 
-namespace Kassie\Seat\Calendar\Models;
+namespace Seat\Kassie\Calendar\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
