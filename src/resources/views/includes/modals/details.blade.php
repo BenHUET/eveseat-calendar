@@ -127,7 +127,7 @@
 							<tbody>
 								@foreach($op->attendees as $attendee)
 									<tr>
-										<td>
+										<td class="text-nowrap">
 											&nbsp;
 											<img src="http://image.eveonline.com/Character/{{ $attendee->character_id }}_64.jpg" class="img-circle eve-icon small-icon" />
 											<a href="{{ route('character.view.sheet', ['character_id' => $attendee->character->characterID]) }}">
