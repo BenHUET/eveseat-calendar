@@ -1,3 +1,13 @@
+$('table#attendees').DataTable({
+	"ordering": true,
+	"info": false,
+	"paging": false,
+	columnDefs: [{
+		orderable: false,
+		targets: "no-sort"
+	}]
+ });
+
 // Datepickers
 var ROUNDING = 15 * 60 * 1000;
 nowRounded = moment.utc();

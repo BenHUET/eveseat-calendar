@@ -65,7 +65,7 @@ class Operation extends Model
 		}
 		else 
 		{
-			return "faded";
+			return "cancelled";
 		}
 	}
 

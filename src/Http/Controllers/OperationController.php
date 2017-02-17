@@ -39,7 +39,7 @@ class OperationController extends Controller
 		});
 
 		$ops_faded = $ops->filter(function($op) {
-			return $op->status == "faded";
+			return $op->status == "faded" || $op->status == "cancelled";
 		});
 
 		$userCharacters = $this->getUserCharacters(auth()->user()->id);
