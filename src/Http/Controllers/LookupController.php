@@ -11,7 +11,7 @@ class LookupController extends Controller
 
 	public function lookupCharacters(Request $request)
 	{
-		$characters = ApiKeyInfoCharacters::where('characterName', 'LIKE', '%' . $request->input('query') . '%')->take(5)->get();
+		$characters = ApiKeyInfoCharacters::where('characterName', 'LIKE', '%' . $request->input('query') . '%')->take(5)->get()->unique('characterID');
 
 		$results = array();
 

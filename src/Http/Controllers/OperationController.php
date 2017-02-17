@@ -42,7 +42,7 @@ class OperationController extends Controller
 			return $op->status == "faded" || $op->status == "cancelled";
 		});
 
-		$userCharacters = $this->getUserCharacters(auth()->user()->id);
+		$userCharacters = $this->getUserCharacters(auth()->user()->id)->unique('characterID');
 		
 		return view('calendar::index', [
 			'userCharacters' => $userCharacters,
