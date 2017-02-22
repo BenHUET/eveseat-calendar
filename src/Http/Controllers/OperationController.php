@@ -77,11 +77,12 @@ class OperationController extends Controller
 			$operation->start_at = $dates[0];
 			$operation->end_at = (new \DateTime($dates[1]))->format('Y-m-d H:i:s');
 		}
-
 		$operation->start_at = (new \DateTime($operation->start_at))->format('Y-m-d H:i:s');
 
-		$operation->user()->associate(auth()->user());
+		if ($request->importance == 0)
+			$operation->importance = 0;
 
+		$operation->user()->associate(auth()->user());
 
 		$operation->save();
 	}
