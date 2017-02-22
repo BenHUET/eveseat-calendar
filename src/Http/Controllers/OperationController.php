@@ -20,10 +20,7 @@ class OperationController extends Controller
 		$this->middleware('bouncer:calendar.view')->only('index');
 		$this->middleware('bouncer:calendar.create')->only('store');
 
-		$dt = new \DateTime('now', new \DateTimeZone('UTC'));
-		$dt->setTimestamp(time());
-
-		$this->now = $dt->format('Y-m-d H:i:s');
+		$this->now = Carbon::now('UTC');
 	}
 
 	public function index()
@@ -71,13 +68,13 @@ class OperationController extends Controller
 				$operation->{$name} = null;
 
 		if ($request->known_duration == "no")
-			$operation->start_at = $request->time_start;
+			$operation->start_at = Carbon::parse($request->time_start);
 		else {
 			$dates = explode(" - ", $request->time_start_end);
-			$operation->start_at = $dates[0];
-			$operation->end_at = (new \DateTime($dates[1]))->format('Y-m-d H:i:s');
+			$operation->start_at = Carbon::parse($dates[0]);
+			$operation->end_at = Carbon::parse($dates[1]);
 		}
-		$operation->start_at = (new \DateTime($operation->start_at))->format('Y-m-d H:i:s');
+		$operation->start_at = Carbon::parse($operation->start_at);
 
 		if ($request->importance == 0)
 			$operation->importance = 0;
@@ -106,9 +103,6 @@ class OperationController extends Controller
 
 		if ($operation != null) {
 			if (auth()->user()->has('calendar.closeAll') || $operation->user->id == auth()->user()->id) {
-				$dt = new \DateTime('now', new \DateTimeZone('UTC'));
-				$dt->setTimestamp(time());
-				$this->now = $dt->format('Y-m-d H:i:s');
 				$operation->end_at = $this->now;
 				$operation->save();
 

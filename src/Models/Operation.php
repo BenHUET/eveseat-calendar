@@ -4,12 +4,12 @@ namespace Seat\Kassie\Calendar\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Seat\Web\Models\User;
+use Carbon\Carbon;
 use \DateTime;
 
 class Operation extends Model
 {
 	protected $table = 'calendar_operations';
-
 	protected $fillable = [
 		'title',
 		'start_at',
@@ -22,6 +22,7 @@ class Operation extends Model
 		'fc',
 		'fc_character_id'
 	];
+	protected $dates = ['start_at', 'end_at', 'created_at', 'updated_at'];
 
 	public function user() {
 		return $this->belongsTo(User::class);
@@ -33,29 +34,20 @@ class Operation extends Model
     }
 
 	public function getDurationAttribute() {
-		if ($this->end_at) {
-			$start = new DateTime($this->start_at);
-			$end = new DateTime($this->end_at);
-			$diff = $start->diff($end);
-
-			return $this->diffToHumanFormat($diff);
-		}
+		if ($this->end_at)
+			return $this->diffToHumanFormat($this->start_at, $this->end_at);
 
 		return "-";
 	}
 
 	public function getStatusAttribute() {
-		$dt = new \DateTime('now', new \DateTimeZone('UTC'));
-		$dt->setTimestamp(time());
-		$now = $dt->format('Y-m-d H:i:s');
-
-		if ($this->is_cancelled == false) 
+		if ($this->is_cancelled == false)
 		{
-			if ($this->start_at > $now)
+			if ($this->start_at > Carbon::now('UTC'))
 			{
 				return "incoming";
 			}
-			else if ($this->end_at > $now) 
+			else if ($this->end_at > Carbon::now('UTC'))
 			{
 				return "ongoing";
 			}
@@ -63,34 +55,22 @@ class Operation extends Model
 				return "faded";
 			}
 		}
-		else 
+		else
 		{
 			return "cancelled";
 		}
 	}
 
 	public function getStartsInAttribute() {
-		$now = new DateTime('now', new \DateTimeZone('UTC'));
-		$start_at = new DateTime($this->start_at);
-		$diff = $now->diff($start_at);
-
-		return $this->diffToHumanFormat($diff);
+		return $this->diffToHumanFormat(Carbon::now('UTC'), $this->start_at);
 	}
 
 	public function getEndsInAttribute() {
-		$now = new DateTime('now', new \DateTimeZone('UTC'));
-		$end_at = new DateTime($this->end_at);
-		$diff = $now->diff($end_at);
-
-		return $this->diffToHumanFormat($diff);
+		return $this->diffToHumanFormat(Carbon::now('UTC'), $this->end_at);
 	}
 
 	public function getStartedAttribute() {
-		$now = new DateTime('now', new \DateTimeZone('UTC'));
-		$start_at = new DateTime($this->start_at);
-		$diff = $start_at->diff($now);
-
-		return $this->diffToHumanFormat($diff);
+		return $this->diffToHumanFormat($this->start_at, Carbon::now('UTC'));
 	}
 
 	public function getAttendeeStatus($user_id) {
@@ -100,24 +80,26 @@ class Operation extends Model
 		return null;
 	}
 
-	private function diffToHumanFormat($diff) {
+	private function diffToHumanFormat($_date1, $_date2) {
+		$diff = (new DateTime($_date1))->diff(new DateTime($_date2));
+
 		$duration = '';
 
 		if ($diff->m > 0)
-			$duration = $duration . $diff->m . ' ' . trans_choice('calendar::seat.month', $diff->m) . ' ';
+			$duration .= $diff->m . ' ' . trans_choice('calendar::seat.month', $diff->m) . ' ';
 
 		if ($diff->d > 0)
-			$duration = $duration . $diff->d . ' ' . trans_choice('calendar::seat.day', $diff->d) . ' ';
+			$duration .= $diff->d . ' ' . trans_choice('calendar::seat.day', $diff->d) . ' ';
 
 		if ($diff->h > 0)
-			$duration = $duration . $diff->h . ' ' . trans_choice('calendar::seat.hour', $diff->h) . ' ';
+			$duration .= $diff->h . ' ' . trans_choice('calendar::seat.hour', $diff->h) . ' ';
 
 		if ($diff->i > 0)
-			$duration = $duration . $diff->i . ' ' . trans_choice('calendar::seat.minute', $diff->i) . ' ';
+			$duration .= $diff->i . ' ' . trans_choice('calendar::seat.minute', $diff->i) . ' ';
 
 		if ($duration == '')
 			if ($diff->s > 0)
-				$duration = $duration . $diff->s . ' ' . trans_choice('calendar::seat.second', $diff->s) . ' ';
+				$duration .= $diff->s . ' ' . trans_choice('calendar::seat.second', $diff->s) . ' ';
 
 		return $duration;
 	}
