@@ -9,6 +9,7 @@ use Seat\Services\Repositories\Character\Character;
 use Seat\Web\Http\Controllers\Controller;
 use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Models\Attendee;
+use Carbon\Carbon;
 
 class OperationController extends Controller
 {
