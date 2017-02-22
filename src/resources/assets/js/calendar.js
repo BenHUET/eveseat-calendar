@@ -27,6 +27,7 @@ var options = {
 options.singleDatePicker = true;
 $('#time_start').daterangepicker(options);
 options.singleDatePicker = false;
+options.endDate = nowRounded.clone().add('2', 'h');
 $('#time_start_end').daterangepicker(options);
 
 $("input[name=known_duration]:radio").change(function () {
