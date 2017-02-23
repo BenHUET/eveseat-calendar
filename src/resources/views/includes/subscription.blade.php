@@ -9,9 +9,6 @@
 		@if($attendee->status == "no")
 			<small class="label bg-red">{{ $attendee->character->characterName }}</small>
 		@endif
-{{-- 		@if (!$loop->last)
-			<br/>
-		@endif --}}
 	@endforeach
 @else
 	<b class="text-danger">{{ trans('calendar::seat.not_answered') }}</b>
