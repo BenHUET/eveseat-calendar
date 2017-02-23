@@ -1,7 +1,7 @@
 @if($op->attendees->where('user_id', '=', auth()->user()->id)->count())
 	@foreach($op->attendees->where('user_id', '=', auth()->user()->id) as $attendee)
 		@if($attendee->status == "yes")
-			<small class="label bg-green" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_yes') }}">{{ $attendee->character->characterName }}</small>
+			<small class="label bg-green">{{ $attendee->character->characterName }}</small>
 		@endif
 		@if($attendee->status == "maybe")
 			<small class="label bg-yellow">{{ $attendee->character->characterName }}</small>

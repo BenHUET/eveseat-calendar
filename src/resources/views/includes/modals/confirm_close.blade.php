@@ -11,7 +11,7 @@
 			<div class="modal-body">
 				<p class="text-center"><b>{{ trans('calendar::seat.close_confirm_notice') }}</b></p>
 
-				<form id="formSubscribe" method="POST" action="{{ route('calendar.operation.close') }}">
+				<form id="formSubscribe" method="POST" action="{{ route('operation.close') }}">
 					{{ csrf_field() }}
 					<input type="hidden" name="operation_id">
 					

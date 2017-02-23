@@ -68,14 +68,20 @@ $('#formCreateOperation').submit(function(e) {
 
 $('#modalSubscribe').on('show.bs.modal', function(e) {
 	var operation_id = $(e.relatedTarget).data('op-id');
-	var status = $(e.relatedTarget).data('status');
 
 	$(e.currentTarget).find('input[name="operation_id"]').val(operation_id);
-	$(e.currentTarget).find('input[name="status"]').val(status);
+});
 
-
-	$('.modal-attending').addClass('hidden');
-	$('.attending-' + status).removeClass('hidden');
+$("select#status").change(function() {
+	$("#headerModalSubscribe").removeClass('modal-calendar-green modal-calendar-yellow modal-calendar-red');
+	status = $(this).find(":selected").val();
+	console.log(status);
+	if (status == "yes")
+		$("#headerModalSubscribe").addClass('modal-calendar-green');
+	if (status == "maybe")
+		$("#headerModalSubscribe").addClass('modal-calendar-yellow');
+	if (status == "no")
+		$("#headerModalSubscribe").addClass('modal-calendar-red');
 });
 
 $('#modalConfirmDelete, #modalConfirmClose, #modalConfirmCancel, #modalConfirmActivate').on('show.bs.modal', function(e) {

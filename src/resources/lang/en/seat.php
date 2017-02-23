@@ -45,6 +45,7 @@ return [
     'create_confirm_button_yes' => 'Create this operation',
     'subscribe_confirm_button_yes' => 'Send your status',
     'subscription' => 'Subscription',
+    'subscribe' => 'Subscribe',
     'not_answered' => 'Not answered !',
     'none' => 'None', 
     'status' => 'Status',

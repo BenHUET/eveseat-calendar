@@ -3,19 +3,9 @@
 </span>
 
 @if($table == "incoming")
-	<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_yes') }}">
+	<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.subscribe') }}">
 		&nbsp;
-		<i class="fa fa-thumbs-o-up text-muted" data-toggle="modal" data-op-id="{{ $op->id }}" data-status="yes" data-target="#modalSubscribe"></i>
-	</span>
-
-	<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_maybe') }}">
-		&nbsp;
-		<i class="fa fa-question-circle text-muted" data-toggle="modal" data-op-id="{{ $op->id }}" data-status="maybe" data-target="#modalSubscribe"></i>
-	</span>
-
-	<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_no') }}">
-		&nbsp;
-		<i class="fa fa-thumbs-o-down text-muted" data-toggle="modal" data-op-id="{{ $op->id }}" data-status="no" data-target="#modalSubscribe"></i>
+		<i class="fa fa-reply" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalSubscribe"></i>
 	</span>
 @endif
 

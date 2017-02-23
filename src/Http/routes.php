@@ -9,27 +9,27 @@ Route::group([
 	Route::resource('operation', 'OperationController');
 
 	Route::post('operation/subscribe', [
-		'as' => 'calendar.operation.subscribe',
+		'as' => 'operation.subscribe',
 		'uses' => 'OperationController@subscribe'
 	]);
 
 	Route::post('operation/cancel', [
-		'as' => 'calendar.operation.cancel',
+		'as' => 'operation.cancel',
 		'uses' => 'OperationController@cancel'
 	]);
 
 	Route::post('operation/activate', [
-		'as' => 'calendar.operation.activate',
+		'as' => 'operation.activate',
 		'uses' => 'OperationController@activate'
 	]);
 
 	Route::post('operation/close', [
-		'as' => 'calendar.operation.close',
+		'as' => 'operation.close',
 		'uses' => 'OperationController@close'
 	]);
 
 	Route::post('operation/delete', [
-		'as' => 'calendar.operation.delete',
+		'as' => 'operation.delete',
 		'uses' => 'OperationController@delete'
 	]);
 

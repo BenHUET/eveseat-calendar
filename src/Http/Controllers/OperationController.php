@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Seat\Services\Repositories\Configuration\UserRespository;
 use Seat\Services\Repositories\Character\Character;
 use Seat\Web\Http\Controllers\Controller;
+use Seat\Web\Models\People;
 use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Models\Attendee;
 use Carbon\Carbon;
@@ -40,7 +41,16 @@ class OperationController extends Controller
 			return $op->status == "faded" || $op->status == "cancelled";
 		});
 
-		$userCharacters = $this->getUserCharacters(auth()->user()->id)->unique('characterID');
+		$userCharacters = $this->getUserCharacters(auth()->user()->id)->unique('characterID')->sortBy('characterName');
+
+		if(!is_null(setting('main_character_id'))) {
+			$mainCharacter = $userCharacters->where('characterID', '=', setting('main_character_id'))->first();
+			$mainCharacter->main = true;
+			$userCharacters = $userCharacters->reject(function ($character) {
+				return $character->characterID == setting('main_character_id');
+			});
+			$userCharacters->prepend($mainCharacter);
+		}
 		
 		return view('calendar::index', [
 			'userCharacters' => $userCharacters,

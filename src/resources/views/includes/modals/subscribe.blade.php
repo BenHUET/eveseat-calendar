@@ -2,26 +2,14 @@
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 
-			<div class="modal-header modal-calendar modal-calendar-green modal-attending attending-yes hidden">
+			<div class="modal-header modal-calendar modal-calendar-green" id="headerModalSubscribe">
 				<p>
-					<i class="fa fa-smile-o"></i>&nbsp;&nbsp;&nbsp;{{ trans('calendar::seat.attending_yes') }}
-				</p>
-			</div>
-
-			<div class="modal-header modal-calendar modal-calendar-yellow modal-attending attending-maybe hidden">
-				<p>
-					<i class="fa fa-meh-o"></i>&nbsp;&nbsp;&nbsp;{{ trans('calendar::seat.attending_maybe') }}
-				</p>
-			</div>
-
-			<div class="modal-header modal-calendar modal-calendar-red modal-attending attending-no hidden">
-				<p>
-					<i class="fa fa-frown-o"></i>&nbsp;&nbsp;&nbsp;{{ trans('calendar::seat.attending_no') }}
+					<i class="fa fa-reply"></i>&nbsp;&nbsp;&nbsp;{{ trans('calendar::seat.subscribe') }}
 				</p>
 			</div>
 
 			<div class="modal-body">
-				<form id="formSubscribe" method="POST" action="{{ route('calendar.operation.subscribe') }}">
+				<form id="formSubscribe" method="POST" action="{{ route('operation.subscribe') }}">
 					{{ csrf_field() }}
 					<input type="hidden" name="operation_id">
 					<input type="hidden" name="status">
@@ -29,10 +17,37 @@
 					<div class="form-group row">
 						<label for="character" class="col-sm-2 col-form-label">{{ trans('calendar::seat.character') }}</label>
 						<div class="col-sm-10">
-							<select name="character_id" class="selectpicker">
-								@foreach($userCharacters as $character)
-									<option value="{{ $character->characterID }}">{{ $character->characterName }}</option>
-								@endforeach
+							@foreach($userCharacters->chunk(4) as $characters)
+								<div class="row">
+									@foreach($characters as $character)
+										<div class="radio col-md-3"  style="margin-top:-5px">
+											@if($character->main)
+												<label>
+													<input type="radio" name="character_id" id="character_id" value="{{ $character->characterID }}" checked>
+													<img src="http://image.eveonline.com/Character/{{ $character->characterID }}_64.jpg" class="img-circle eve-icon small-icon" />
+													<b>{{ $character->characterName }}</b> <span class="text-muted"><i>(main)</i></span>
+												</label>
+											@else
+												<label>
+													<input type="radio" name="character_id" id="character_id" value="{{ $character->characterID }}">
+													<img src="http://image.eveonline.com/Character/{{ $character->characterID }}_64.jpg" class="img-circle eve-icon small-icon" />
+													{{ $character->characterName }}
+												</label>
+											 @endif
+										</div>
+									@endforeach
+								</div>
+							@endforeach
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label for="status" class="col-sm-2 col-form-label">{{ trans('calendar::seat.status') }}</label>
+						<div class="col-sm-10">
+							<select name="status" class="selectpicker" id="status">
+								<option value="yes">{{ trans('calendar::seat.attending_yes') }}</option>
+								<option value="maybe">{{ trans('calendar::seat.attending_maybe') }}</option>
+								<option value="no">{{ trans('calendar::seat.attending_no') }}</option>
 							</select>
 						</div>
 					</div>
