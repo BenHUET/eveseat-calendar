@@ -55,7 +55,9 @@ class CalendarServiceProvider extends ServiceProvider
     {
 		$this->publishes([
 			__DIR__ . '/resources/assets/css' => public_path('web/css'),
-			__DIR__ . '/resources/assets/js' => public_path('web/js')
+			__DIR__ . '/resources/assets/vendors/css' => public_path('web/css'),
+			__DIR__ . '/resources/assets/js' => public_path('web/js'),
+			__DIR__ . '/resources/assets/vendors/js' => public_path('web/js')
 		]);
     }
 
