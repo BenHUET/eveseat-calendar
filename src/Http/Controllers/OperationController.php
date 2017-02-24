@@ -95,6 +95,55 @@ class OperationController extends Controller
 		$operation->save();
 	}
 
+	public function update(Request $request) 
+	{
+		$this->validate($request, [
+			'title' => 'required',
+			'importance' => 'required|between:0,5',
+			'type' => 'required',
+			'known_duration' => 'required',
+			'time_start' => 'required_without_all:time_start_end|date|after_or_equal:today',
+			'time_start_end' => 'required_without_all:time_start'
+		]);
+		
+		$operation = Operation::find($request->operation_id);
+		if (auth()->user()->has('calendar.updateAll') || $operation->user->id == auth()->user()->id) {
+
+			foreach ($request->toArray() as $name => $value)
+				if (empty($value))
+					$operation->{$name} = null;
+
+			$operation->title = $request->title;
+			$operation->type = $request->type;
+			$operation->importance = $request->importance;
+			$operation->description = $request->description;
+			$operation->staging = $request->staging;
+			$operation->fc = $request->fc;
+			$operation->fc_character_id = $request->fc_character_id == null ? null : $request->fc_character_id;
+
+			if ($request->known_duration == "no") {
+				$operation->start_at = Carbon::parse($request->time_start);
+				$operation->end_at = null;
+			}
+			else {
+				$dates = explode(" - ", $request->time_start_end);
+				$operation->start_at = Carbon::parse($dates[0]);
+				$operation->end_at = Carbon::parse($dates[1]);
+			}
+			$operation->start_at = Carbon::parse($operation->start_at);
+
+			if ($request->importance == 0)
+				$operation->importance = 0;
+
+
+
+			$operation->save();
+			return $operation;
+		}
+
+		return "lol";
+	}
+
 	public function delete(Request $request)
 	{
 		$operation = Operation::find($request->operation_id);
@@ -180,6 +229,13 @@ class OperationController extends Controller
 		}
 
 		return redirect()->route('auth.unauthorized');
+	}
+
+	public function find($operation_id) {
+		if (auth()->user()->has('calendar.view')) {
+			$operation = Operation::find($operation_id);
+			return response()->json($operation);
+		}
 	}
 
 }

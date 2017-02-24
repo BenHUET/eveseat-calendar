@@ -8,39 +8,39 @@ $('table#attendees').DataTable({
 	}]
  });
 
-// Datepickers
-var ROUNDING = 15 * 60 * 1000;
-nowRounded = moment.utc();
-nowRounded = moment.utc(Math.ceil((+nowRounded) / ROUNDING) * ROUNDING);
+$('#modalCreateOperation').on('show.bs.modal', function(e) {
+	var ROUNDING = 15 * 60 * 1000;
+	nowRounded = moment.utc();
+	nowRounded = moment.utc(Math.ceil((+nowRounded) / ROUNDING) * ROUNDING);
 
-var options = {
-	timePicker: true,
-	timePickerIncrement: 15,
-	timePicker24Hour: true,
-	minDate: moment.utc(),
-	startDate: nowRounded,
-	locale: {
-		"format": "MM/DD/YYYY HH:mm"
-	}
-};
+	var options = {
+		timePicker: true,
+		timePickerIncrement: 15,
+		timePicker24Hour: true,
+		minDate: moment.utc(),
+		startDate: nowRounded,
+		locale: {
+			"format": "MM/DD/YYYY HH:mm"
+		}
+	};
 
-options.singleDatePicker = true;
-$('#time_start').daterangepicker(options);
-options.singleDatePicker = false;
-options.endDate = nowRounded.clone().add('2', 'h');
-$('#time_start_end').daterangepicker(options);
+	options.singleDatePicker = true;
+	$('#modalCreateOperation').find('#time_start').daterangepicker(options);
+	options.singleDatePicker = false;
+	options.endDate = nowRounded.clone().add('2', 'h');
+	$('#modalCreateOperation').find('#time_start_end').daterangepicker(options);
 
-$("input[name=known_duration]:radio").change(function () {
-	$('.datepicker').toggleClass("hidden");
+	$('#modalCreateOperation').find('#sliderImportance').slider({
+		formatter: function(value) {
+			return value;
+		}
+	});
 });
 
-var slider = $('#sliderImportance').slider({
-	formatter: function(value) {
-		return value;
-	}
+$('#modalCreateOperation').find('input[name=known_duration]:radio').change(function () {
+	$('#modalCreateOperation').find('.datepicker').toggleClass("hidden");
 });
 
-// AJAX Add Operation form
 $('#formCreateOperation').submit(function(e) {
 	e.preventDefault();
 
@@ -55,12 +55,101 @@ $('#formCreateOperation').submit(function(e) {
 			$(location).attr('href', 'operation');
 		},
 		error: function (response) {
-			$('.form-group').removeClass('has-error');
-			$("#modal-errors ul").empty();
-			$("#modal-errors").removeClass('hidden');
+			$('#modalCreateOperation').find('.form-group').removeClass('has-error');
+			$('#modalCreateOperation').find('#modal-errors ul').empty();
+			$('#modalCreateOperation').find('#modal-errors').removeClass('hidden');
 			$.each(response['responseJSON'], function (index, value) {
-				$('[name="' + index + '"]').closest('div.form-group').addClass('has-error');
-				$("#modal-errors ul").append('<li>' + value + '</li>');
+				$('#modalCreateOperation').find('[name="' + index + '"]').closest('div.form-group').addClass('has-error');
+				$('#modalCreateOperation').find('#modal-errors ul').append('<li>' + value + '</li>');
+			});
+		}
+	});
+});
+
+$('#modalUpdateOperation').on('show.bs.modal', function(e) {
+	var operation_id = $(e.relatedTarget).data('op-id');
+
+	$(e.currentTarget).find('input[name="operation_id"]').val(operation_id);
+
+	var ROUNDING = 15 * 60 * 1000;
+	nowRounded = moment.utc();
+	nowRounded = moment.utc(Math.ceil((+nowRounded) / ROUNDING) * ROUNDING);
+
+	var operation_id = $(e.relatedTarget).data('op-id');
+
+	$.get("/calendar/operation/find/" + operation_id, function(op) {
+		$('#modalUpdateOperation').find('#title').val(op.title);
+		$('#modalUpdateOperation').find('option[value="' + op.type + '"]').prop('selected', true);
+		$('#modalUpdateOperation').find('#staging').val(op.staging);
+		$('#modalUpdateOperation').find('#fc').val(op.fc);
+		$('#modalUpdateOperation').find('#fc_character_id').val(op.fc_character_id);
+		$('#modalUpdateOperation').find('#fc_character_id').val(op.fc_character_id);
+		$('#modalUpdateOperation').find('#description').val(op.description);
+
+		var options = {
+		timePicker: true,
+		timePickerIncrement: 15,
+		timePicker24Hour: true,
+		minDate: nowRounded,
+		startDate: moment(op.start_at),
+		locale: {
+			"format": "MM/DD/YYYY HH:mm"
+			}
+		};
+
+		options.singleDatePicker = true;
+		$('#modalUpdateOperation').find('#time_start').daterangepicker(options);
+
+		options.singleDatePicker = false;
+		if (op.end_at) {
+			options.endDate = moment(op.end_at);
+			$('#modalUpdateOperation').find('input[name=known_duration][value=yes]').prop('checked', true);
+			$('#modalUpdateOperation').find('#time_start').closest('div.form-group').addClass('hidden');
+		}
+		else {
+			options.endDate = moment(op.end_at).clone().add('2', 'h');
+			$('#modalUpdateOperation').find('input[name=known_duration][value=no]').prop('checked', true);
+			$('#modalUpdateOperation').find('#time_start_end').closest('div.form-group').addClass('hidden');
+		}
+		$('#modalUpdateOperation').find('#time_start_end').daterangepicker(options);
+
+		$('#modalUpdateOperation').find('#sliderImportance').slider('destroy');
+
+		$('#modalUpdateOperation').find('#sliderImportance').attr('data-slider-value', op.importance);
+		$('#modalUpdateOperation').find('#sliderImportance').slider({
+			formatter: function(value) {
+				return value;
+			},
+		});
+	}).fail(function() {
+		$(location).attr('href', 'operation');
+	});
+});
+
+$('#modalUpdateOperation').find('input[name=known_duration]:radio').change(function () {
+	$('#modalUpdateOperation').find('.datepicker').toggleClass("hidden");
+});
+
+$('#formUpdateOperation').submit(function(e) {
+	e.preventDefault();
+
+	$.ajax({
+		type: "POST",
+		url: "operation/update",
+		data: $(this).serializeArray(),
+		headers: {
+			'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+		},
+		success: function (response) {
+			$(location).attr('href', 'operation');
+		},
+		error: function (response) {
+			$('#modalUpdateOperation').find('.form-group').removeClass('has-error');
+			$('#modalUpdateOperation').find('#modal-errors ul').empty();
+			$('#modalUpdateOperation').find('#modal-errors').removeClass('hidden');
+			$.each(response['responseJSON'], function (index, value) {
+				$('#modalUpdateOperation').find('[name="' + index + '"]').closest('div.form-group').addClass('has-error');
+				$('#modalUpdateOperation').find('#modal-errors ul').append('<li>' + value + '</li>');
 			});
 		}
 	});

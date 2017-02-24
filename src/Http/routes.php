@@ -33,6 +33,12 @@ Route::group([
 		'uses' => 'OperationController@delete'
 	]);
 
-	Route::get('lookup/characters', 'LookupController@lookupCharacters');
+	Route::post('operation/update', [
+		'as' => 'operation.update',
+		'uses' => 'OperationController@update'
+	]);
 
+	Route::get('operation/find/{id}', 'OperationController@find');
+
+	Route::get('lookup/characters', 'LookupController@lookupCharacters');
 });

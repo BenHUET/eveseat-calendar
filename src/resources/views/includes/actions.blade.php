@@ -5,8 +5,14 @@
 @if($table == "incoming")
 	<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.subscribe') }}">
 		&nbsp;
-		<i class="fa fa-reply" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalSubscribe"></i>
+		<i class="fa fa-reply text-primary" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalSubscribe"></i>
 	</span>
+	@if(auth()->user()->has('calendar.updateAll', false) || $op->user->id == auth()->user()->id)
+		&nbsp;
+		<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.update') }}">
+			<i class="fa fa-pencil text-danger" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalUpdateOperation"></i>
+		</span>
+	@endif
 @endif
 
 @if($table == "ongoing")

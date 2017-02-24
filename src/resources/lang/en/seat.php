@@ -11,6 +11,7 @@ return [
     'faded_operations' => 'Faded',
 
     'add_operation' => 'Create a new operation',
+    'update_operation' => 'Update',
 
     'known_duration' => 'Duration is known',
 
@@ -43,6 +44,7 @@ return [
     'attending_no' => 'Not attending',
     'attending_maybe' => 'Maybe attending',
     'create_confirm_button_yes' => 'Create this operation',
+    'update_confirm_button_yes' => 'Update',
     'subscribe_confirm_button_yes' => 'Send your status',
     'subscription' => 'Subscription',
     'subscribe' => 'Subscribe',

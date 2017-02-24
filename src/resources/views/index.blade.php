@@ -15,6 +15,7 @@
 	@endif
 
 	@include('calendar::includes.modals.create_operation')
+	@include('calendar::includes.modals.update_operation')
 	@include('calendar::includes.modals.confirm_delete')
 	@include('calendar::includes.modals.confirm_close')
 	@include('calendar::includes.modals.confirm_cancel')

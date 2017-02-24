@@ -16,6 +16,8 @@
 				
 				<form id="formUpdateOperation">
 
+					<input type="hidden" name="operation_id">
+
 					<div class="form-group row">
 						<label for="title" class="col-sm-2 col-form-label">{{ trans('calendar::seat.title') }} *</label>
 						<div class="col-sm-10">
@@ -53,7 +55,6 @@
 						</div>
 					</div>
 
-
 					<div class="form-group row datepicker">
 						<label class="col-sm-2 col-form-label">{{ trans('calendar::seat.starts_at') }} *</label>
 						<div class="col-sm-10">
@@ -61,7 +62,7 @@
 						</div>
 					</div>
 
-					<div class="form-group row datepicker hidden">
+					<div class="form-group row datepicker">
 						<label class="col-sm-2 col-form-label">{{ trans('calendar::seat.duration') }} *</label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" name="time_start_end" id="time_start_end">
@@ -92,7 +93,7 @@
 					</div>
 
 					<button type="button" class="btn btn-block btn-default" data-dismiss="modal">{{ trans('calendar::seat.close') }}</button>
-					<button type="submit" class="btn btn-block btn-primary" id="create_operation_submit">{{ trans('calendar::seat.update_confirm_button_yes') }}</button>
+					<button type="submit" class="btn btn-block btn-primary" id="update_operation_submit">{{ trans('calendar::seat.update_confirm_button_yes') }}</button>
 
 				</form>
 
