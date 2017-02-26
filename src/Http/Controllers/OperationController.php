@@ -18,13 +18,9 @@ class OperationController extends Controller
 {
 	use UserRespository, Character;
 
-	private $now;
-
 	public function __construct() {
 		$this->middleware('bouncer:calendar.view')->only('index');
 		$this->middleware('bouncer:calendar.create')->only('store');
-
-		$this->now = Carbon::now('UTC');
 	}
 
 	public function index()
@@ -167,7 +163,7 @@ class OperationController extends Controller
 
 		if ($operation != null) {
 			if (auth()->user()->has('calendar.closeAll') || $operation->user->id == auth()->user()->id) {
-				$operation->end_at = $this->now;
+				$operation->end_at = Carbon::now('UTC');
 				$operation->save();
 
 				return redirect()->back();

@@ -109,6 +109,6 @@ class Operation extends Model
 
 	public function routeNotificationForSlack()
     {
-        return "https://hooks.slack.com/services/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";
+        return "hook";
     }
 }
