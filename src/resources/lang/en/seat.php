@@ -71,6 +71,8 @@ return [
     'created_at' => 'Created at',
     'updated_at' => 'Updated at',
 
+    'posted_by' => 'Posted by',
+
     'title' => 'Title',
     'type' => 'Type',
     'description' => 'Description',
@@ -88,6 +90,8 @@ return [
     'staging' => 'Staging',
     'description' => 'Description',
     'fleet_commander' => 'Fleet Commander',
-    'character' => 'Character'
+    'character' => 'Character',
+
+    'notification_new_operation' => ':rocket: A new operation has been posted !'
 
 ];

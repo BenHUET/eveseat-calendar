@@ -4,12 +4,14 @@ namespace Seat\Kassie\Calendar\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Seat\Services\Repositories\Configuration\UserRespository;
 use Seat\Services\Repositories\Character\Character;
 use Seat\Web\Http\Controllers\Controller;
 use Seat\Web\Models\People;
 use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Models\Attendee;
+use Seat\Kassie\Calendar\Notifications\OperationPosted;
 use Carbon\Carbon;
 
 class OperationController extends Controller
@@ -93,6 +95,8 @@ class OperationController extends Controller
 		$operation->user()->associate(auth()->user());
 
 		$operation->save();
+
+		Notification::send($operation, new OperationPosted());
 	}
 
 	public function update(Request $request) 
