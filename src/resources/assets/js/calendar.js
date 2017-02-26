@@ -157,14 +157,21 @@ $('#formUpdateOperation').submit(function(e) {
 
 $('#modalSubscribe').on('show.bs.modal', function(e) {
 	var operation_id = $(e.relatedTarget).data('op-id');
+	var character_id = $(e.relatedTarget).data('character-id');
+	var status = $(e.relatedTarget).data('status');
 
 	$(e.currentTarget).find('input[name="operation_id"]').val(operation_id);
+
+	if (status && character_id) {
+		$('#modalSubscribe').find("input[name=character_id][value=" + character_id + "]").prop('checked', true);
+		$('#modalSubscribe').find('option[value="' + status + '"]').prop('selected', true);
+		$("select#status").trigger('change');
+	}
 });
 
 $("select#status").change(function() {
 	$("#headerModalSubscribe").removeClass('modal-calendar-green modal-calendar-yellow modal-calendar-red');
 	status = $(this).find(":selected").val();
-	console.log(status);
 	if (status == "yes")
 		$("#headerModalSubscribe").addClass('modal-calendar-green');
 	if (status == "maybe")
