@@ -5,14 +5,18 @@ namespace Seat\Kassie\Calendar\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
+
+use Carbon\Carbon;
+
 use Seat\Services\Repositories\Configuration\UserRespository;
 use Seat\Services\Repositories\Character\Character;
 use Seat\Web\Http\Controllers\Controller;
 use Seat\Web\Models\People;
+
 use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Models\Attendee;
 use Seat\Kassie\Calendar\Notifications\OperationPosted;
-use Carbon\Carbon;
+use Seat\Kassie\Calendar\Helpers\Settings;
 
 class OperationController extends Controller
 {
@@ -50,7 +54,7 @@ class OperationController extends Controller
 			$userCharacters->prepend($mainCharacter);
 		}
 		
-		return view('calendar::index', [
+		return view('calendar::operation.index', [
 			'userCharacters' => $userCharacters,
 			'ops_all' => $ops,
 			'ops_incoming' => $ops_incoming,
@@ -92,7 +96,8 @@ class OperationController extends Controller
 
 		$operation->save();
 
-		Notification::send($operation, new OperationPosted());
+		if (Settings::get('slack_integration') == true)
+			Notification::send($operation, new OperationPosted());
 	}
 
 	public function update(Request $request) 

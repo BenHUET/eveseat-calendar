@@ -7,6 +7,7 @@ Route::group([
 ], function () {
 
 	Route::resource('operation', 'OperationController');
+	Route::resource('setting', 'SettingController');
 
 	Route::post('operation/subscribe', [
 		'as' => 'operation.subscribe',

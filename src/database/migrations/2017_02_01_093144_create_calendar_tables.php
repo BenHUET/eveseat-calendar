@@ -63,6 +63,11 @@ class CreateCalendarTables extends Migration
 				->on('eve_character_infos')
 				->onDelete('cascade');
 		});
+
+		Schema::create('calendar_settings', function (Blueprint $table) {
+			$table->boolean('slack_integration');
+			$table->string('slack_webhook');
+		});
 	}
 
 	/**
@@ -74,5 +79,6 @@ class CreateCalendarTables extends Migration
 	{
 		Schema::drop('calendar_attendees');
 		Schema::drop('calendar_operations');
+		Schema::drop('calendar_settings');
 	}
 }

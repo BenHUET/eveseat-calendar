@@ -6,7 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\SlackMessage;
+
 use Seat\Kassie\Calendar\Helpers\Helper;
+use Seat\Kassie\Calendar\Helpers\Settings;
 
 class OperationPosted extends Notification
 {
@@ -33,7 +35,7 @@ class OperationPosted extends Notification
 			$fields['Duration'] = $notifiable->getDurationAttribute();
 
 		$fields['Type'] = $notifiable->type;
-		$fields['Importance'] = Helper::ImportanceAsEmoji($notifiable->importance, ':full_moon:', ':first_quarter_moon:', ':new_moon:');
+		$fields['Importance'] = Helper::ImportanceAsEmoji($notifiable->importance, ':full_moon:', ':last_quarter_moon:', ':new_moon:');
 
 		if ($notifiable->fc)
 			$fields['Fleet commander'] = $notifiable->fc;

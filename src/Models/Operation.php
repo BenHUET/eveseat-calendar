@@ -4,9 +4,13 @@ namespace Seat\Kassie\Calendar\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Seat\Web\Models\User;
+
 use Carbon\Carbon;
 use \DateTime;
+
+use Seat\Web\Models\User;
+
+use Seat\Kassie\Calendar\Helpers\Settings;
 
 class Operation extends Model
 {
@@ -109,6 +113,6 @@ class Operation extends Model
 
 	public function routeNotificationForSlack()
     {
-		return "hook";
+		return Settings::get('slack_webhook');;
     }
 }

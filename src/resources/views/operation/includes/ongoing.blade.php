@@ -21,19 +21,19 @@
 			<td>{{ $op->title }}</td>
 			<td>{{ $op->type }}</td>
 			<td>
-				@include('calendar::includes.importance')
+				@include('calendar::operation.includes.importance')
 			</td>
 			<td><span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.started_at') }} {{ $op->start_at }}">{{ $op->started }} ago</span></td>
 			<td><span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.ends_at') }} {{ $op->end_at }}">{{ $op->ends_in }}</span></td>
 			<td>
-				@include('calendar::includes.fleet_commander')
+				@include('calendar::operation.includes.fleet_commander')
 			</td>
 			<td>{{ $op->staging }}</td>
 			<td>
-				@include('calendar::includes.subscription')
+				@include('calendar::operation.includes.subscription')
 			</td>
 			<td>
-				@include('calendar::includes.actions')
+				@include('calendar::operation.includes.actions')
 			</td>
 		</tr>
 	@endforeach

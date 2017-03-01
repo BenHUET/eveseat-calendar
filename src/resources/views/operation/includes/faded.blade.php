@@ -21,19 +21,19 @@
 			<td>{{ $op->title }}</td>
 			<td>{{ $op->type }}</td>
 			<td>
-				@include('calendar::includes.importance')
+				@include('calendar::operation.includes.importance')
 			</td>
 			<td>{{ $op->start_at }}</td>
 			<td>{{ $op->end_at }}</td>
 			<td>
-				@include('calendar::includes.fleet_commander')
+				@include('calendar::operation.includes.fleet_commander')
 			</td>
 			<td>{{ $op->staging }}</td>
 			<td>
-				@include('calendar::includes.subscription')
+				@include('calendar::operation.includes.subscription')
 			</td>
 			<td>
-				@include('calendar::includes.actions')
+				@include('calendar::operation.includes.actions')
 			</td>
 		</tr>
 	@endforeach

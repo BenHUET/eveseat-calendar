@@ -10,7 +10,7 @@
 				</div>
 
 				<div class="modal-body">
-					<h3 class="text-center" style="display: inline;">@include('calendar::includes.importance')</h3>
+					<h3 class="text-center" style="display: inline;">@include('calendar::operation.includes.importance')</h3>
 					<div class="pull-right">
 						<small>{{ trans('calendar::seat.created_at') }} {{ $op->created_at }}</small>
 						@if($op->updated_at != $op->created_at)
@@ -52,7 +52,7 @@
 								@if($op->fc_character_id)
 									&nbsp;
 								@endif
-								@include('calendar::includes.fleet_commander')
+								@include('calendar::operation.includes.fleet_commander')
 							@else
 								<i>{{ trans('calendar::seat.unknown') }}</i>
 							@endif
