@@ -8,7 +8,7 @@ return [
 		'route_segment' => 'calendar',
 		'entries' => [
 			[
-				'name'  => 'Planning',
+				'name'  => 'Operations',
 				'icon'  => 'fa-space-shuttle',
 				'route' => 'operation.index',
 				'permission' => 'calendar.view'
