@@ -32,4 +32,26 @@ class Helper
 		return $output;
 	}
 
+	public static function BuildSlackNotificationAttachment($op) {
+		$url = url('/calendar/operation');
+
+		$fields = array();
+
+		$fields['Date EVE Time'] = $op->start_at->format('M j @ H:i');
+		if ($op->getDurationAttribute())
+			$fields['Date EVE Time'] .= ' _- ' . $op->getDurationAttribute() . '_';
+
+		$fields['Importance'] = self::ImportanceAsEmoji($op->importance, ":full_moon_with_face:", ":last_quarter_moon:", ":new_moon_with_face:");
+
+		$fields['Staging'] = $op->staging ? $op->staging : trans('calendar::seat.unknown');
+		$fields['Fleet Commander'] = $op->fc ? $op->fc : trans('calendar::seat.unknown');
+
+		return function ($attachment) use ($op, $url, $fields) {
+			$attachment->title('(' . $op->type . ') ' . $op->title, $url)
+			 	->fields($fields)
+			 	->footer(trans('calendar::seat.posted_by') + ' ' + $op->user->name)
+			 	->markdown(['fields']);
+		};
+	}
+
 }

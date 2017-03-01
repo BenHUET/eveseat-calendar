@@ -92,6 +92,6 @@ return [
     'fleet_commander' => 'Fleet Commander',
     'character' => 'Character',
 
-    'notification_new_operation' => ':rocket: A new operation has been posted !'
+    'notification_new_operation' => 'A new operation has been posted !'
 
 ];
