@@ -4,6 +4,8 @@ namespace Seat\Kassie\Calendar\Helpers;
 
 use Carbon\Carbon;
 
+use Seat\Kassie\Calendar\Helpers\Settings;
+
 class Helper
 {
 
@@ -41,7 +43,7 @@ class Helper
 		if ($op->getDurationAttribute())
 			$fields['Date EVE Time'] .= ' _- ' . $op->getDurationAttribute() . '_';
 
-		$fields['Importance'] = self::ImportanceAsEmoji($op->importance, ":full_moon_with_face:", ":last_quarter_moon:", ":new_moon_with_face:");
+		$fields['Importance'] = self::ImportanceAsEmoji($op->importance, Settings::get('slack_emoji_importance_full'), Settings::get('slack_emoji_importance_half'), Settings::get('slack_emoji_importance_empty'));
 
 		$fields['Staging'] = $op->staging ? $op->staging : trans('calendar::seat.unknown');
 		$fields['Fleet Commander'] = $op->fc ? $op->fc : trans('calendar::seat.unknown');

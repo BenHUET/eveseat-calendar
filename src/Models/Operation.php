@@ -9,7 +9,6 @@ use Carbon\Carbon;
 use \DateTime;
 
 use Seat\Web\Models\User;
-
 use Seat\Kassie\Calendar\Helpers\Settings;
 
 class Operation extends Model
@@ -113,6 +112,6 @@ class Operation extends Model
 
 	public function routeNotificationForSlack()
     {
-		return Settings::get('slack_webhook');;
+		return Settings::get('slack_webhook');
     }
 }
