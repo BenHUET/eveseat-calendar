@@ -39,9 +39,9 @@ class Helper
 
 		$fields = array();
 
-		$fields['Date EVE Time'] = $op->start_at->format('M j @ H:i');
+		$fields['Date'] = $op->start_at->format('M j @ H:i EVE');
 		if ($op->getDurationAttribute())
-			$fields['Date EVE Time'] .= ' _- ' . $op->getDurationAttribute() . '_';
+			$fields['Date'] .= ' _- ' . $op->getDurationAttribute() . '_';
 
 		$fields['Importance'] = self::ImportanceAsEmoji($op->importance, Settings::get('slack_emoji_importance_full'), Settings::get('slack_emoji_importance_half'), Settings::get('slack_emoji_importance_empty'));
 
@@ -51,7 +51,7 @@ class Helper
 		return function ($attachment) use ($op, $url, $fields) {
 			$attachment->title('(' . $op->type . ') ' . $op->title, $url)
 			 	->fields($fields)
-			 	->footer(trans('calendar::seat.posted_by') + ' ' + $op->user->name)
+			 	->footer(trans('calendar::seat.posted_by') . ' ' . $op->user->name)
 			 	->markdown(['fields']);
 		};
 	}
