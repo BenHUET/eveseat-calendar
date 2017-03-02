@@ -71,7 +71,7 @@ return [
     'created_at' => 'Created at',
     'updated_at' => 'Updated at',
 
-    'posted_by' => 'Posted by',
+    'created_by' => 'Created by',
 
     'title' => 'Title',
     'type' => 'Type',
@@ -92,6 +92,9 @@ return [
     'fleet_commander' => 'Fleet Commander',
     'character' => 'Character',
 
-    'notification_new_operation' => 'A new operation has been posted !'
-
+    'notification_new_operation' => ':rocket: A new operation has been posted !',
+    'notification_edit_operation' => ':pencil2: An operation has been edited !',
+    'notification_cancel_operation' => ':no_entry_sign: An operation has been cancelled !',
+    'notification_delete_operation' => ':x: An operation has been deleted !',
+    'notification_activate_operation' => ':white_check_mark: A cancelled operation has been activated !'
 ];

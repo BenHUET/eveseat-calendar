@@ -4,6 +4,9 @@ namespace Seat\Kassie\Calendar;
 
 use Illuminate\Support\ServiceProvider;
 
+use Seat\Kassie\Calendar\Observers\OperationObserver;
+use Seat\Kassie\Calendar\Models\Operation;
+
 class CalendarServiceProvider extends ServiceProvider
 {
 	/**
@@ -18,6 +21,7 @@ class CalendarServiceProvider extends ServiceProvider
 		$this->addTranslations();
 		$this->addMigrations();
 		$this->addPublications();
+		$this->addObservers();
 	}
 
 	/**
@@ -59,6 +63,11 @@ class CalendarServiceProvider extends ServiceProvider
 			__DIR__ . '/resources/assets/js' => public_path('web/js'),
 			__DIR__ . '/resources/assets/vendors/js' => public_path('web/js')
 		]);
+    }
+
+    private function addObservers() 
+    {
+    	Operation::observe(OperationObserver::class);
     }
 
 }

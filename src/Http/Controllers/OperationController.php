@@ -4,7 +4,6 @@ namespace Seat\Kassie\Calendar\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
 
 use Carbon\Carbon;
 
@@ -15,8 +14,6 @@ use Seat\Web\Models\People;
 
 use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Models\Attendee;
-use Seat\Kassie\Calendar\Notifications\OperationPosted;
-use Seat\Kassie\Calendar\Helpers\Settings;
 
 class OperationController extends Controller
 {
@@ -95,9 +92,6 @@ class OperationController extends Controller
 		$operation->user()->associate(auth()->user());
 
 		$operation->save();
-
-		if (Settings::get('slack_integration') == true)
-			Notification::send($operation, new OperationPosted());
 	}
 
 	public function update(Request $request) 
@@ -140,9 +134,8 @@ class OperationController extends Controller
 			if ($request->importance == 0)
 				$operation->importance = 0;
 
-
-
 			$operation->save();
+
 			return $operation;
 		}
 

@@ -9,7 +9,7 @@ use Illuminate\Notifications\Messages\SlackMessage;
 
 use Seat\Kassie\Calendar\Helpers\Helper;
 
-class OperationPosted extends Notification
+class OperationUpdated extends Notification
 {
 	use Queueable;
 
@@ -23,9 +23,9 @@ class OperationPosted extends Notification
 		$attachment = Helper::BuildSlackNotificationAttachment($notifiable);
 
 		return (new SlackMessage)
-			->success()
+			->warning()
 			->from('SeAT Calendar', ':calendar:')
-			->content(trans('calendar::seat.notification_new_operation'))
+			->content(trans('calendar::seat.notification_edit_operation'))
 			->attachment($attachment);
 	}
 }
