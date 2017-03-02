@@ -14,6 +14,7 @@ use Seat\Web\Models\People;
 
 use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Models\Attendee;
+use Seat\Kassie\Calendar\Helpers\Settings;
 
 class OperationController extends Controller
 {
@@ -52,6 +53,7 @@ class OperationController extends Controller
 		}
 		
 		return view('calendar::operation.index', [
+			'slack_integration' => Settings::get('slack_integration'),
 			'userCharacters' => $userCharacters,
 			'ops_all' => $ops,
 			'ops_incoming' => $ops_incoming,
@@ -70,7 +72,7 @@ class OperationController extends Controller
 			'time_start' => 'required_without_all:time_start_end|date|after_or_equal:today',
 			'time_start_end' => 'required_without_all:time_start'
 		]);
-		
+
 		$operation = new Operation($request->all());
 
 		foreach ($request->toArray() as $name => $value)
@@ -88,6 +90,8 @@ class OperationController extends Controller
 
 		if ($request->importance == 0)
 			$operation->importance = 0;
+
+		$operation->notify = $request->get('notify');
 
 		$operation->user()->associate(auth()->user());
 
@@ -134,6 +138,8 @@ class OperationController extends Controller
 			if ($request->importance == 0)
 				$operation->importance = 0;
 
+			$operation->notify = $request->get('notify');
+
 			$operation->save();
 
 			return $operation;
@@ -179,6 +185,7 @@ class OperationController extends Controller
 			if (auth()->user()->has('calendar.closeAll') || $operation->user->id == auth()->user()->id) {
 				$operation->timestamps = false;
 				$operation->is_cancelled = true;
+				$operation->notify = $request->get('notify');
 				$operation->save();
 
 				return redirect()->back();
@@ -196,6 +203,7 @@ class OperationController extends Controller
 			if (auth()->user()->has('calendar.closeAll') || $operation->user->id == auth()->user()->id) {
 				$operation->timestamps = false;
 				$operation->is_cancelled = false;
+				$operation->notify = $request->get('notify');
 				$operation->save();
 
 				return redirect()->back();

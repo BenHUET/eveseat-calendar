@@ -89,6 +89,18 @@
 						</div>
 					</div>
 
+					@if($slack_integration == true)
+						<div class="form-group row">
+							<label for="notify" class="col-sm-2 col-form-label">
+								<i class="fa fa-slack"></i>&nbsp;
+								{{ trans('calendar::seat.notification_enable') }}
+							</label>
+							<div class="col-sm-10">
+								<input type="checkbox" name="notify" id="notify" checked>
+							</div>
+						</div>
+					@endif
+
 					<button type="button" class="btn btn-block btn-default" data-dismiss="modal">{{ trans('calendar::seat.close') }}</button>
 					<button type="submit" class="btn btn-block btn-primary" id="create_operation_submit">{{ trans('calendar::seat.create_confirm_button_yes') }}</button>
 

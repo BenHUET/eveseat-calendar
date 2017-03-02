@@ -14,6 +14,16 @@
 				<form id="formSubscribe" method="POST" action="{{ route('operation.cancel') }}">
 					{{ csrf_field() }}
 					<input type="hidden" name="operation_id">
+
+					@if($slack_integration == true)
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" name="notify" id="notify">
+								{{ trans('calendar::seat.notification_enable') }}
+								&nbsp;<i class="fa fa-slack"></i>
+							</label>
+						</div>
+					@endif
 					
 					<button type="button " class="btn btn-block btn-lg btn-primary" data-dismiss="modal">{{ trans('calendar::seat.cancel_confirm_button_no') }}</button>
 					<button type="submit" class="btn btn-block btn-sm btn-default" id="confirm_cancel_submit">{{ trans('calendar::seat.cancel_confirm_button_yes') }}</button>

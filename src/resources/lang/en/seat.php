@@ -95,6 +95,6 @@ return [
     'notification_new_operation' => ':rocket: A new operation has been posted !',
     'notification_edit_operation' => ':pencil2: An operation has been edited !',
     'notification_cancel_operation' => ':no_entry_sign: An operation has been cancelled !',
-    'notification_delete_operation' => ':x: An operation has been deleted !',
-    'notification_activate_operation' => ':white_check_mark: A cancelled operation has been reactivated !'
+    'notification_activate_operation' => ':white_check_mark: A cancelled operation has been reactivated !',
+    'notification_enable' => 'Notify to Slack'
 ];

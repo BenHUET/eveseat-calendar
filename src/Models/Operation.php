@@ -30,6 +30,8 @@ class Operation extends Model
 	];
 	protected $dates = ['start_at', 'end_at', 'created_at', 'updated_at'];
 
+	private $notify;
+
 	public function user() {
 		return $this->belongsTo(User::class);
 	}
@@ -110,9 +112,13 @@ class Operation extends Model
 		return $duration;
 	}
 
-	public function setNotifyAttribute($notify)
+	public function setNotifyAttribute($value)
 	{
-		$this->attributes['notify'] = $notify;
+		$this->notify = $value;
+	}
+	public function getNotifyAttribute($value)
+	{
+		return $this->notify;
 	}
 
 	public function routeNotificationForSlack()
