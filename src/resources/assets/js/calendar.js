@@ -44,6 +44,8 @@ $('#modalCreateOperation').find('input[name=known_duration]:radio').change(funct
 $('#formCreateOperation').submit(function(e) {
 	e.preventDefault();
 
+	$('#modalCreateOperation').find('#create_operation_submit').prop('disabled', true);
+
 	$.ajax({
 		type: "POST",
 		url: "operation",
@@ -62,6 +64,7 @@ $('#formCreateOperation').submit(function(e) {
 				$('#modalCreateOperation').find('[name="' + index + '"]').closest('div.form-group').addClass('has-error');
 				$('#modalCreateOperation').find('#modal-errors ul').append('<li>' + value + '</li>');
 			});
+			$('#modalCreateOperation').find('#create_operation_submit').prop('disabled', false);
 		}
 	});
 });
@@ -133,6 +136,8 @@ $('#modalUpdateOperation').find('input[name=known_duration]:radio').change(funct
 $('#formUpdateOperation').submit(function(e) {
 	e.preventDefault();
 
+	$('#modalUpdateOperation').find('#update_operation_submit').prop('disabled', true);
+
 	$.ajax({
 		type: "POST",
 		url: "operation/update",
@@ -151,6 +156,7 @@ $('#formUpdateOperation').submit(function(e) {
 				$('#modalUpdateOperation').find('[name="' + index + '"]').closest('div.form-group').addClass('has-error');
 				$('#modalUpdateOperation').find('#modal-errors ul').append('<li>' + value + '</li>');
 			});
+			$('#modalUpdateOperation').find('#update_operation_submit').prop('disabled', false);
 		}
 	});
 });

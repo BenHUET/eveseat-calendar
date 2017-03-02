@@ -110,6 +110,11 @@ class Operation extends Model
 		return $duration;
 	}
 
+	public function setNotifyAttribute($notify)
+	{
+		$this->attributes['notify'] = $notify;
+	}
+
 	public function routeNotificationForSlack()
     {
 		return Settings::get('slack_webhook');
