@@ -95,10 +95,10 @@ return [
     'fleet_commander' => 'Fleet Commander',
     'character' => 'Character',
 
-    'notification_new_operation' => ':rocket: A new operation has been posted !',
-    'notification_edit_operation' => ':pencil2: An operation has been edited !',
-    'notification_cancel_operation' => ':no_entry_sign: An operation has been cancelled !',
-    'notification_activate_operation' => ':white_check_mark: A cancelled operation has been reactivated !',
+    'notification_new_operation' => '<!channel> :rocket: A new operation has been posted !',
+    'notification_edit_operation' => '<!channel> :pencil2: An operation has been edited !',
+    'notification_cancel_operation' => '<!channel> :no_entry_sign: An operation has been cancelled !',
+    'notification_activate_operation' => '<!channel> :white_check_mark: A cancelled operation has been reactivated !',
     'notification_enable' => 'Notify to Slack',
 
     'slack_integration' => 'Slack Integration',
