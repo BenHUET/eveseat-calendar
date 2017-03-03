@@ -94,7 +94,7 @@ $('#modalUpdateOperation').on('show.bs.modal', function(e) {
 		timePickerIncrement: 15,
 		timePicker24Hour: true,
 		minDate: nowRounded,
-		startDate: moment(op.start_at),
+		startDate: moment.utc(op.start_at),
 		locale: {
 			"format": "MM/DD/YYYY HH:mm"
 			}
