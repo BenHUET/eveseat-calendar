@@ -20,7 +20,7 @@ class OperationPinged extends Notification
 
 	public function toSlack($notifiable)
 	{
-		$content = trans('calendar::seat.notification_ping_operation') . '<' . url('/calendar/operation') . '@example.com|*' . $notifiable->title . '*> - ' . trans('calendar::seat.starts_in') . ' ' . $notifiable->starts_in;
+		$content = trans('calendar::seat.notification_ping_operation') . '*' . trans('calendar::seat.starts_in') . ' ' . $notifiable->starts_in . '* : <' . url('/calendar/operation') . '|' . $notifiable->title . '>';
 
 		return (new SlackMessage)
 			->success()
