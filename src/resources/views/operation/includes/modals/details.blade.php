@@ -107,59 +107,57 @@
 
 					<div class="clearfix"></div>
 					
-					@if(auth()->user()->has('calendar.viewAttendees', false) || $op->user->id == auth()->user()->id)
-						<h3 style="display: inline;">{{ trans('calendar::seat.attendees') }}</h3>
-						<div class="pull-right">
-							<small class="label bg-green" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_yes') }}">{{ $op->attendees->where('status', '=', 'yes')->count() }}</small>
-							<small class="label bg-yellow" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_maybe') }}">{{ $op->attendees->where('status', '=', 'maybe')->count() }}</small>
-							<small class="label bg-red" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_no') }}">{{ $op->attendees->where('status', '=', 'no')->count() }}</small>
-						</div>
-						
-						<div class="clearfix" style="margin-bottom:20px;"></div>
-						
-						<table class="table table-condensed" id="attendees">
-							<thead>
-								<th>{{ trans('calendar::seat.character') }}</th>
-								<th>{{ trans('calendar::seat.status') }}</th>
-								<th class="no-sort">{{ trans('calendar::seat.comment') }}</th>
-								<th class="no-sort">{{ trans('calendar::seat.answered_at') }}</th>
-							</thead>
-							<tbody>
-								@foreach($op->attendees as $attendee)
-									<tr>
-										<td class="text-nowrap">
-											&nbsp;
-											<img src="http://image.eveonline.com/Character/{{ $attendee->character_id }}_64.jpg" class="img-circle eve-icon small-icon" />
-											<a href="{{ route('character.view.sheet', ['character_id' => $attendee->character->characterID]) }}">
-												{{ $attendee->character->characterName }}
-											</a>
-										</td>
-										<td>
-											@if ($attendee->status == "yes")
-												<span class="label label-success">{{ trans('calendar::seat.attending_yes') }}</span>
-											@endif
-											@if ($attendee->status == "no")
-												<span class="label label-danger">{{ trans('calendar::seat.attending_no') }}</span>
-											@endif
-											@if ($attendee->status == "maybe")
-												<span class="label label-warning">{{ trans('calendar::seat.attending_maybe') }}</span>
-											@endif
-										</td>
-										<td>
-											{{ $attendee->comment }}
-										</td>
-										<td>
-											<small class="text-nowrap">{{ $attendee->created_at }}</small>
-											@if($attendee->created_at != $attendee->updated_at)
-												<br/>
-												<small class="text-nowrap">{{ trans('calendar::seat.update') }} : {{ $attendee->updated_at }}</small>
-											@endif
-										</td>
-									</tr>
-								@endforeach
-							</tbody>
-						</table>
-					@endif
+					<h3 style="display: inline;">{{ trans('calendar::seat.attendees') }}</h3>
+					<div class="pull-right">
+						<small class="label bg-green" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_yes') }}">{{ $op->attendees->where('status', '=', 'yes')->count() }}</small>
+						<small class="label bg-yellow" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_maybe') }}">{{ $op->attendees->where('status', '=', 'maybe')->count() }}</small>
+						<small class="label bg-red" data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.attending_no') }}">{{ $op->attendees->where('status', '=', 'no')->count() }}</small>
+					</div>
+					
+					<div class="clearfix" style="margin-bottom:20px;"></div>
+					
+					<table class="table table-condensed" id="attendees">
+						<thead>
+							<th>{{ trans('calendar::seat.character') }}</th>
+							<th>{{ trans('calendar::seat.status') }}</th>
+							<th class="no-sort">{{ trans('calendar::seat.comment') }}</th>
+							<th class="no-sort">{{ trans('calendar::seat.answered_at') }}</th>
+						</thead>
+						<tbody>
+							@foreach($op->attendees as $attendee)
+								<tr>
+									<td class="text-nowrap">
+										&nbsp;
+										<img src="http://image.eveonline.com/Character/{{ $attendee->character_id }}_64.jpg" class="img-circle eve-icon small-icon" />
+										<a href="{{ route('character.view.sheet', ['character_id' => $attendee->character->characterID]) }}">
+											{{ $attendee->character->characterName }}
+										</a>
+									</td>
+									<td>
+										@if ($attendee->status == "yes")
+											<span class="label label-success">{{ trans('calendar::seat.attending_yes') }}</span>
+										@endif
+										@if ($attendee->status == "no")
+											<span class="label label-danger">{{ trans('calendar::seat.attending_no') }}</span>
+										@endif
+										@if ($attendee->status == "maybe")
+											<span class="label label-warning">{{ trans('calendar::seat.attending_maybe') }}</span>
+										@endif
+									</td>
+									<td>
+										{{ $attendee->comment }}
+									</td>
+									<td>
+										<small class="text-nowrap">{{ $attendee->created_at }}</small>
+										@if($attendee->created_at != $attendee->updated_at)
+											<br/>
+											<small class="text-nowrap">{{ trans('calendar::seat.update') }} : {{ $attendee->updated_at }}</small>
+										@endif
+									</td>
+								</tr>
+							@endforeach
+						</tbody>
+					</table>
 
 					<button type="button" class="btn btn-block btn-default" data-dismiss="modal">{{ trans('calendar::seat.close') }}</button>
 					<div class="clearfix"></div>
