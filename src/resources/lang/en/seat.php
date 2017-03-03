@@ -4,6 +4,9 @@ return [
 
     'plugin_name' => 'Calendar',
 
+    'settings' => 'Settings',
+    'operations' => 'Operations',
+
     'all_operations' => 'All operations',
     'incoming_operations' => 'Incoming',
     'cancelled_operations' => 'Cancelled',
@@ -96,5 +99,14 @@ return [
     'notification_edit_operation' => ':pencil2: An operation has been edited !',
     'notification_cancel_operation' => ':no_entry_sign: An operation has been cancelled !',
     'notification_activate_operation' => ':white_check_mark: A cancelled operation has been reactivated !',
-    'notification_enable' => 'Notify to Slack'
+    'notification_enable' => 'Notify to Slack',
+
+    'slack_integration' => 'Slack Integration',
+    'disabled' => 'Disabled',
+    'webhook' => 'Webhook',
+    'emoji_full' => 'Full Emoji',
+    'emoji_half' => 'Half Emoji',
+    'emoji_empty' => 'Empty Emoji',
+    'help_emoji' => 'Setup which emoji to use to display the "importance" of an operation when relaying to Slack.',
+    'save' => 'Save',
 ];

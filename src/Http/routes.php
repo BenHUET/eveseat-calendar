@@ -2,12 +2,11 @@
 
 Route::group([
 	'namespace' => 'Seat\Kassie\Calendar\Http\Controllers',
-	'middleware' => 'web',
+	'middleware' => ['web', 'bouncer:calendar.view'],
 	'prefix' => 'calendar'
 ], function () {
 
 	Route::resource('operation', 'OperationController');
-	Route::resource('setting', 'SettingController');
 
 	Route::post('operation/subscribe', [
 		'as' => 'operation.subscribe',
@@ -38,6 +37,19 @@ Route::group([
 		'as' => 'operation.update',
 		'uses' => 'OperationController@update'
 	]);
+
+	Route::group([
+		'middleware' => 'bouncer:calendar.setup'
+	], function() {
+		Route::get('setting', [
+			'as' => 'setting.index',
+			'uses' => 'SettingController@index'
+		]);
+			Route::post('setting/update/slack', [
+			'as' => 'setting.update.slack',
+			'uses' => 'SettingController@updateSlack'
+		]);
+	});
 
 	Route::get('operation/find/{id}', 'OperationController@find');
 

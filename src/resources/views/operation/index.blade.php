@@ -1,6 +1,6 @@
 @extends('web::layouts.grids.12')
 
-@section('title', trans('calendar::seat.all_operations'))
+@section('title', trans('calendar::seat.plugin_name') . ' | ' . trans('calendar::seat.operations'))
 @section('page_header', trans('calendar::seat.all_operations'))
 
 @section('full')

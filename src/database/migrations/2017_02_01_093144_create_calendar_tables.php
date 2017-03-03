@@ -65,6 +65,8 @@ class CreateCalendarTables extends Migration
 		});
 
 		Schema::create('calendar_settings', function (Blueprint $table) {
+			$table->increments('id');
+			
 			$table->boolean('slack_integration');
 			$table->string('slack_webhook');
 			$table->string('slack_emoji_importance_full');

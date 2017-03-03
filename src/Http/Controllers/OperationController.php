@@ -145,7 +145,7 @@ class OperationController extends Controller
 			return $operation;
 		}
 
-		return "lol";
+		return redirect()->route('auth.unauthorized');
 	}
 
 	public function delete(Request $request)

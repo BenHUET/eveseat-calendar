@@ -1,10 +1,10 @@
-@extends('web::layouts.grids.12')
+@extends('web::layouts.grids.4-4-4')
 
-@section('title', trans('calendar::seat.all_operations'))
-@section('page_header', trans('calendar::seat.all_operations'))
+@section('title', trans('calendar::seat.plugin_name') . ' | ' . trans('calendar::seat.settings'))
+@section('page_header', trans('calendar::seat.settings'))
 
-@section('full')
-
+@section('left')
+	@include('calendar::setting.includes.slack')
 @stop
 
 @push('head')
