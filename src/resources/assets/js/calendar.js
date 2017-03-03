@@ -105,12 +105,12 @@ $('#modalUpdateOperation').on('show.bs.modal', function(e) {
 
 		options.singleDatePicker = false;
 		if (op.end_at) {
-			options.endDate = moment(op.end_at);
+			options.endDate = moment.utc(op.end_at);
 			$('#modalUpdateOperation').find('input[name=known_duration][value=yes]').prop('checked', true);
 			$('#modalUpdateOperation').find('#time_start').closest('div.form-group').addClass('hidden');
 		}
 		else {
-			options.endDate = moment(op.end_at).clone().add('2', 'h');
+			options.endDate = moment.utc(op.start_at).clone().add('2', 'h');
 			$('#modalUpdateOperation').find('input[name=known_duration][value=no]').prop('checked', true);
 			$('#modalUpdateOperation').find('#time_start_end').closest('div.form-group').addClass('hidden');
 		}
