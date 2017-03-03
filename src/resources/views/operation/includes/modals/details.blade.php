@@ -98,7 +98,7 @@
 						<li class="list-group-item">
 							<b>{{ trans('calendar::seat.description') }}</b> : 
 							@if($op->description)
-								{{ $op->description }}
+								{!! nl2br(e($op->description)) !!}
 							@else
 								<i>{{ trans('calendar::seat.unknown') }}</i>
 							@endif
