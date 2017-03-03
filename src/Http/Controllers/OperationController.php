@@ -42,8 +42,7 @@ class OperationController extends Controller
 		});
 
 		$userCharacters = $this->getUserCharacters(auth()->user()->id)->unique('characterID')->sortBy('characterName');
-
-		if(setting('main_character_id')) {
+		if(setting('main_character_id') != 1) {
 			$mainCharacter = $userCharacters->where('characterID', '=', setting('main_character_id'))->first();
 			$mainCharacter->main = true;
 			$userCharacters = $userCharacters->reject(function ($character) {

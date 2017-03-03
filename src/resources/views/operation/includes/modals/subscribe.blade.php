@@ -9,58 +9,68 @@
 			</div>
 
 			<div class="modal-body">
-				<form id="formSubscribe" method="POST" action="{{ route('operation.subscribe') }}">
-					{{ csrf_field() }}
-					<input type="hidden" name="operation_id">
-					<input type="hidden" name="status">
+				@if ($userCharacters->count() == 0)
+					<p class="callout callout-danger text-justify">
+						{{ trans('calendar::seat.warning_no_character') }}
+					</p>
+				@else
+					<form id="formSubscribe" method="POST" action="{{ route('operation.subscribe') }}">
+						{{ csrf_field() }}
+						<input type="hidden" name="operation_id">
+						<input type="hidden" name="status">
 
-					<div class="form-group row">
-						<label for="character" class="col-sm-2 col-form-label">{{ trans('calendar::seat.character') }}</label>
-						<div class="col-sm-10">
-							@foreach($userCharacters->chunk(4) as $characters)
-								<div class="row">
-									@foreach($characters as $character)
-										<div class="radio col-md-3"  style="margin-top:-5px">
-											@if($character->main)
-												<label>
-													<input type="radio" name="character_id" id="character_id" value="{{ $character->characterID }}" checked>
-													<img src="http://image.eveonline.com/Character/{{ $character->characterID }}_64.jpg" class="img-circle eve-icon small-icon" />
-													<b>{{ $character->characterName }}</b> <span class="text-muted"><i>(main)</i></span>
-												</label>
-											@else
-												<label>
-													<input type="radio" name="character_id" id="character_id" value="{{ $character->characterID }}">
-													<img src="http://image.eveonline.com/Character/{{ $character->characterID }}_64.jpg" class="img-circle eve-icon small-icon" />
-													{{ $character->characterName }}
-												</label>
-											 @endif
-										</div>
-									@endforeach
-								</div>
-							@endforeach
+						<div class="form-group row">
+							<label for="character" class="col-sm-2 col-form-label">{{ trans('calendar::seat.character') }}</label>
+							<div class="col-sm-10">
+								@foreach($userCharacters->chunk(4) as $characters)
+									<div class="row">
+										@foreach($characters as $character)
+											<div class="radio col-md-3"  style="margin-top:-5px">
+												@if($character->main)
+													<label>
+														<input type="radio" name="character_id" id="character_id" value="{{ $character->characterID }}" checked>
+														<img src="http://image.eveonline.com/Character/{{ $character->characterID }}_64.jpg" class="img-circle eve-icon small-icon" />
+														<b>{{ $character->characterName }}</b> <span class="text-muted"><i>(main)</i></span>
+													</label>
+												@else
+													<label>
+														<input type="radio" name="character_id" id="character_id" value="{{ $character->characterID }}">
+														<img src="http://image.eveonline.com/Character/{{ $character->characterID }}_64.jpg" class="img-circle eve-icon small-icon" />
+														{{ $character->characterName }}
+													</label>
+												 @endif
+											</div>
+										@endforeach
+									</div>
+								@endforeach
+							</div>
 						</div>
-					</div>
 
-					<div class="form-group row">
-						<label for="status" class="col-sm-2 col-form-label">{{ trans('calendar::seat.status') }}</label>
-						<div class="col-sm-10">
-							<select name="status" class="selectpicker" id="status">
-								<option value="yes">{{ trans('calendar::seat.attending_yes') }}</option>
-								<option value="maybe">{{ trans('calendar::seat.attending_maybe') }}</option>
-								<option value="no">{{ trans('calendar::seat.attending_no') }}</option>
-							</select>
+						<div class="form-group row">
+							<label for="status" class="col-sm-2 col-form-label">{{ trans('calendar::seat.status') }}</label>
+							<div class="col-sm-10">
+								<select name="status" class="selectpicker" id="status">
+									<option value="yes">{{ trans('calendar::seat.attending_yes') }}</option>
+									<option value="maybe">{{ trans('calendar::seat.attending_maybe') }}</option>
+									<option value="no">{{ trans('calendar::seat.attending_no') }}</option>
+								</select>
+							</div>
 						</div>
-					</div>
 
-					<div class="form-group row">
-						<label for="comment" class="col-sm-2 col-form-label">{{ trans('calendar::seat.comment') }}</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="comment" name="comment" placeholder="{{ trans('calendar::seat.placeholder_comment') }}">
+						<div class="form-group row">
+							<label for="comment" class="col-sm-2 col-form-label">{{ trans('calendar::seat.comment') }}</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="comment" name="comment" placeholder="{{ trans('calendar::seat.placeholder_comment') }}">
+							</div>
 						</div>
-					</div>
+
+					@endif
 
 					<button type="button" class="btn btn-block btn-default" data-dismiss="modal">{{ trans('calendar::seat.close') }}</button>
-					<button type="submit" class="btn btn-block btn-primary" id="subscibe_submit">{{ trans('calendar::seat.subscribe_confirm_button_yes') }}</button>
+
+					@if ($userCharacters->count() > 0)
+						<button type="submit" class="btn btn-block btn-primary" id="subscibe_submit">{{ trans('calendar::seat.subscribe') }}</button>
+					@endif
 
 				</form>
 				<div class="clearfix"></div>

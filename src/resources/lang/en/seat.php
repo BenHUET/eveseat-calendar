@@ -109,4 +109,6 @@ return [
     'emoji_empty' => 'Empty Emoji',
     'help_emoji' => 'Setup which emoji to use to display the "importance" of an operation when relaying to Slack.',
     'save' => 'Save',
+
+    'warning_no_character' => "You can't subscribe to an operation without any character registered in SeAT. Please add an API Key and retry.",
 ];
