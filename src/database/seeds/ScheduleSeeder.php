@@ -10,7 +10,7 @@ class ScheduleSeeder extends Seeder
 	{
 		$job = [
 			'command'           => 'calendar:remind',
-			'expression'        => '* * * * * *',
+			'expression'        => '1 * * * *',
 			'allow_overlap'     => false,
 			'allow_maintenance' => false,
 			'ping_before'       => null,
