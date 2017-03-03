@@ -39,13 +39,11 @@ class Helper
 
 		$fields = array();
 
-		$fields[trans('calendar::seat.starts_at')] = $op->start_at->format('M j @ H:i EVE');
-		if ($op->getDurationAttribute())
-			$fields[trans('calendar::seat.starts_at')] .= ' _- Duration : ' . $op->getDurationAttribute() . '_';
+		$fields[trans('calendar::seat.starts_at')] = $op->start_at->format('F j @ H:i EVE');
+		$fields[trans('calendar::seat.duration')] = $op->getDurationAttribute() ? $op->getDurationAttribute() : trans('calendar::seat.unknown');
 
 		$fields[trans('calendar::seat.importance')] = self::ImportanceAsEmoji($op->importance, Settings::get('slack_emoji_importance_full'), Settings::get('slack_emoji_importance_half'), Settings::get('slack_emoji_importance_empty'));
 
-		$fields[trans('calendar::seat.staging')] = $op->staging ? $op->staging : trans('calendar::seat.unknown');
 		$fields[trans('calendar::seat.fleet_commander')] = $op->fc ? $op->fc : trans('calendar::seat.unknown');
 
 		return function ($attachment) use ($op, $url, $fields) {
