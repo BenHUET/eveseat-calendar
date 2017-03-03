@@ -16,13 +16,13 @@ class OperationObserver
 {
 	public function created(Operation $operation)
 	{
-		if (Settings::get('slack_integration') == true && $operation->notify == true)
+		if (Settings::get('slack_integration') == 1 && $operation->notify == true)
 			Notification::send($operation, new OperationPosted());
 	}
 
 	public function updating(Operation $new_operation)
 	{
-		if (Settings::get('slack_integration') == true && $new_operation->notify == true) {
+		if (Settings::get('slack_integration') == 1 && $new_operation->notify == true) {
 			$old_operation = Operation::find($new_operation->id);
 			if ($old_operation->is_cancelled != $new_operation->is_cancelled) {
 				if ($new_operation->is_cancelled == true)

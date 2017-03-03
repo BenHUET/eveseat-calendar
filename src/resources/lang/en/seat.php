@@ -99,6 +99,7 @@ return [
     'notification_edit_operation' => '<!channel> :pencil2: An operation has been edited !',
     'notification_cancel_operation' => '<!channel> :no_entry_sign: An operation has been cancelled !',
     'notification_activate_operation' => '<!channel> :white_check_mark: A cancelled operation has been reactivated !',
+    'notification_ping_operation' => '<!channel> REMINDER :exclamation: ',
     'notification_enable' => 'Notify to Slack',
 
     'slack_integration' => 'Slack Integration',

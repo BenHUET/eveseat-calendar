@@ -3,32 +3,30 @@
 namespace Seat\Kassie\Calendar;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Console\Scheduling\Schedule;
 
 use Seat\Kassie\Calendar\Observers\OperationObserver;
 use Seat\Kassie\Calendar\Models\Operation;
+use Seat\Kassie\Calendar\Commands\RemindOperation;
 
 class CalendarServiceProvider extends ServiceProvider
 {
-	/**
-	 * Bootstrap the application services.
-	 *
-	 * @return void
-	 */
 	public function boot()
 	{
+		$this->addCommands();
 		$this->addRoutes();
 		$this->addViews();
 		$this->addTranslations();
 		$this->addMigrations();
 		$this->addPublications();
 		$this->addObservers();
+
+		$this->app->booted(function () {
+			$schedule = $this->app->make(Schedule::class);
+			$schedule->command('calendar:remind')->everyMinute();
+		});
 	}
 
-	/**
-	 * Register the application services.
-	 *
-	 * @return void
-	 */
 	public function register()
 	{
 		$this->mergeConfigFrom(__DIR__ . '/Config/package.sidebar.php', 'package.sidebar');
@@ -68,6 +66,13 @@ class CalendarServiceProvider extends ServiceProvider
     private function addObservers() 
     {
     	Operation::observe(OperationObserver::class);
+    }
+
+    private function addCommands() 
+    {
+		$this->commands([
+			RemindOperation::class,
+		]);
     }
 
 }
