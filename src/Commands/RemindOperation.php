@@ -16,6 +16,8 @@ class RemindOperation extends Command
 	protected $signature = 'calendar:remind';
 	protected $description = 'Check for operation to be reminded on Slack';
 
+	private $marks = [15, 30, 60];
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -30,9 +32,11 @@ class RemindOperation extends Command
 
 			foreach($ops as $op) 
 			{
-				if($now->diffInMinutes($op->start_at, false) == 5)
-				{
-					Notification::send($op, new OperationPinged());
+				if ($op->status == 'incoming') {
+					if(in_array($now->diffInMinutes($op->start_at, false), $this->marks))
+					{
+						Notification::send($op, new OperationPinged());
+					}
 				}
 			}
 		}
