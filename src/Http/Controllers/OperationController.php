@@ -237,10 +237,12 @@ class OperationController extends Controller
 	}
 
 	public function find($operation_id) {
-		if (auth()->user()->has('calendar.view')) {
+		if (auth()->user()->has('calendar.view', false)) {
 			$operation = Operation::find($operation_id);
 			return response()->json($operation);
 		}
+
+		return redirect()->route('auth.unauthorized');
 	}
 
 }
