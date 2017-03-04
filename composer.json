@@ -1,6 +1,6 @@
 {
     "name": "kassie/calendar",
-    "description": "Calendar plugin for SeAT",
+    "description": "Calendar plugin for SeAT.",
     "type": "seat-plugin",
     "autoload": {
         "psr-4": {
@@ -8,6 +8,8 @@
         }
     },
     "require": {
+        "eveseat/web": "^2.0",
+        "eveseat/eveapi": "^2.0",
         "eveseat/web": "^2.0"
     },
     "authors": [{
