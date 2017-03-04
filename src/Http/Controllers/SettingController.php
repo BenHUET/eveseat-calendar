@@ -23,7 +23,7 @@ class SettingController extends Controller
 		if (auth()->user()->has('calendar.setup')) {
 			$settings = Setting::all()->first();
 
-			$settings->slack_integration = $request->slack_integration ? 0 : 1;
+			$settings->slack_integration = $request->slack_integration == 1 ? 1 : 0;
 			$settings->slack_webhook = $request->slack_webhook;
 			$settings->slack_emoji_importance_full = $request->slack_emoji_importance_full;
 			$settings->slack_emoji_importance_half = $request->slack_emoji_importance_half;

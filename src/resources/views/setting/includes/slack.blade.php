@@ -6,11 +6,11 @@
 		{{ csrf_field() }}
 		<div class="box-body">
 			<div class="form-group">
-				<label for="slack_integration" class="col-sm-3 control-label">{{ trans('calendar::seat.disabled') }}</label>
+				<label for="slack_integration" class="col-sm-3 control-label">{{ trans('calendar::seat.enabled') }}</label>
 				<div class="col-sm-9">
 					<div class="checkbox">
 						<label>
-							<input type="checkbox" name="slack_integration" id="slack_integration" value="0" @if($settings->slack_integration == 0) checked @endif>
+							<input type="checkbox" name="slack_integration" id="slack_integration" value="1" @if($settings->slack_integration == 1) checked @endif>
 						</label>
 					</div>
 				</div>

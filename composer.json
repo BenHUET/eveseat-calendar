@@ -14,5 +14,5 @@
         "name": "Kassie Yvo",
         "email": "kassie.yvo@gmail.com"
     }],
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }

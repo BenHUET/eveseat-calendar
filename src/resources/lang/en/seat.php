@@ -103,7 +103,7 @@ return [
     'notification_enable' => 'Notify to Slack',
 
     'slack_integration' => 'Slack Integration',
-    'disabled' => 'Disabled',
+    'enabled' => 'Enabled',
     'webhook' => 'Webhook',
     'emoji_full' => 'Full Emoji',
     'emoji_half' => 'Half Emoji',
