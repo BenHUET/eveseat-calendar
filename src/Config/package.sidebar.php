@@ -6,6 +6,7 @@ return [
 		'label'         => 'calendar::seat.plugin_name',
 		'icon'          => 'fa-calendar',
 		'route_segment' => 'calendar',
+		'permission' => 'calendar.view',
 		'entries' => [
 			[
 				'name'  => 'Operations',
