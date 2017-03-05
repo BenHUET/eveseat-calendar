@@ -16,5 +16,6 @@
         "name": "Kassie Yvo",
         "email": "kassie.yvo@gmail.com"
     }],
+    "license": "GPL-2.0",
     "minimum-stability": "stable"
 }

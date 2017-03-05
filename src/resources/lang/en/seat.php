@@ -114,4 +114,5 @@ return [
     'warning_no_character' => "You can't subscribe to an operation without any character registered in SeAT. Please add an API Key and retry.",
 
     'in' => 'In',
+    'to' => 'To',
 ];
