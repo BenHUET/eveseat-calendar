@@ -92,6 +92,10 @@
 								<i>{{ trans('calendar::seat.unknown') }}</i>
 							@endif
 						</li>
+						<li class="list-group-item">
+							<b>{{ trans('calendar::seat.direct_link') }}</b> :
+							<a href="{{ url('/calendar/operation', [$op->id]) }}">{{ url('/calendar/operation', [$op->id]) }}</a>
+						</li>
 					</ul>
 
 					<ul class="list-group col-md-12">

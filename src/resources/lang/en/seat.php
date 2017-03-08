@@ -115,4 +115,6 @@ return [
 
     'in' => 'In',
     'to' => 'To',
+
+    'direct_link' => 'Direct link',
 ];
