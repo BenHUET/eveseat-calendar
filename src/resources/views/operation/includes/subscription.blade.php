@@ -20,6 +20,9 @@
 		@if($op->status == "incoming")
 			</span>
 		@endif
+		@if($loop->iteration % 3 == 0)
+			<br/>
+		@endif
 	@endforeach
 @else
 	<b class="text-danger">{{ trans('calendar::seat.not_answered') }}</b>
