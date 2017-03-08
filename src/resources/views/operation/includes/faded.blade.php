@@ -17,8 +17,13 @@
 	</tr>
 	<?php $table = "faded"; ?>
 	@foreach($ops_faded as $op)
-		<tr class="{{ $op->is_cancelled == 0 ? '' : 'danger' }} text-muted" >
-			<td>{{ $op->title }}</td>
+		<tr class="{{ $op->is_cancelled == 0 ? '' : 'danger' }} text-muted tr-hoverable" >
+			<td>
+				<span>{{ $op->title }}</span>
+				<span class="pull-right">
+					@include('calendar::operation.includes.attendees')
+				</span>
+			</td>
 			<td>{{ $op->type }}</td>
 			<td>
 				@include('calendar::operation.includes.importance')

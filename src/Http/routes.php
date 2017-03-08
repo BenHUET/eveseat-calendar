@@ -6,7 +6,9 @@ Route::group([
 	'prefix' => 'calendar'
 ], function () {
 
-	Route::resource('operation', 'OperationController');
+	Route::resource('operation', 'OperationController', [
+		'only' => ['index', 'store']
+	]);
 
 	Route::post('operation/subscribe', [
 		'as' => 'operation.subscribe',

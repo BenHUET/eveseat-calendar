@@ -17,8 +17,13 @@
 	</tr>
 	<?php $table = "incoming"; ?>
 	@foreach($ops_incoming as $op)
-		<tr>
-			<td>{{ $op->title }}</td>
+		<tr class="tr-hoverable">
+			<td>
+				<span>{{ $op->title }}</span>
+				<span class="pull-right">
+					@include('calendar::operation.includes.attendees')
+				</span>
+			</td>
 			<td>{{ $op->type }}</td>
 			<td>
 				@include('calendar::operation.includes.importance')

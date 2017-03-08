@@ -24,11 +24,15 @@
 }
 
 .table-title {
-	border-top: 2px solid darkgrey !important;
+	border-top: 3px solid darkgrey !important;
 	height: 60px;
 	line-height: 60px !important;
 	text-transform: uppercase;
 	text-align: center;
+}
+
+.tr-hoverable:hover {
+	background-color: #dddddd;
 }
 
 .clickable { 
