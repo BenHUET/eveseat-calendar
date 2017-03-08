@@ -202,3 +202,5 @@ $('input#fc').autocomplete({
     },
     minChars: 3
 });
+
+$('.default-op').modal('show');

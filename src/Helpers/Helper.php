@@ -35,7 +35,7 @@ class Helper
 	}
 
 	public static function BuildSlackNotificationAttachment($op) {
-		$url = url('/calendar/operation');
+		$url = url('/calendar/operation', [$op->id]);
 
 		$fields = array();
 

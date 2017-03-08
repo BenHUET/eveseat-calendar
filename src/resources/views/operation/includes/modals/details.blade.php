@@ -1,5 +1,5 @@
 @foreach($ops_all as $op)
-	<div class="modal fade" tabindex="-1" role="dialog" id="modalDetails-{{ $op->id }}" data-backdrop="static" data-keyboard="false">
+	<div class="modal fade @if($default_op == $op->id) default-op @endif" tabindex="-1" role="dialog" id="modalDetails-{{ $op->id }}" data-backdrop="static" data-keyboard="false">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 

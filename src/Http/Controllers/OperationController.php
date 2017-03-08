@@ -25,7 +25,7 @@ class OperationController extends Controller
 		$this->middleware('bouncer:calendar.create')->only('store');
 	}
 
-	public function index()
+	public function index(Request $request)
 	{
 		$ops = Operation::all()->take(50);
 
@@ -57,7 +57,8 @@ class OperationController extends Controller
 			'ops_all' => $ops,
 			'ops_incoming' => $ops_incoming,
 			'ops_ongoing' => $ops_ongoing,
-			'ops_faded' => $ops_faded
+			'ops_faded' => $ops_faded,
+			'default_op' => $request->id ? $request->id : 0
 		]);
 	}
 

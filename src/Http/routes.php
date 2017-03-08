@@ -40,6 +40,8 @@ Route::group([
 		'uses' => 'OperationController@update'
 	]);
 
+	Route::get('operation/{id}', 'OperationController@index');
+
 	Route::group([
 		'middleware' => 'bouncer:calendar.setup'
 	], function() {
