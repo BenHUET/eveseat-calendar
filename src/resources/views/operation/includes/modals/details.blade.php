@@ -1,5 +1,5 @@
 @foreach($ops_all as $op)
-	<div class="modal fade @if($default_op == $op->id) default-op @endif" tabindex="-1" role="dialog" id="modalDetails-{{ $op->id }}" data-backdrop="static" data-keyboard="false">
+	<div class="modal fade @if($default_op == $op->id) default-op @endif" tabindex="-1" role="dialog" id="modalDetails-{{ $op->id }}">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 
@@ -113,9 +113,11 @@
 					
 					<h3 style="display: inline;">{{ trans('calendar::seat.attendees') }}</h3>
 					<div class="pull-right">
-						<button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalSubscribe">
-							<i class="fa fa-reply"></i>&nbsp;&nbsp; Subscribe
-						</button>
+						@if($op->status == 'incoming')
+							<button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalSubscribe">
+								<i class="fa fa-reply"></i>&nbsp;&nbsp; Subscribe
+							</button>
+						@endif
 						@include('calendar::operation.includes.attendees')
 					</div>
 					

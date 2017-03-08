@@ -1,4 +1,4 @@
-<div class="modal fade modal-subscribe" tabindex="-1" role="dialog" id="modalSubscribe" data-backdrop="static" data-keyboard="false">
+<div class="modal fade modal-subscribe" tabindex="-1" role="dialog" id="modalSubscribe">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 

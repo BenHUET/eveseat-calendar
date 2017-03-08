@@ -1,4 +1,4 @@
-<div class="modal fade" tabindex="-1" role="dialog" id="modalConfirmDelete" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" tabindex="-1" role="dialog" id="modalConfirmDelete">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 

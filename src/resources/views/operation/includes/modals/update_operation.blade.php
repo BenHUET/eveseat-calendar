@@ -1,4 +1,4 @@
-<div class="modal fade" tabindex="-1" role="dialog" id="modalUpdateOperation" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" tabindex="-1" role="dialog" id="modalUpdateOperation">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 

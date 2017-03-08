@@ -7,7 +7,10 @@ Route::group([
 ], function () {
 
 	Route::resource('operation', 'OperationController', [
-		'only' => ['index', 'store']
+		'only' => ['index', 'store'],
+		'names' => [
+			'index' => 'operation.index'
+		]
 	]);
 
 	Route::post('operation/subscribe', [

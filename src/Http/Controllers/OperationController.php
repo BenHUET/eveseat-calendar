@@ -145,7 +145,7 @@ class OperationController extends Controller
 			return $operation;
 		}
 
-		return redirect()->route('auth.unauthorized');
+		return redirect()->back('error', 'An error occurred while processing the request.');
 	}
 
 	public function delete(Request $request)
@@ -154,11 +154,11 @@ class OperationController extends Controller
 		if ($operation != null) {
 			if (auth()->user()->has('calendar.deleteAll') || $operation->user->id == auth()->user()->id) {
 				Operation::destroy($operation->id);
-				return redirect()->back();
+				return redirect()->route('operation.index');
 			}
 		}
 
-		return redirect()->route('auth.unauthorized');
+		return redirect()->back('error', 'An error occurred while processing the request.');
 	}
 
 	public function close(Request $request)
@@ -170,11 +170,11 @@ class OperationController extends Controller
 				$operation->end_at = Carbon::now('UTC');
 				$operation->save();
 
-				return redirect()->back();
+				return redirect()->route('operation.index');
 			}
 		}
 
-		return redirect()->route('auth.unauthorized');
+		return redirect()->back('error', 'An error occurred while processing the request.');
 	}
 
 	public function cancel(Request $request)
@@ -188,11 +188,11 @@ class OperationController extends Controller
 				$operation->notify = $request->get('notify');
 				$operation->save();
 
-				return redirect()->back();
+				return redirect()->route('operation.index');
 			}
 		}
 
-		return redirect()->route('auth.unauthorized');
+		return redirect()->back('error', 'An error occurred while processing the request.');
 	}
 
 	public function activate(Request $request) 
@@ -206,11 +206,11 @@ class OperationController extends Controller
 				$operation->notify = $request->get('notify');
 				$operation->save();
 
-				return redirect()->back();
+				return redirect()->route('operation.index');
 			}
 		}
 		
-		return redirect()->route('auth.unauthorized');
+		return redirect()->back('error', 'An error occurred while processing the request.');
 	}
 
 	public function subscribe(Request $request)
@@ -230,11 +230,11 @@ class OperationController extends Controller
 						'comment' => $request->comment
 					]
 				);
-				return redirect()->back();
+				return redirect()->route('operation.index');
 			}
 		}
 
-		return redirect()->route('auth.unauthorized');
+		return redirect()->back('error', 'An error occurred while processing the request.');
 	}
 
 	public function find($operation_id) {
@@ -243,7 +243,7 @@ class OperationController extends Controller
 			return response()->json($operation);
 		}
 
-		return redirect()->route('auth.unauthorized');
+		return redirect()->back('error', 'An error occurred while processing the request.');
 	}
 
 }
