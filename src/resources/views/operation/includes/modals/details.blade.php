@@ -109,6 +109,9 @@
 					
 					<h3 style="display: inline;">{{ trans('calendar::seat.attendees') }}</h3>
 					<div class="pull-right">
+						<button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalSubscribe">
+							<i class="fa fa-reply"></i>&nbsp;&nbsp; Subscribe
+						</button>
 						@include('calendar::operation.includes.attendees')
 					</div>
 					
