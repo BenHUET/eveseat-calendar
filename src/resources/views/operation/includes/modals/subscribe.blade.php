@@ -34,7 +34,7 @@
 													</label>
 												@else
 													<label>
-														<input type="radio" name="character_id" id="character_id" value="{{ $character->characterID }}">
+														<input type="radio" name="character_id" id="character_id" value="{{ $character->characterID }}" @if ($loop->first) checked @endif>
 														<img src="http://image.eveonline.com/Character/{{ $character->characterID }}_64.jpg" class="img-circle eve-icon small-icon" />
 														{{ $character->characterName }}
 													</label>
