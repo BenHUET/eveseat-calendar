@@ -60,11 +60,17 @@
 
 						<li class="list-group-item">
 							<b>{{ trans('calendar::seat.staging') }}</b> : 
-							@if($op->staging)
-								@if($op->staging)
-									&nbsp;
-								@endif
-								{{ $op->staging }}
+							@if($op->staging_sys_id)
+								@include('calendar::operation.includes.staging')
+							@else
+								<i>{{ trans('calendar::seat.unknown') }}</i>
+							@endif
+						</li>
+
+						<li class="list-group-item">
+							<b>{{ trans('calendar::seat.staging_info') }}</b> : 
+							@if($op->staging_info)
+								{{ $op->staging_info }}
 							@else
 								<i>{{ trans('calendar::seat.unknown') }}</i>
 							@endif

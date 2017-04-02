@@ -33,7 +33,9 @@
 			<td>
 				@include('calendar::operation.includes.fleet_commander')
 			</td>
-			<td>{{ $op->staging }}</td>
+			<td>
+				@include('calendar::operation.includes.staging')
+			</td>
 			<td>
 				@include('calendar::operation.includes.subscription')
 			</td>

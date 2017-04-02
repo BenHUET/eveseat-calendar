@@ -61,4 +61,5 @@ Route::group([
 	Route::get('operation/find/{id}', 'OperationController@find');
 
 	Route::get('lookup/characters', 'LookupController@lookupCharacters');
+	Route::get('lookup/systems', 'LookupController@lookupSystems');
 });

@@ -68,9 +68,17 @@
 
 
 					<div class="form-group row">
-						<label for="staging" class="col-sm-2 col-form-label">{{ trans('calendar::seat.staging') }}</label>
+						<label for="staging_sys" class="col-sm-2 col-form-label">{{ trans('calendar::seat.staging_sys') }}</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" name="staging" id="staging" placeholder="{{ trans('calendar::seat.placeholder_staging') }}">
+							<input type="text" class="form-control" id="staging_sys" name="staging_sys" placeholder="{{ trans('calendar::seat.placeholder_staging_sys') }}">
+							<input type="hidden" name="staging_sys_id" id="staging_sys_id">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label for="staging_info" class="col-sm-2 col-form-label">{{ trans('calendar::seat.staging_info') }}</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" name="staging_info" id="staging_info" placeholder="{{ trans('calendar::seat.placeholder_staging_info') }}">
 						</div>
 					</div>
 

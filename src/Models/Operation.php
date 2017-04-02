@@ -23,7 +23,9 @@ class Operation extends Model
 		'type',
 		'importance',
 		'description',
-		'staging',
+		'staging_sys',
+		'staging_sys_id',
+		'staging_info',
 		'is_cancelled',
 		'fc',
 		'fc_character_id'

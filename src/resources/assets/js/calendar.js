@@ -83,9 +83,10 @@ $('#modalUpdateOperation').on('show.bs.modal', function(e) {
 	$.get("/calendar/operation/find/" + operation_id, function(op) {
 		$('#modalUpdateOperation').find('#title').val(op.title);
 		$('#modalUpdateOperation').find('option[value="' + op.type + '"]').prop('selected', true);
-		$('#modalUpdateOperation').find('#staging').val(op.staging);
+		$('#modalUpdateOperation').find('#staging_sys').val(op.staging_sys);
+		$('#modalUpdateOperation').find('#staging_sys_id').val(op.staging_sys_id);
+		$('#modalUpdateOperation').find('#staging_info').val(op.staging_info);
 		$('#modalUpdateOperation').find('#fc').val(op.fc);
-		$('#modalUpdateOperation').find('#fc_character_id').val(op.fc_character_id);
 		$('#modalUpdateOperation').find('#fc_character_id').val(op.fc_character_id);
 		$('#modalUpdateOperation').find('#description').val(op.description);
 
@@ -196,11 +197,31 @@ $('input#fc').autocomplete({
     serviceUrl: 'lookup/characters/',
     onSelect: function (suggestion) {
         $('input#fc_character_id').val(suggestion.data);
+        $('input#fc').css('border-color', 'green');
     },
     onInvalidateSelection: function () {
     	$('input#fc_character_id').val(null);
+    	$('input#fc').css('border-color', '');
     },
     minChars: 3
+});
+
+$('input#staging_sys').autocomplete({
+    serviceUrl: 'lookup/systems/',
+    onSelect: function (suggestion) {
+        $('input#staging_sys_id').val(suggestion.data);
+        $('input#staging_sys').css('border-color', 'green');
+    },
+    onInvalidateSelection: function () {
+		$('input#staging_sys_id').val(null);
+		$('input#staging_sys').css('border-color', '');
+    },
+    minChars: 1
+});
+
+$('input#staging_sys').focusout(function() {
+	if ($('input#staging_sys_id').val() == '')
+		$('input#staging_sys').val(null);
 });
 
 $('.default-op').modal('show');

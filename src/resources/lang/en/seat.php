@@ -67,6 +67,8 @@ return [
 
     'placeholder_title' => 'Name of the operation',
     'placeholder_staging' => 'Meetup location (system, station, citadel...)',
+    'placeholder_staging_sys' => 'Meetup system',
+    'placeholder_staging_info' => 'More informations about the staging',
     'placeholder_fc' => 'Name of the fleet commander',
     'placeholder_description' => 'Additional information about the operation',
     'placeholder_comment' => 'Additional information',
@@ -91,6 +93,8 @@ return [
     'lasted' => 'Lasted',
     'importance' => 'Importance',
     'staging' => 'Staging',
+    'staging_sys' => 'Staging system',
+    'staging_info' => 'Staging info',
     'description' => 'Description',
     'fleet_commander' => 'Fleet Commander',
     'character' => 'Character',

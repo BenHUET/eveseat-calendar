@@ -120,7 +120,9 @@ class OperationController extends Controller
 			$operation->type = $request->type;
 			$operation->importance = $request->importance;
 			$operation->description = $request->description;
-			$operation->staging = $request->staging;
+			$operation->staging_sys = $request->staging_sys;
+			$operation->staging_info = $request->staging_info;
+			$operation->staging_sys_id = $request->staging_sys_id == null ? null : $request->staging_sys_id;
 			$operation->fc = $request->fc;
 			$operation->fc_character_id = $request->fc_character_id == null ? null : $request->fc_character_id;
 
