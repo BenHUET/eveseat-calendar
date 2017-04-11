@@ -23,6 +23,7 @@ class Operation extends Model
 		'type',
 		'importance',
 		'description',
+		'description_new',
 		'staging_sys',
 		'staging_sys_id',
 		'staging_info',
@@ -42,6 +43,13 @@ class Operation extends Model
     {
         return $this->hasMany(Attendee::class);
     }
+
+	public function getDescriptionAttribute($value) {
+		return $value ?: $this->description_new;
+	}
+	public function setDescriptionAttribute($value) {
+		$this->attributes['description_new'] = $value;
+	}
 
 	public function getDurationAttribute() {
 		if ($this->end_at)
