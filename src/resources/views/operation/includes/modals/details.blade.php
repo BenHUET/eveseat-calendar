@@ -102,6 +102,10 @@
 							<b>{{ trans('calendar::seat.direct_link') }}</b> :
 							<a href="{{ url('/calendar/operation', [$op->id]) }}">{{ url('/calendar/operation', [$op->id]) }}</a>
 						</li>
+						<li class="list-group-item">
+							<b>{{ trans('calendar::seat.tags') }}</b> : 
+							@include('calendar::operation.includes.tags', ['chunk' => false])
+						</li>
 					</ul>
 
 					<ul class="list-group col-md-12">
