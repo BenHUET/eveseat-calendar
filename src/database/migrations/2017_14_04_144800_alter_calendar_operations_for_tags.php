@@ -37,7 +37,8 @@ class AlterCalendarOperationsForTags extends Migration
 			
 			$table->foreign('operation_id')
 				  ->references('id')
-				  ->on('calendar_operations');
+				  ->on('calendar_operations')
+				  ->onDelete('cascade');
 		});
 	}
 

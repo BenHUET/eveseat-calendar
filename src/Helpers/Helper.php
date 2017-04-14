@@ -47,7 +47,7 @@ class Helper
 		$fields[trans('calendar::seat.fleet_commander')] = $op->fc ? $op->fc : trans('calendar::seat.unknown');
 
 		return function ($attachment) use ($op, $url, $fields) {
-			$attachment->title('(' . $op->type . ') ' . $op->title, $url)
+			$attachment->title($op->title, $url)
 			 	->fields($fields)
 			 	->footer(trans('calendar::seat.created_by') . ' ' . $op->user->name)
 			 	->markdown(['fields']);

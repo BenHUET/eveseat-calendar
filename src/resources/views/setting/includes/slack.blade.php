@@ -2,7 +2,7 @@
 	<div class="box-header with-border">
 		<h3 class="box-title"><i class="fa fa-slack"></i> {{ trans('calendar::seat.slack_integration') }}</h3>
 	</div>
-	<form class="form-horizontal" method="POST" action="{{ route('setting.update.slack') }}">
+	<form class="form-horizontal" method="POST" action="{{ route('setting.slack.update') }}">
 		{{ csrf_field() }}
 		<div class="box-body">
 			<div class="form-group">

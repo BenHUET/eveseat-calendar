@@ -6,68 +6,104 @@ Route::group([
 	'prefix' => 'calendar'
 ], function () {
 
-	Route::resource('operation', 'OperationController', [
-		'only' => ['index', 'store'],
-		'names' => [
-			'index' => 'operation.index'
-		]
-	]);
+	Route::group([
+		'prefix' => 'operation'
+	], function() {
 
-	Route::post('operation/subscribe', [
-		'as' => 'operation.subscribe',
-		'uses' => 'OperationController@subscribe'
-	]);
+		Route::get('/', [
+			'as' => 'operation.index',
+			'uses' => 'OperationController@index'
+		]);
 
-	Route::post('operation/cancel', [
-		'as' => 'operation.cancel',
-		'uses' => 'OperationController@cancel'
-	]);
+		Route::post('/', [
+			'as' => 'operation.store',
+			'uses' => 'OperationController@store',
+			'middleware' => 'bouncer:calendar.create'
+		]);
 
-	Route::post('operation/activate', [
-		'as' => 'operation.activate',
-		'uses' => 'OperationController@activate'
-	]);
+		Route::post('update', [
+			'as' => 'operation.update',
+			'uses' => 'OperationController@update',
+		]);
 
-	Route::post('operation/close', [
-		'as' => 'operation.close',
-		'uses' => 'OperationController@close'
-	]);
+		Route::post('subscribe', [
+			'as' => 'operation.subscribe',
+			'uses' => 'OperationController@subscribe'
+		]);
 
-	Route::post('operation/delete', [
-		'as' => 'operation.delete',
-		'uses' => 'OperationController@delete'
-	]);
+		Route::post('cancel', [
+			'as' => 'operation.cancel',
+			'uses' => 'OperationController@cancel',
+		]);
 
-	Route::post('operation/update', [
-		'as' => 'operation.update',
-		'uses' => 'OperationController@update'
-	]);
+		Route::post('activate', [
+			'as' => 'operation.activate',
+			'uses' => 'OperationController@activate',
+		]);
 
-	Route::get('operation/{id}', 'OperationController@index');
+		Route::post('close', [
+			'as' => 'operation.close',
+			'uses' => 'OperationController@close'
+		]);
+
+		Route::post('delete', [
+			'as' => 'operation.delete',
+			'uses' => 'OperationController@delete',
+		]);
+
+		Route::get('{id}', 'OperationController@index');
+
+		Route::get('find/{id}', 'OperationController@find');
+
+	});	
 
 	Route::group([
+		'prefix' => 'setting',
 		'middleware' => 'bouncer:calendar.setup'
 	], function() {
-		Route::get('setting', [
+
+		Route::get('/', [
 			'as' => 'setting.index',
 			'uses' => 'SettingController@index'
 		]);
-		Route::post('setting/update/slack', [
-			'as' => 'setting.update.slack',
-			'uses' => 'SettingController@updateSlack'
-		]);
-		Route::post('setting/tag/create', [
+
+
+		Route::group([
+			'prefix' => 'slack'
+		], function() {
+
+			Route::post('update', [
+				'as' => 'setting.slack.update',
+				'uses' => 'SettingController@updateSlack'
+			]);
+
+		});
+
+		Route::group([
+			'prefix' => 'tag'
+		], function() {
+
+			Route::post('create', [
 			'as' => 'setting.tag.create',
 			'uses' => 'TagController@store'
-		]);
-		Route::post('setting/tag/delete', [
-			'as' => 'setting.tag.delete',
-			'uses' => 'TagController@delete'
-		]);
+			]);
+			Route::post('delete', [
+				'as' => 'setting.tag.delete',
+				'uses' => 'TagController@delete'
+			]);
+
+		});
+
 	});
 
-	Route::get('operation/find/{id}', 'OperationController@find');
+	Route::group([
+		'prefix' => 'lookup'
+	], function() {
 
-	Route::get('lookup/characters', 'LookupController@lookupCharacters');
-	Route::get('lookup/systems', 'LookupController@lookupSystems');
+		Route::get('characters', 'LookupController@lookupCharacters');
+		Route::get('systems', 'LookupController@lookupSystems');
+
+	});
+
+
 });
