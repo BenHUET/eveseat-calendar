@@ -6,7 +6,7 @@
 @if($ops_faded->count() > 0)
 	<tr class="bg-grey text-muted">
 		<th>{{ trans('calendar::seat.title') }}</th>
-		<th>{{ trans('calendar::seat.type') }}</th>
+		<th>{{ trans('calendar::seat.tags') }}</th>
 		<th>{{ trans('calendar::seat.importance') }}</th>
 		<th>{{ trans('calendar::seat.started_at') }}</th>
 		<th>{{ trans('calendar::seat.ended_at') }}</th>
@@ -24,7 +24,9 @@
 					@include('calendar::operation.includes.attendees')
 				</span>
 			</td>
-			<td>{{ $op->type }}</td>
+			<td>
+				@include('calendar::operation.includes.tags')
+			</td>
 			<td>
 				@include('calendar::operation.includes.importance')
 			</td>

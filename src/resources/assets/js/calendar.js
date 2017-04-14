@@ -80,7 +80,7 @@ $('#modalUpdateOperation').on('show.bs.modal', function(e) {
 
 	var operation_id = $(e.relatedTarget).data('op-id');
 
-	$.get("/calendar/operation/find/" + operation_id, function(op) {
+	$.getJSON("/calendar/operation/find/" + operation_id, function(op) {
 		$('#modalUpdateOperation').find('#title').val(op.title);
 		$('#modalUpdateOperation').find('option[value="' + op.type + '"]').prop('selected', true);
 		$('#modalUpdateOperation').find('#staging_sys').val(op.staging_sys);
@@ -89,6 +89,11 @@ $('#modalUpdateOperation').on('show.bs.modal', function(e) {
 		$('#modalUpdateOperation').find('#fc').val(op.fc);
 		$('#modalUpdateOperation').find('#fc_character_id').val(op.fc_character_id);
 		$('#modalUpdateOperation').find('#description').val(op.description);
+
+		
+		$.each(op.tags, function(i, tag) {
+			$('#modalUpdateOperation').find('#checkbox-update-' + tag.id).prop('checked', true);
+        });
 
 		var options = {
 		timePicker: true,

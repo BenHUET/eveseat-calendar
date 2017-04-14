@@ -7,14 +7,17 @@ use Illuminate\Http\Request;
 use Seat\Web\Http\Controllers\Controller;
 use Seat\Kassie\Calendar\Helpers\Settings;
 use Seat\Kassie\Calendar\Models\Setting;
+use Seat\Kassie\Calendar\Models\Tag;
 
 class SettingController extends Controller
 {
 	public function index() {
 		$settings = Setting::all()->first();
+		$tags = Tag::all();
 
 		return view('calendar::setting.index', [
-			'settings' => $settings
+			'settings' => $settings,
+			'tags' => $tags
 		]);
 	}
 

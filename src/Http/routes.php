@@ -52,9 +52,17 @@ Route::group([
 			'as' => 'setting.index',
 			'uses' => 'SettingController@index'
 		]);
-			Route::post('setting/update/slack', [
+		Route::post('setting/update/slack', [
 			'as' => 'setting.update.slack',
 			'uses' => 'SettingController@updateSlack'
+		]);
+		Route::post('setting/tag/create', [
+			'as' => 'setting.tag.create',
+			'uses' => 'TagController@store'
+		]);
+		Route::post('setting/tag/delete', [
+			'as' => 'setting.tag.delete',
+			'uses' => 'TagController@delete'
 		]);
 	});
 

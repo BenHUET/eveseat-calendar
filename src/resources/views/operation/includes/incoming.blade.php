@@ -6,7 +6,7 @@
 @if($ops_incoming->count() > 0)
 	<tr class="info">
 		<th>{{ trans('calendar::seat.title') }}</th>
-		<th>{{ trans('calendar::seat.type') }}</th>
+		<th>{{ trans('calendar::seat.tags') }}</th>
 		<th>{{ trans('calendar::seat.importance') }}</th>
 		<th>{{ trans('calendar::seat.starts_in') }}</th>
 		<th>{{ trans('calendar::seat.duration') }}</th>
@@ -24,7 +24,9 @@
 					@include('calendar::operation.includes.attendees')
 				</span>
 			</td>
-			<td>{{ $op->type }}</td>
+			<td>
+				@include('calendar::operation.includes.tags')
+			</td>
 			<td>
 				@include('calendar::operation.includes.importance')
 			</td>

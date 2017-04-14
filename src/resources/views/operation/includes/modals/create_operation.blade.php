@@ -29,13 +29,16 @@
 					</div>
 
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label" for="type">{{ trans('calendar::seat.type') }} *</label>
+						<label class="col-sm-2 col-form-label" for="tags">{{ trans('calendar::seat.tags') }}</label>
 						<div class="col-sm-10">
-							<select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="type" name="type">
-								<option value="Other">{{ trans('calendar::seat.other') }}</option>
-								<option value="PvE">PvE</option>
-								<option value="PvP">PvP</option>
-							</select>
+							@foreach ($tags as $tag)
+								<div class="checkbox inline">
+									<label style="margin-right: 10px;">
+										<input type="checkbox" name="checkbox-{{$tag->id}}" id="checkbox-{{$tag->id}}" value="{{$tag->id}}"> 
+										@include('calendar::common.includes.tag', ['tag' => $tag])
+									</label>
+								</div>
+							@endforeach
 						</div>
 					</div>
 

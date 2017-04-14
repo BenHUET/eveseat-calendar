@@ -80,6 +80,7 @@ return [
 
     'title' => 'Title',
     'type' => 'Type',
+    'tags' => 'Tags',
     'description' => 'Description',
     'comment' => 'Comment',
     'starts_at' => 'Starts at',
@@ -119,6 +120,21 @@ return [
 
     'in' => 'In',
     'to' => 'To',
+
+    'new' => 'New',
+    'edit' => 'Edit',
+
+    'name' => 'Name',
+    'background' => 'Background',
+    'text_color' => 'Text color',
+    'preview' => 'Preview',
+
+    'name_tag_placeholder' => 'Name of the tag... 7 characters max.',
+    'background_placeholder' => 'Background color... #000000',
+    'text_color_placeholder' => 'Text color... #FFFFFF',
+
+    'delete_tag_confirm_button_no' => 'No, do not delete this tag',
+    'delete_tag_confirm_button_yes' => 'Yes, I am sure I want to delete this tag',
 
     'direct_link' => 'Direct link',
 ];

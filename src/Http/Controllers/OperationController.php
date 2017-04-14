@@ -14,6 +14,7 @@ use Seat\Web\Models\People;
 
 use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Models\Attendee;
+use Seat\Kassie\Calendar\Models\Tag;
 use Seat\Kassie\Calendar\Helpers\Settings;
 
 class OperationController extends Controller
@@ -28,6 +29,7 @@ class OperationController extends Controller
 	public function index(Request $request)
 	{
 		$ops = Operation::all()->take(50);
+		$tags = Tag::all()->sortBy('name');
 
 		$ops_incoming = $ops->filter(function($op) {
 			return $op->status == "incoming";
@@ -58,7 +60,8 @@ class OperationController extends Controller
 			'ops_incoming' => $ops_incoming,
 			'ops_ongoing' => $ops_ongoing,
 			'ops_faded' => $ops_faded,
-			'default_op' => $request->id ? $request->id : 0
+			'default_op' => $request->id ? $request->id : 0,
+			'tags' => $tags
 		]);
 	}
 
@@ -67,17 +70,21 @@ class OperationController extends Controller
 		$this->validate($request, [
 			'title' => 'required',
 			'importance' => 'required|between:0,5',
-			'type' => 'required',
 			'known_duration' => 'required',
 			'time_start' => 'required_without_all:time_start_end|date|after_or_equal:today',
 			'time_start_end' => 'required_without_all:time_start'
 		]);
 
 		$operation = new Operation($request->all());
+		$tags = array();
 
-		foreach ($request->toArray() as $name => $value)
+		foreach ($request->toArray() as $name => $value) {
 			if (empty($value))
 				$operation->{$name} = null;
+			else if (strpos($name, 'checkbox-') !== false) {
+				$tags[] = $value;
+			}
+		}
 
 		if ($request->known_duration == "no")
 			$operation->start_at = Carbon::parse($request->time_start);
@@ -96,6 +103,8 @@ class OperationController extends Controller
 		$operation->user()->associate(auth()->user());
 
 		$operation->save();
+
+		$operation->tags()->attach($tags);
 	}
 
 	public function update(Request $request) 
@@ -103,21 +112,24 @@ class OperationController extends Controller
 		$this->validate($request, [
 			'title' => 'required',
 			'importance' => 'required|between:0,5',
-			'type' => 'required',
 			'known_duration' => 'required',
 			'time_start' => 'required_without_all:time_start_end|date|after_or_equal:today',
 			'time_start_end' => 'required_without_all:time_start'
 		]);
 		
 		$operation = Operation::find($request->operation_id);
+		$tags = array();
+
 		if (auth()->user()->has('calendar.updateAll') || $operation->user->id == auth()->user()->id) {
 
-			foreach ($request->toArray() as $name => $value)
+			foreach ($request->toArray() as $name => $value) {
 				if (empty($value))
 					$operation->{$name} = null;
+				else if (strpos($name, 'checkbox-') !== false)
+					$tags[] = $value;
+			}
 
 			$operation->title = $request->title;
-			$operation->type = $request->type;
 			$operation->importance = $request->importance;
 			$operation->description = $request->description;
 			$operation->staging_sys = $request->staging_sys;
@@ -143,6 +155,8 @@ class OperationController extends Controller
 			$operation->notify = $request->get('notify');
 
 			$operation->save();
+
+			$operation->tags()->sync($tags);
 
 			return $operation;
 		}
@@ -241,7 +255,7 @@ class OperationController extends Controller
 
 	public function find($operation_id) {
 		if (auth()->user()->has('calendar.view', false)) {
-			$operation = Operation::find($operation_id);
+			$operation = Operation::find($operation_id)->load('tags');
 			return response()->json($operation);
 		}
 

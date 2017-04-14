@@ -61,3 +61,7 @@
 .pre {
 	white-space: pre;
 }
+
+.tag {
+	text-transform: uppercase;
+}

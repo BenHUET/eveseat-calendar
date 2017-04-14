@@ -10,6 +10,7 @@ use \DateTime;
 
 use Seat\Web\Models\User;
 use Seat\Kassie\Calendar\Helpers\Settings;
+use Seat\Kassie\Calendar\Models\Tag;
 
 class Operation extends Model
 {
@@ -20,7 +21,6 @@ class Operation extends Model
 		'title',
 		'start_at',
 		'end_at',
-		'type',
 		'importance',
 		'description',
 		'description_new',
@@ -43,6 +43,11 @@ class Operation extends Model
     {
         return $this->hasMany(Attendee::class);
     }
+
+    public function tags()
+	{
+		return $this->belongsToMany(Tag::class, 'calendar_tag_operation');
+	}
 
 	public function getDescriptionAttribute($value) {
 		return preg_replace('/((http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?)/', '<a href="\1">\1</a>', $value ?: $this->description_new);
