@@ -121,7 +121,7 @@
 					<div class="pull-right">
 						@if($op->status == 'incoming')
 							<button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalSubscribe">
-								<i class="fa fa-reply"></i>&nbsp;&nbsp; Subscribe
+								<i class="fa fa-reply"></i>&nbsp;&nbsp; {{ trans('calendar::seat.subscribe') }}
 							</button>
 						@endif
 						@include('calendar::operation.includes.attendees')
