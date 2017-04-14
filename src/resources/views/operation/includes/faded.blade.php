@@ -16,7 +16,7 @@
 		<th>{{ trans('calendar::seat.actions') }}</th>
 	</tr>
 	<?php $table = "faded"; ?>
-	@foreach($ops_faded as $op)
+	@foreach($ops_faded->sortBy('start_at') as $op)
 		<tr class="{{ $op->is_cancelled == 0 ? '' : 'danger' }} text-muted tr-hoverable" >
 			<td>
 				<span>{{ $op->title }}</span>

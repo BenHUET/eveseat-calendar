@@ -16,7 +16,7 @@
 		<th>{{ trans('calendar::seat.actions') }}</th>
 	</tr>
 	<?php $table = "incoming"; ?>
-	@foreach($ops_incoming as $op)
+	@foreach($ops_incoming->sortBy('start_at') as $op)
 		<tr class="tr-hoverable">
 			<td>
 				<span>{{ $op->title }}</span>
