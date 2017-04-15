@@ -8,7 +8,6 @@ use Illuminate\Console\Scheduling\Schedule;
 use Seat\Kassie\Calendar\Observers\OperationObserver;
 use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Commands\RemindOperation;
-use Seat\Kassie\Http\Middlewares;
 
 class CalendarServiceProvider extends ServiceProvider
 {
