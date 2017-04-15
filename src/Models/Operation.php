@@ -50,7 +50,7 @@ class Operation extends Model
 	}
 
 	public function getDescriptionAttribute($value) {
-		return preg_replace('/((http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?)/', '<a href="\1">\1</a>', $value ?: $this->description_new);
+		return preg_replace('/( (http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])? )/', '<a href="\1">\1</a>', $value ?: $this->description_new);
 	}
 	public function setDescriptionAttribute($value) {
 		$this->attributes['description_new'] = $value;
