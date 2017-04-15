@@ -120,47 +120,45 @@ class OperationController extends Controller
 		$operation = Operation::find($request->operation_id);
 		$tags = array();
 
-		if (auth()->user() != null) {
-			if (auth()->user()->has('calendar.updateAll') || $operation->user->id == auth()->user()->id) {
+		if (auth()->user()->has('calendar.updateAll') || $operation->user->id == auth()->user()->id) {
 
-				foreach ($request->toArray() as $name => $value) {
-					if (empty($value))
-						$operation->{$name} = null;
-					else if (strpos($name, 'checkbox-') !== false)
-						$tags[] = $value;
-				}
-
-				$operation->title = $request->title;
-				$operation->importance = $request->importance;
-				$operation->description = $request->description;
-				$operation->staging_sys = $request->staging_sys;
-				$operation->staging_info = $request->staging_info;
-				$operation->staging_sys_id = $request->staging_sys_id == null ? null : $request->staging_sys_id;
-				$operation->fc = $request->fc;
-				$operation->fc_character_id = $request->fc_character_id == null ? null : $request->fc_character_id;
-
-				if ($request->known_duration == "no") {
-					$operation->start_at = Carbon::parse($request->time_start);
-					$operation->end_at = null;
-				}
-				else {
-					$dates = explode(" - ", $request->time_start_end);
-					$operation->start_at = Carbon::parse($dates[0]);
-					$operation->end_at = Carbon::parse($dates[1]);
-				}
-				$operation->start_at = Carbon::parse($operation->start_at);
-
-				if ($request->importance == 0)
-					$operation->importance = 0;
-
-				$operation->notify = $request->get('notify');
-
-				$operation->save();
-
-				$operation->tags()->sync($tags);
-
-				return $operation;
+			foreach ($request->toArray() as $name => $value) {
+				if (empty($value))
+					$operation->{$name} = null;
+				else if (strpos($name, 'checkbox-') !== false)
+					$tags[] = $value;
 			}
+
+			$operation->title = $request->title;
+			$operation->importance = $request->importance;
+			$operation->description = $request->description;
+			$operation->staging_sys = $request->staging_sys;
+			$operation->staging_info = $request->staging_info;
+			$operation->staging_sys_id = $request->staging_sys_id == null ? null : $request->staging_sys_id;
+			$operation->fc = $request->fc;
+			$operation->fc_character_id = $request->fc_character_id == null ? null : $request->fc_character_id;
+
+			if ($request->known_duration == "no") {
+				$operation->start_at = Carbon::parse($request->time_start);
+				$operation->end_at = null;
+			}
+			else {
+				$dates = explode(" - ", $request->time_start_end);
+				$operation->start_at = Carbon::parse($dates[0]);
+				$operation->end_at = Carbon::parse($dates[1]);
+			}
+			$operation->start_at = Carbon::parse($operation->start_at);
+
+			if ($request->importance == 0)
+				$operation->importance = 0;
+
+			$operation->notify = $request->get('notify');
+
+			$operation->save();
+
+			$operation->tags()->sync($tags);
+
+			return $operation;
 		}
 
 		return redirect()->back('error', 'An error occurred while processing the request.');
@@ -168,13 +166,11 @@ class OperationController extends Controller
 
 	public function delete(Request $request)
 	{
-		if (auth()->user() != null) {
-			$operation = Operation::find($request->operation_id);
-			if (auth()->user()->has('calendar.deleteAll') || $operation->user->id == auth()->user()->id) {
-				if ($operation != null) {
-					Operation::destroy($operation->id);
-					return redirect()->route('operation.index');
-				}
+		$operation = Operation::find($request->operation_id);
+		if (auth()->user()->has('calendar.deleteAll') || $operation->user->id == auth()->user()->id) {
+			if ($operation != null) {
+				Operation::destroy($operation->id);
+				return redirect()->route('operation.index');
 			}
 		}
 
@@ -183,15 +179,13 @@ class OperationController extends Controller
 
 	public function close(Request $request)
 	{
-		if (auth()->user() != null) {
-			$operation = Operation::find($request->operation_id);
-			if (auth()->user()->has('calendar.closeAll') || $operation->user->id == auth()->user()->id) {
-				
-				if ($operation != null) {
-					$operation->end_at = Carbon::now('UTC');
-					$operation->save();
-					return redirect()->route('operation.index');
-				}
+		$operation = Operation::find($request->operation_id);
+		if (auth()->user()->has('calendar.closeAll') || $operation->user->id == auth()->user()->id) {
+			
+			if ($operation != null) {
+				$operation->end_at = Carbon::now('UTC');
+				$operation->save();
+				return redirect()->route('operation.index');
 			}
 		}
 
@@ -200,18 +194,16 @@ class OperationController extends Controller
 
 	public function cancel(Request $request)
 	{
-		if (auth()->user() != null) {
-			$operation = Operation::find($request->operation_id);
-			if (auth()->user()->has('calendar.closeAll') || $operation->user->id == auth()->user()->id) {
-				if ($operation != null) {
+		$operation = Operation::find($request->operation_id);
+		if (auth()->user()->has('calendar.closeAll') || $operation->user->id == auth()->user()->id) {
+			if ($operation != null) {
 
-					$operation->timestamps = false;
-					$operation->is_cancelled = true;
-					$operation->notify = $request->get('notify');
-					$operation->save();
+				$operation->timestamps = false;
+				$operation->is_cancelled = true;
+				$operation->notify = $request->get('notify');
+				$operation->save();
 
-					return redirect()->route('operation.index');
-				}
+				return redirect()->route('operation.index');
 			}
 		}
 
@@ -220,17 +212,15 @@ class OperationController extends Controller
 
 	public function activate(Request $request) 
 	{
-		if (auth()->user() != null) {
-			$operation = Operation::find($request->operation_id);
-			if (auth()->user()->has('calendar.closeAll') || $operation->user->id == auth()->user()->id) {
-				if ($operation != null) {
-					$operation->timestamps = false;
-					$operation->is_cancelled = false;
-					$operation->notify = $request->get('notify');
-					$operation->save();
+		$operation = Operation::find($request->operation_id);
+		if (auth()->user()->has('calendar.closeAll') || $operation->user->id == auth()->user()->id) {
+			if ($operation != null) {
+				$operation->timestamps = false;
+				$operation->is_cancelled = false;
+				$operation->notify = $request->get('notify');
+				$operation->save();
 
-					return redirect()->route('operation.index');
-				}
+				return redirect()->route('operation.index');
 			}
 		}
 		
@@ -262,7 +252,7 @@ class OperationController extends Controller
 	}
 
 	public function find($operation_id) {
-		if (auth()->user() != null && auth()->user()->has('calendar.view', false)) {
+		if (auth()->user()->has('calendar.view', false)) {
 			$operation = Operation::find($operation_id)->load('tags');
 			return response()->json($operation);
 		}

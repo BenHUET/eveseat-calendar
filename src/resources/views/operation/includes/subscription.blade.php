@@ -1,4 +1,4 @@
-@if(auth()->user() != null && $op->attendees->where('user_id', '=', auth()->user()->id)->count())
+@if($op->attendees->where('user_id', '=', auth()->user()->id)->count())
 	@foreach($op->attendees->where('user_id', '=', auth()->user()->id) as $attendee)
 		@if($op->status == "incoming")
 			<span data-toggle="modal" 

@@ -5,7 +5,7 @@
 
 @section('full')
 
-	@if(auth()->user() != null && auth()->user()->has('calendar.create', false))
+	@if(auth()->user()->has('calendar.create', false))
 		<div style="margin-bottom: 20px;" class="pull-right">
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCreateOperation">
 				<i class="fa fa-plus"></i>&nbsp;&nbsp;

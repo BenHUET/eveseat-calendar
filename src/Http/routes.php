@@ -2,7 +2,7 @@
 
 Route::group([
 	'namespace' => 'Seat\Kassie\Calendar\Http\Controllers',
-	'middleware' => ['web', 'bouncer:calendar.view'],
+	'middleware' => ['web', 'auth', 'bouncer:calendar.view'],
 	'prefix' => 'calendar'
 ], function () {
 
