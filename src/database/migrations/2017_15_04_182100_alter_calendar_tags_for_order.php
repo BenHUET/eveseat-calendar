@@ -15,7 +15,7 @@ class AlterCalendarTagsForOrder extends Migration
 	public function up()
 	{
 		Schema::table('calendar_tags', function (Blueprint $table) {
-			$table->string('order');
+			$table->string('order')->nullable()->default('0');
 		});
 	}
 
