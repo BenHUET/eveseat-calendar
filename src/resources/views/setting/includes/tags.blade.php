@@ -27,6 +27,13 @@
 					</div>
 
 					<div class="form-group">
+						<label for="order" class="col-sm-3 control-label">{{ trans('calendar::seat.order') }}</label>
+						<div class="col-sm-9">
+							<input type="number" class="form-control" name="order" id="tag_order" placeholder="{{ trans('calendar::seat.order_placeholder') }}">
+						</div>
+					</div>
+
+					<div class="form-group">
 						<label for="bg_color" class="col-sm-3 control-label">{{ trans('calendar::seat.background') }}</label>
 						<div class="col-sm-9">
 							<input type="text" class="form-control" name="bg_color" id="tag_bg_color" placeholder="{{ trans('calendar::seat.background_placeholder') }}" maxlength="7">
@@ -53,11 +60,25 @@
 			</div>
 
 			<div role="tabpanel" class="tab-pane" id="delete_tag">
-				<table class="table table-condensed">
-					@foreach($tags->sortBy('name') as $tag)
+				<table class="table table-striped table-condensed">
+					<tr>
+						<th>
+							{{ trans('calendar::seat.preview') }}
+						</th>
+						<th>
+							{{ trans('calendar::seat.order') }}
+						</th>
+						<th>
+							{{ trans('calendar::seat.actions') }}
+						</th>
+					</tr>
+					@foreach($tags->sortBy('order') as $tag)
 						<tr class="tr-hoverable">
 							<td>
 								@include('calendar::common.includes.tag', ['tag' => $tag])
+							</td>
+							<td>
+							{{ $tag->order }}
 							</td>
 							<td>
 								<span class="clickable pull-right">

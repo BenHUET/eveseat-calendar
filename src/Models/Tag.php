@@ -13,7 +13,8 @@ class Tag extends Model
 	protected $fillable = [
 		'name',
 		'bg_color',
-		'text_color'
+		'text_color',
+		'order'
 	];
 
 	public function operations()

@@ -128,10 +128,12 @@ return [
     'background' => 'Background',
     'text_color' => 'Text color',
     'preview' => 'Preview',
+    'order' => 'Order',
 
     'name_tag_placeholder' => 'Name of the tag... 7 characters max.',
     'background_placeholder' => 'Background color... #000000',
     'text_color_placeholder' => 'Text color... #FFFFFF',
+    'order_placeholder' => 'For sorting (numeric). Lower displayed first.',
 
     'delete_tag_confirm_button_no' => 'No, do not delete this tag',
     'delete_tag_confirm_button_yes' => 'Yes, I am sure I want to delete this tag',
