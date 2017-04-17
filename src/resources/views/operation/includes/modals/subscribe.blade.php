@@ -26,7 +26,7 @@
 									<div class="row">
 										@foreach($characters as $character)
 											<div class="radio col-md-3"  style="margin-top:-5px">
-												@if($character->main)
+												@if($character->main && $loop->first)
 													<label>
 														<input type="radio" name="character_id" id="character_id" value="{{ $character->characterID }}" checked>
 														<img src="http://image.eveonline.com/Character/{{ $character->characterID }}_64.jpg" class="img-circle eve-icon small-icon" />
