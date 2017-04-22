@@ -147,6 +147,9 @@
 										<a href="{{ route('character.view.sheet', ['character_id' => $attendee->character->characterID]) }}">
 											{{ $attendee->character->characterName }}
 										</a>
+										@if ($attendee->main_character->characterID != $attendee->character_id)
+											<span class="text-muted"><i>({{ $attendee->main_character->characterName }})</i></span>
+										@endif
 									</td>
 									<td>
 										@if ($attendee->status == "yes")

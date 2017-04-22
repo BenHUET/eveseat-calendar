@@ -26,19 +26,20 @@
 									<div class="row">
 										@foreach($characters as $character)
 											<div class="radio col-md-3"  style="margin-top:-5px">
-												@if($character->main && $loop->first)
-													<label>
-														<input type="radio" name="character_id" id="character_id" value="{{ $character->characterID }}" checked>
-														<img src="http://image.eveonline.com/Character/{{ $character->characterID }}_64.jpg" class="img-circle eve-icon small-icon" />
-														<b>{{ $character->characterName }}</b> <span class="text-muted"><i>(main)</i></span>
-													</label>
-												@else
-													<label>
-														<input type="radio" name="character_id" id="character_id" value="{{ $character->characterID }}" @if ($loop->first) checked @endif>
-														<img src="http://image.eveonline.com/Character/{{ $character->characterID }}_64.jpg" class="img-circle eve-icon small-icon" />
-														{{ $character->characterName }}
-													</label>
-												 @endif
+												<label>
+													<input type="radio" name="character_id" id="character_id" value="{{ $character->characterID }}" 
+														@if($loop->parent->first && $loop->first)
+															checked 
+														@endif
+													>
+													<img src="http://image.eveonline.com/Character/{{ $character->characterID }}_64.jpg" class="img-circle eve-icon small-icon" />
+													@if($character->main)
+														<b>{{ $character->characterName }}</b> 
+														<span class="text-muted"><i>(main)</i></span>
+													@else
+														{{ $character->characterName }} 
+													@endif
+												</label>
 											</div>
 										@endforeach
 									</div>
