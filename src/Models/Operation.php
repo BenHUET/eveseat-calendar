@@ -50,10 +50,14 @@ class Operation extends Model
 	}
 
 	public function getDescriptionAttribute($value) {
-		return preg_replace('/( (http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])? )/', '<a href="\1">\1</a>', $value ?: $this->description_new);
+		return $value ?: $this->description_new;
 	}
 	public function setDescriptionAttribute($value) {
 		$this->attributes['description_new'] = $value;
+	}
+	public function getParsedDescriptionAttribute() {
+		$bbcode = new \Golonka\BBCode\BBCodeParser;
+		return $bbcode->parse($this->description ?: $this->description_new);
 	}
 
 	public function getDurationAttribute() {

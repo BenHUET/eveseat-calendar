@@ -110,7 +110,7 @@
 						<li class="list-group-item">
 							<b>{{ trans('calendar::seat.description') }}</b> : 
 							@if($op->description)
-								<span class="pre">{!! $op->description !!}</span>
+								<span class="pre">{!! $op->parsed_description !!}</span>
 							@else
 								<i>{{ trans('calendar::seat.unknown') }}</i>
 							@endif
@@ -147,7 +147,7 @@
 										<a href="{{ route('character.view.sheet', ['character_id' => $attendee->character->characterID]) }}">
 											{{ $attendee->character->characterName }}
 										</a>
-										@if ($attendee->main_character->characterID != $attendee->character_id)
+										@if ($attendee->main_character && $attendee->main_character->characterID != $attendee->character_id)
 											<span class="text-muted pull-right"><i>({{ $attendee->main_character->characterName }})</i></span>
 										@endif
 									</td>
