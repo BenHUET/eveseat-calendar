@@ -10,6 +10,15 @@ Calendar plugin for EVE SeAT 2.X
 # Release
 https://packagist.org/packages/kassie/calendar
 
+# Installation
+* `composer require kassie/calendar` in the SeAT root directory
+* Append to the provider array in `config/app.php` the service provider of this package : `Seat\Kassie\Calendar\CalendarServiceProvider::class`
+* `php artisan migrate`
+* `php artisan vendor:publish --force`
+* `php artisan db:seed --class=Seat\\Kassie\\Calendar\\Seeders\\CalendarSettingsTableSeeder`
+* `php artisan db:seed --class=Seat\\Kassie\\Calendar\\Seeders\\CalendarTagsSeeder`
+* `php artisan db:seed --class=Seat\\Kassie\\Calendar\\Seeders\\ScheduleSeeder`
+
 # Feedbacks or support
 @kassie_yvo on eve-seat.slack.com  
 kassie.yvo@gmail.com  
