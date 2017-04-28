@@ -21,10 +21,6 @@ class AlterCalendarOperations extends Migration
 			$table->integer('staging_sys_id')->nullable();
 			$table->string('staging_info')->nullable();
 
-			$table->foreign('staging_sys_id')
-				->references('itemID')
-				->on('invUniqueNames')
-				->onDelete('set null');
 		});
 
 	}
@@ -37,7 +33,6 @@ class AlterCalendarOperations extends Migration
 	public function down()
 	{
 		Schema::table('calendar_operations', function (Blueprint $table) {
-			$table->dropForeign('calendar_operations_staging_sys_id_foreign');
 			$table->dropColumn('staging_sys');
 			$table->dropColumn('staging_sys_id');
 			$table->dropColumn('staging_info');

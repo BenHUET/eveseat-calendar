@@ -46,11 +46,13 @@ class OperationController extends Controller
 		$userCharacters = $this->getUserCharacters(auth()->user()->id)->unique('characterID')->sortBy('characterName');
 		if(setting('main_character_id') != 1 && $userCharacters->count() > 0) {
 			$mainCharacter = $userCharacters->where('characterID', '=', setting('main_character_id'))->first();
-			$mainCharacter->main = true;
-			$userCharacters = $userCharacters->reject(function ($character) {
-				return $character->characterID == setting('main_character_id');
-			});
-			$userCharacters->prepend($mainCharacter);
+			if ($mainCharacter->count() > 0) {
+				$mainCharacter->main = true;
+				$userCharacters = $userCharacters->reject(function ($character) {
+					return $character->characterID == setting('main_character_id');
+				});
+				$userCharacters->prepend($mainCharacter);
+			}
 		}
 		
 		return view('calendar::operation.index', [
