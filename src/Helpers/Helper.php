@@ -2,7 +2,10 @@
 
 namespace Seat\Kassie\Calendar\Helpers;
 
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+
+use Seat\Eveapi\Models\Account\ApiKeyInfoCharacters;
 
 use Seat\Kassie\Calendar\Helpers\Settings;
 
@@ -52,6 +55,19 @@ class Helper
 			 	->footer(trans('calendar::seat.created_by') . ' ' . $op->user->name)
 			 	->markdown(['fields']);
 		};
+	}
+
+	public static function GetUserMainCharacter($user_id) {
+		$main = DB::table('user_settings')
+			->where('user_id', $user_id)
+			->where('name', 'main_character_id')
+			->select('value')
+			->get();
+
+		if ($main->count() > 0 && $main->first()->value != '1')
+			return ApiKeyInfoCharacters::where('characterID', $main->first()->value)->first();
+
+		return null;
 	}
 
 }

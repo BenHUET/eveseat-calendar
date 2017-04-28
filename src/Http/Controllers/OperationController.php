@@ -16,6 +16,7 @@ use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Models\Attendee;
 use Seat\Kassie\Calendar\Models\Tag;
 use Seat\Kassie\Calendar\Helpers\Settings;
+use Seat\Kassie\Calendar\Helpers\Helper;
 
 class OperationController extends Controller
 {
@@ -44,15 +45,14 @@ class OperationController extends Controller
 		});
 
 		$userCharacters = $this->getUserCharacters(auth()->user()->id)->unique('characterID')->sortBy('characterName');
-		if(setting('main_character_id') != 1 && $userCharacters->count() > 0) {
-			$mainCharacter = $userCharacters->where('characterID', '=', setting('main_character_id'))->first();
-			if ($mainCharacter->count() > 0) {
-				$mainCharacter->main = true;
-				$userCharacters = $userCharacters->reject(function ($character) {
-					return $character->characterID == setting('main_character_id');
-				});
-				$userCharacters->prepend($mainCharacter);
-			}
+		$mainCharacter = Helper::GetUserMainCharacter(auth()->user()->id);
+		
+		if($mainCharacter != null) {
+			$mainCharacter['main'] = true;
+			$userCharacters = $userCharacters->reject(function ($character) use ($mainCharacter) {
+				return $character->characterID == $mainCharacter['characterID'];
+			});
+			$userCharacters->prepend($mainCharacter);
 		}
 		
 		return view('calendar::operation.index', [

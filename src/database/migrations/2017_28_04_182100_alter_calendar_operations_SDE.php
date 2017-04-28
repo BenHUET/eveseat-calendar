@@ -22,7 +22,7 @@ class AlterCalendarOperationsSDE extends Migration
 		}
 		catch (QueryException $e) {
 
-		} 
+		}
 		catch (PDOException $e) {
 
 		}
