@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Seat\Eveapi\Models\Eve\CharacterInfo;
 use Seat\Web\Models\User;
 
+use Seat\Kassie\Calendar\Helpers\Helper;
+
 class Attendee extends Model
 {
 	use UserRespository;
@@ -31,13 +33,7 @@ class Attendee extends Model
 	}
 
 	public function getMainCharacterAttribute() {
-		$main = null;
-		$userCharacters = $this->getUserCharacters(auth()->user()->id)->unique('characterID')->sortBy('characterName');
-		if(setting('main_character_id') != 1 && $userCharacters->count() > 0) {
-			$main = $userCharacters->where('characterID', '=', setting('main_character_id'))->first();
-		}
-
-		return $main;
+		return Helper::GetUserMainCharacter($this->user_id);
 	}
 
 }

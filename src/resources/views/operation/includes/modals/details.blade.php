@@ -148,7 +148,7 @@
 											{{ $attendee->character->characterName }}
 										</a>
 										@if ($attendee->main_character->characterID != $attendee->character_id)
-											<span class="text-muted"><i>({{ $attendee->main_character->characterName }})</i></span>
+											<span class="text-muted pull-right"><i>({{ $attendee->main_character->characterName }})</i></span>
 										@endif
 									</td>
 									<td>
