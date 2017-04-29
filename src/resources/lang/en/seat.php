@@ -70,7 +70,7 @@ return [
     'placeholder_staging_sys' => 'Meetup system',
     'placeholder_staging_info' => 'More informations about the staging',
     'placeholder_fc' => 'Name of the fleet commander',
-    'placeholder_description' => 'Additional information about the operation',
+    'placeholder_description' => 'Additional information about the operation. This field supports BBCode.',
     'placeholder_comment' => 'Additional information',
 
     'created_at' => 'Created at',
