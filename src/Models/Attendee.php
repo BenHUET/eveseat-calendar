@@ -5,8 +5,10 @@ namespace Seat\Kassie\Calendar\Models;
 use Seat\Services\Repositories\Configuration\UserRespository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Lang;
 use Seat\Eveapi\Models\Eve\CharacterInfo;
 use Seat\Web\Models\User;
+
 
 use Seat\Kassie\Calendar\Helpers\Helper;
 
@@ -23,6 +25,7 @@ class Attendee extends Model
 		'comment'
 	];
 	protected $dates = ['created_at', 'updated_at'];
+	protected $appends = array('main_character', 'character_sheet_url', 'localized_status');
 
 	public function character() {
 		return $this->belongsTo(CharacterInfo::class);
@@ -34,6 +37,14 @@ class Attendee extends Model
 
 	public function getMainCharacterAttribute() {
 		return Helper::GetUserMainCharacter($this->user_id);
+	}
+
+	public function getCharacterSheetUrlAttribute() {
+		return route('character.view.sheet', ['character_id' => $this->character_id]);
+	}
+
+	public function getLocalizedStatusAttribute() {
+		return Lang::get('calendar::seat.attending_' . $this->status);
 	}
 
 }

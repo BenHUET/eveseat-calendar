@@ -44,4 +44,5 @@
 	<script src="{{ asset('web/js/jquery.autocomplete.min.js') }}"></script>
 	
 	<script src="{{ asset('web/js/calendar.js') }}"></script>
+	<script src="{{ asset('web/js/details.js') }}"></script>
 @endpush

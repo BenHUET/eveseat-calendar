@@ -5,8 +5,11 @@ namespace Seat\Kassie\Calendar\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use Yajra\Datatables\Facades\Datatables;
+
 use Seat\Eveapi\Models\Account\ApiKeyInfoCharacters;
 use Seat\Web\Http\Controllers\Controller;
+use Seat\Kassie\Calendar\Models\Attendee;
 
 class LookupController extends Controller
 {
@@ -44,6 +47,12 @@ class LookupController extends Controller
 		}
 
 		return response()->json(array('suggestions' => $results));
+	}
+
+	public function lookupAttendees(Request $request)
+	{
+		$attendees = Attendee::where('operation_id', $request->input('id'))->with('character')->get();
+		return Datatables::of($attendees)->make(true);
 	}
 
 }

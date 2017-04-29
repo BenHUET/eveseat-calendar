@@ -1,5 +1,5 @@
 <span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.details') }}" class="clickable">
-	<i class="fa fa-eye text-primary" data-toggle="modal" data-target="#modalDetails-{{ $op->id }}"></i>
+	<i class="fa fa-eye text-primary" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalDetails-{{ $op->id }}"></i>
 </span>
 
 @if($table == "incoming")

@@ -139,41 +139,6 @@
 							<th class="no-sort">{{ trans('calendar::seat.answered_at') }}</th>
 						</thead>
 						<tbody>
-							@foreach($op->attendees as $attendee)
-								<tr>
-									<td class="text-nowrap">
-										&nbsp;
-										<img src="http://image.eveonline.com/Character/{{ $attendee->character_id }}_64.jpg" class="img-circle eve-icon small-icon" />
-										<a href="{{ route('character.view.sheet', ['character_id' => $attendee->character->characterID]) }}">
-											{{ $attendee->character->characterName }}
-										</a>
-										@if ($attendee->main_character && $attendee->main_character->characterID != $attendee->character_id)
-											<span class="text-muted pull-right"><i>({{ $attendee->main_character->characterName }})</i></span>
-										@endif
-									</td>
-									<td>
-										@if ($attendee->status == "yes")
-											<span class="label label-success">{{ trans('calendar::seat.attending_yes') }}</span>
-										@endif
-										@if ($attendee->status == "no")
-											<span class="label label-danger">{{ trans('calendar::seat.attending_no') }}</span>
-										@endif
-										@if ($attendee->status == "maybe")
-											<span class="label label-warning">{{ trans('calendar::seat.attending_maybe') }}</span>
-										@endif
-									</td>
-									<td>
-										{{ $attendee->comment }}
-									</td>
-									<td>
-										<small class="text-nowrap">{{ $attendee->created_at }}</small>
-										@if($attendee->created_at != $attendee->updated_at)
-											<br/>
-											<small class="text-nowrap">{{ trans('calendar::seat.update') }} : {{ $attendee->updated_at }}</small>
-										@endif
-									</td>
-								</tr>
-							@endforeach
 						</tbody>
 					</table>
 
