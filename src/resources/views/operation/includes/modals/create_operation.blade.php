@@ -31,12 +31,18 @@
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label" for="tags">{{ trans('calendar::seat.tags') }}</label>
 						<div class="col-sm-10">
-							@foreach ($tags as $tag)
-								<div class="checkbox inline">
-									<label style="margin-right: 10px;">
-										<input type="checkbox" name="checkbox-{{$tag->id}}" id="checkbox-{{$tag->id}}" value="{{$tag->id}}"> 
-										@include('calendar::common.includes.tag', ['tag' => $tag])
-									</label>
+							@foreach($tags->chunk(6) as $tags)
+								<div class="row" id="lol">
+									@foreach($tags as $tag)
+										<div class="col-md-2">
+											<div class="checkbox">
+												<label>
+													<input type="checkbox" name="checkbox-{{$tag->id}}" id="checkbox-{{$tag->id}}" value="{{$tag->id}}"> 
+													@include('calendar::common.includes.tag', ['tag' => $tag])
+												</label>
+											</div>
+										</div>
+									@endforeach
 								</div>
 							@endforeach
 						</div>
