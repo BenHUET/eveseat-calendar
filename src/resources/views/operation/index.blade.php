@@ -42,6 +42,7 @@
 	<script src="{{ asset('web/js/daterangepicker.js') }}"></script>
 	<script src="{{ asset('web/js/bootstrap-slider.min.js') }}"></script>
 	<script src="{{ asset('web/js/jquery.autocomplete.min.js') }}"></script>
+	<script src="{{ asset('web/js/natural.js') }}"></script>
 	
 	<script src="{{ asset('web/js/calendar.js') }}"></script>
 	<script src="{{ asset('web/js/details.js') }}"></script>

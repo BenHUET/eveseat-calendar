@@ -25,7 +25,7 @@ class Attendee extends Model
 		'comment'
 	];
 	protected $dates = ['created_at', 'updated_at'];
-	protected $appends = array('main_character', 'character_sheet_url', 'localized_status');
+	protected $appends = array('main_character');
 
 	public function character() {
 		return $this->belongsTo(CharacterInfo::class);
@@ -37,14 +37,6 @@ class Attendee extends Model
 
 	public function getMainCharacterAttribute() {
 		return Helper::GetUserMainCharacter($this->user_id);
-	}
-
-	public function getCharacterSheetUrlAttribute() {
-		return route('character.view.sheet', ['character_id' => $this->character_id]);
-	}
-
-	public function getLocalizedStatusAttribute() {
-		return Lang::get('calendar::seat.attending_' . $this->status);
 	}
 
 }
