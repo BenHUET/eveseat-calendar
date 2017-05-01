@@ -1,3 +1,4 @@
+var formCreateFirst = false;
 $('#modalCreateOperation').on('show.bs.modal', function(e) {
 	var ROUNDING = 15 * 60 * 1000;
 	nowRounded = moment.utc();
@@ -20,11 +21,14 @@ $('#modalCreateOperation').on('show.bs.modal', function(e) {
 	options.endDate = nowRounded.clone().add('2', 'h');
 	$('#modalCreateOperation').find('#time_start_end').daterangepicker(options);
 
-	$('#modalCreateOperation').find('#sliderImportance').slider({
-		formatter: function(value) {
-			return value;
-		}
-	});
+	if (formCreateFirst == false)
+		$('#modalCreateOperation').find('#sliderImportance').slider({
+			formatter: function(value) {
+				return value;
+			}
+		});
+
+	formCreateFirst = true;
 });
 
 $('#modalCreateOperation').find('input[name=known_duration]:radio').change(function () {
@@ -83,6 +87,7 @@ $('#modalUpdateOperation').on('show.bs.modal', function(e) {
 		
 		$.each(op.tags, function(i, tag) {
 			$('#modalUpdateOperation').find('#checkbox-update-' + tag.id).prop('checked', true);
+			console.log($('#modalUpdateOperation').find('#checkbox-update-' + tag.id));
         });
 
 		var options = {

@@ -31,7 +31,6 @@ $('[id^=modalDetails]').on('show.bs.modal', function(e) {
 });
 
 $('[id^=modalDetails]').on('hidden.bs.modal', function(e) {
-	console.log("fezzef");
 	var table = $(this).find('#attendees').DataTable();
 	table.destroy();
 });

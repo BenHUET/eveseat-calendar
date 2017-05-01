@@ -36,12 +36,12 @@
 						<label class="col-sm-2 col-form-label" for="tags">{{ trans('calendar::seat.tags') }}</label>
 						<div class="col-sm-10">
 							@foreach($tags->chunk(6) as $tags)
-								<div class="row" id="lol">
+								<div class="row">
 									@foreach($tags as $tag)
 										<div class="col-md-2">
 											<div class="checkbox">
 												<label>
-													<input type="checkbox" name="checkbox-{{$tag->id}}" id="checkbox-{{$tag->id}}" value="{{$tag->id}}"> 
+													<input type="checkbox" name="checkbox-{{$tag->id}}" id="checkbox-update-{{$tag->id}}" value="{{$tag->id}}"> 
 													@include('calendar::common.includes.tag', ['tag' => $tag])
 												</label>
 											</div>
