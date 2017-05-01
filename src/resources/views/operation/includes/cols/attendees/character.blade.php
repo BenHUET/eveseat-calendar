@@ -1,4 +1,4 @@
-<img src="http://image.eveonline.com/Character/{{ $row->character_id }}_64.jpg" class="img-circle eve-icon small-icon" />
+{!! img('character', $row->character_id, 64, ['class' => 'img-circle eve-icon small-icon']) !!}
 <a href="{{ route('character.view.sheet', ['character_id' => $row->character_id]) }}">
 	{{ $row->character->characterName }}
 </a>

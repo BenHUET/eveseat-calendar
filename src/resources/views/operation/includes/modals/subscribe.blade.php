@@ -32,7 +32,7 @@
 															checked 
 														@endif
 													>
-													<img src="http://image.eveonline.com/Character/{{ $character->characterID }}_64.jpg" class="img-circle eve-icon small-icon" />
+													{!! img('character', $character->characterID, 64, ['class' => 'img-circle eve-icon small-icon']) !!}
 													@if($character->main)
 														<b>{{ $character->characterName }}</b> 
 														<span class="text-muted"><i>(main)</i></span>
