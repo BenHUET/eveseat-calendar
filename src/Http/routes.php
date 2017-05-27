@@ -6,6 +6,16 @@ Route::group([
 	'prefix' => 'calendar'
 ], function () {
 
+    Route::group([
+        'prefix' => 'ajax'
+    ], function(){
+
+        Route::get('/operation/{id}', [
+            'as' => 'operation.detail',
+            'uses' => 'AjaxController@getDetail'
+        ]);
+    });
+
 	Route::group([
 		'prefix' => 'operation'
 	], function() {
