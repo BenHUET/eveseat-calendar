@@ -29,7 +29,7 @@ class OperationController extends Controller
 
 	public function index(Request $request)
 	{
-		$ops = Operation::all()->take(50);
+		$ops = Operation::all()->take(-50);
 		$tags = Tag::all()->sortBy('order');
 
 		$ops_incoming = $ops->filter(function($op) {
