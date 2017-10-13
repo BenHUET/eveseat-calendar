@@ -27,7 +27,7 @@ class RemindOperation extends Command
 	{
 		if (Settings::get('slack_integration') == 1) 
 		{
-			$ops = Operation::all()->take(50);
+			$ops = Operation::all()->take(-50);
 			$now = Carbon::now('UTC');
 
 			foreach($ops as $op) 
