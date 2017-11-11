@@ -37,18 +37,18 @@
 						<label class="col-sm-3 control-label">{{ trans('calendar::seat.tags') }}</label>
 						<div class="col-sm-9">
 							@foreach($tags->chunk(4) as $tags)
-							<div class="row">
-								@foreach($tags as $tag)
-								<div class="col-sm-3">
-									<div class="checkbox">
-										<label>
-											<input type="checkbox" name="checkbox-{{$tag->id}}">
-											@include('calendar::common.includes.tag', ['tag' => $tag])
-										</label>
-									</div>
+								<div class="row">
+									@foreach($tags as $tag)
+										<div class="col-sm-3">
+											<div class="checkbox">
+												<label>
+													<input type="checkbox" name="checkbox-{{$tag->id}}" value="{{$tag->id}}">
+													@include('calendar::common.includes.tag', ['tag' => $tag])
+												</label>
+											</div>
+										</div>
+									@endforeach
 								</div>
-								@endforeach
-							</div>
 							@endforeach
 						</div>
 					</div>

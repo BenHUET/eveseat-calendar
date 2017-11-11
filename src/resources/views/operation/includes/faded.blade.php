@@ -1,5 +1,5 @@
 <div class="box box-widget widget-user-2">
-	<div class="widget-user-header bg-red">
+	<div class="widget-user-header bg-grey">
 		<h4 class="widget-user-username">
 			<i class="fa fa-pause-circle"></i>
 			{{ trans('calendar::seat.faded_operations') }}
@@ -7,7 +7,7 @@
 	</div>
 	<div class="box-footer no-padding">
 		<table class="table table-striped table-hover">
-			<thead class="bg-red">
+			<thead class="bg-grey">
 				<tr>
 					<th>{{ trans('calendar::seat.title') }}</th>
 					<th class="hidden-xs">{{ trans('calendar::seat.tags') }}</th>
