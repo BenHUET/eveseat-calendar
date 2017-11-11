@@ -1,7 +1,5 @@
 <?php
 
-namespace Seat\Kassie\Calendar\Seeders;
-
 use Illuminate\Database\Seeder;
 
 class CalendarSettingsTableSeeder extends Seeder
