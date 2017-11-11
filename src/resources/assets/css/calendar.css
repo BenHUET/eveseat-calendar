@@ -65,3 +65,43 @@
 .tag {
 	text-transform: uppercase;
 }
+
+/* Modals confirmation design */
+.modal {
+	text-align: center;
+	padding: 0!important;
+}
+
+.modal:before {
+	content: '';
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+	margin-right: -4px;
+}
+
+.modal-dialog {
+	display: inline-block;
+	text-align: left;
+	vertical-align: middle;
+}
+
+/* Sliders format */
+#sliderImportance .slider-selection {
+	background: #00a65a;
+}
+
+#updateSliderImportance .slider-selection {
+	background: #f39c12;
+}
+
+.slider-handle {
+	background: #444;
+}
+
+/* mobile device optimisation */
+@media (max-width: 767px) and (orientation: portrait) {
+	.hidden-portrait-xs {
+		display: none!important;
+	}
+}

@@ -1,152 +1,16 @@
-@foreach($ops_all as $op)
-	<div class="modal fade @if($default_op == $op->id) default-op @endif" tabindex="-1" role="dialog" id="modalDetails-{{ $op->id }}">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-
-				<div class="modal-header modal-calendar modal-calendar-green">
-					<p>
-						<i class="fa fa-space-shuttle"></i>&nbsp;&nbsp;&nbsp;{{ trans('calendar::seat.details') }}
-					</p>
-				</div>
-
-				<div class="modal-body">
-					<h3 class="text-center" style="display: inline;">@include('calendar::operation.includes.importance')</h3>
-					<div class="pull-right">
-						<small>{{ trans('calendar::seat.created_at') }} {{ $op->created_at }}</small>
-						@if($op->updated_at != $op->created_at)
-							<br><small>{{ trans('calendar::seat.updated_at') }} {{ $op->updated_at }}</small>
-						@endif
-					</div>
-
-					<h2 class="text-center"><b>{{ $op->title }}</b></h2>
-					
-
-					<h3>{{ trans('calendar::seat.informations') }}</h3>
-					
-					<ul class="list-group col-md-6">
-
-						<li class="list-group-item">
-							<b>{{ trans('calendar::seat.status') }}</b> : 
-							@if($op->status == 'cancelled')
-								<span class="label label-danger">{{ trans('calendar::seat.cancelled') }}</span>
-							@else
-								@if($op->status == 'ongoing')
-									<span class="label label-success">{{ trans('calendar::seat.ongoing_operations') }}</span>
-								@endif
-								@if($op->status == 'incoming')
-									<span class="label label-primary">{{ trans('calendar::seat.incoming_operations') }}</span>
-								@endif
-								@if($op->status == 'faded')
-									<span class="label label-faded">{{ trans('calendar::seat.faded_operations') }}</span>
-								@endif
-							@endif
-						</li>
-
-						<li class="list-group-item">
-							<b>{{ trans('calendar::seat.tags') }}</b> : 
-							@include('calendar::operation.includes.tags', ['chunk' => false])
-						</li>
-
-						<li class="list-group-item">
-							<b>{{ trans('calendar::seat.fleet_commander') }}</b> : 
-							@if($op->fc)
-								@if($op->fc_character_id)
-									&nbsp;
-								@endif
-								@include('calendar::operation.includes.fleet_commander')
-							@else
-								<i>{{ trans('calendar::seat.unknown') }}</i>
-							@endif
-						</li>
-
-						<li class="list-group-item">
-							<b>{{ trans('calendar::seat.staging') }}</b> : 
-							@if($op->staging_sys_id)
-								@include('calendar::operation.includes.staging')
-							@else
-								<i>{{ trans('calendar::seat.unknown') }}</i>
-							@endif
-						</li>
-
-						<li class="list-group-item">
-							<b>{{ trans('calendar::seat.staging_info') }}</b> : 
-							@if($op->staging_info)
-								{{ $op->staging_info }}
-							@else
-								<i>{{ trans('calendar::seat.unknown') }}</i>
-							@endif
-						</li>
-
-					</ul>
-
-
-					<ul class="list-group col-md-6">
-
-						<li class="list-group-item"><b>{{ trans('calendar::seat.starts_at') }}</b> : {{ $op->start_at }}</li>
-						<li class="list-group-item">
-							<b>{{ trans('calendar::seat.ends_at') }}</b> : 
-							@if($op->end_at)
-								{{ $op->end_at }}
-							@else
-								<i>{{ trans('calendar::seat.unknown') }}</i>
-							@endif
-						</li>
-						<li class="list-group-item">
-							<b>{{ trans('calendar::seat.duration') }}</b> : 
-							@if($op->end_at)
-								{{ $op->duration }}
-							@else
-								<i>{{ trans('calendar::seat.unknown') }}</i>
-							@endif
-						</li>
-						<li class="list-group-item">
-							<b>{{ trans('calendar::seat.direct_link') }}</b> :
-							<a href="{{ url('/calendar/operation', [$op->id]) }}">{{ url('/calendar/operation', [$op->id]) }}</a>
-						</li>
-						
-					</ul>
-
-					<ul class="list-group col-md-12">
-						<li class="list-group-item">
-							<b>{{ trans('calendar::seat.description') }}</b> : 
-							@if($op->description)
-								<span class="pre">{!! $op->parsed_description !!}</span>
-							@else
-								<i>{{ trans('calendar::seat.unknown') }}</i>
-							@endif
-						</li>
-					</ul>
-
-					<div class="clearfix"></div>
-					
-					<h3 style="display: inline;">{{ trans('calendar::seat.attendees') }}</h3>
-					<div class="pull-right">
-						@if($op->status == 'incoming')
-							<button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalSubscribe">
-								<i class="fa fa-reply"></i>&nbsp;&nbsp; {{ trans('calendar::seat.subscribe') }}
-							</button>
-						@endif
-						@include('calendar::operation.includes.attendees')
-					</div>
-					
-					<div class="clearfix" style="margin-bottom:20px;"></div>
-					
-					<table class="table table-condensed" id="attendees">
-						<thead>
-							<th>{{ trans('calendar::seat.character') }}</th>
-							<th>{{ trans('calendar::seat.status') }}</th>
-							<th class="no-sort">{{ trans('calendar::seat.comment') }}</th>
-							<th class="no-sort">{{ trans('calendar::seat.answered_at') }}</th>
-						</thead>
-						<tbody>
-						</tbody>
-					</table>
-
-					<button type="button" class="btn btn-block btn-default" data-dismiss="modal">{{ trans('calendar::seat.close') }}</button>
-					<div class="clearfix"></div>
-				</div>
-
+<div class="modal fade" role="dialog" id="modalDetails">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">
+					<i class="fa fa-space-shuttle"></i>
+					{{ trans('calendar::seat.details') }}
+				</h4>
 			</div>
+			<div class="modal-body"></div>
 		</div>
 	</div>
-@endforeach
+</div>
