@@ -1,7 +1,7 @@
 <div class="box box-widget widget-user-2">
 	<div class="widget-user-header bg-grey">
 		<h4 class="widget-user-username">
-			<i class="fa fa-pause-circle"></i>
+			<i class="fa fa-stop-circle"></i>
 			{{ trans('calendar::seat.faded_operations') }}
 		</h4>
 	</div>
@@ -27,39 +27,39 @@
 				@else
 				<tr class="{{ $op->is_cancelled == 0 ? '' : 'danger' }} text-muted" data-attr-op="{{ $op->id }}">
 				@endif
-					<td>
+					<td class="text-middle">
 						<span>{{ $op->title }}</span>
 						<span class="pull-right">
 							@include('calendar::operation.includes.attendees')
 						</span>
 					</td>
-					<td class="hidden-xs">
+					<td class="hidden-xs text-middle">
 						@include('calendar::operation.includes.tags')
 					</td>
-					<td>
+					<td class="text-middle">
 						@include('calendar::operation.includes.importance')
 						<span class="visible-xs-inline-block">
 							@include('calendar::operation.includes.actions')
 						</span>
 					</td>
-					<td class="hidden-xs">{{ $op->start_at }}</td>
-					<td>{{ $op->end_at }}</td>
-					<td class="hidden-xs">
+					<td class="hidden-xs text-middle">{{ $op->start_at }}</td>
+					<td class="text-middle">{{ $op->end_at }}</td>
+					<td class="hidden-xs text-middle">
 						@include('calendar::operation.includes.fleet_commander')
 					</td>
-					<td>
+					<td class="text-middle">
 						@include('calendar::operation.includes.staging')
 					</td>
-					<td class="hidden-portrait-xs">
+					<td class="hidden-portrait-xs text-middle">
 						@include('calendar::operation.includes.subscription')
 					</td>
-					<td class="hidden-xs">
+					<td class="hidden-xs text-middle">
 						@include('calendar::operation.includes.actions')
 					</td>
 				</tr>
 				@empty
 				<tr>
-					<td colspan="9" class="text-center"><i>{{ trans('calendar::seat.none') }}</i></th>
+					<td colspan="9" class="text-center"><i>{{ trans('calendar::seat.none') }}</i></td>
 				</tr>
 				@endforelse
 			</tbody>

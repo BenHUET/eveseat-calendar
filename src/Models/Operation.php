@@ -7,10 +7,7 @@ use Illuminate\Notifications\Notifiable;
 
 use Carbon\Carbon;
 use \DateTime;
-
 use Seat\Web\Models\User;
-use Seat\Kassie\Calendar\Helpers\Settings;
-use Seat\Kassie\Calendar\Models\Tag;
 
 class Operation extends Model
 {
@@ -142,6 +139,6 @@ class Operation extends Model
 
 	public function routeNotificationForSlack()
     {
-		return Settings::get('slack_webhook');
+		return setting('kassie.calendar.slack_webhook', true);
     }
 }

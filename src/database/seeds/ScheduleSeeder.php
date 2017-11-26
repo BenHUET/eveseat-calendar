@@ -1,6 +1,9 @@
 <?php
 
+namespace Seat\Kassie\Calendar\database\seeds;
+
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class ScheduleSeeder extends Seeder
 {
@@ -15,13 +18,13 @@ class ScheduleSeeder extends Seeder
 			'ping_after'        => null
 		];
 
-		$existing = \DB::table('schedules')
+		$existing = DB::table('schedules')
 			->where('command', $job['command'])
 			->where('expression', $job['expression'])
 			->first();
 
 		if (!$existing) {
-			\DB::table('schedules')->insert($job);
+			DB::table('schedules')->insert($job);
 		}
 	}
 }
