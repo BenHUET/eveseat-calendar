@@ -1,7 +1,7 @@
 <div class="box box-widget widget-user-2">
 	<div class="widget-user-header bg-grey">
 		<h4 class="widget-user-username">
-			<i class="fa fa-pause-circle"></i>
+			<i class="fa fa-stop-circle"></i>
 			{{ trans('calendar::seat.faded_operations') }}
 		</h4>
 	</div>
@@ -59,7 +59,7 @@
 				</tr>
 				@empty
 				<tr>
-					<td colspan="9" class="text-center"><i>{{ trans('calendar::seat.none') }}</i></th>
+					<td colspan="9" class="text-center"><i>{{ trans('calendar::seat.none') }}</i></td>
 				</tr>
 				@endforelse
 			</tbody>

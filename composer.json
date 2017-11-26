@@ -4,7 +4,8 @@
     "type": "seat-plugin",
     "autoload": {
         "psr-4": {
-            "Seat\\Kassie\\Calendar\\": "src/"
+            "Seat\\Kassie\\Calendar\\": "src/",
+            "Seat\\Kassie\\Calendar\\database\\seeds\\": "src/database/seeds/"
         }
     },
     "require": {

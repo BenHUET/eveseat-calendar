@@ -56,7 +56,6 @@ class OperationController extends Controller
 		}
 		
 		return view('calendar::operation.index', [
-			'slack_integration' => Settings::get('slack_integration'),
 			'userCharacters' => $userCharacters,
 			'ops_all' => $ops,
 			'ops_incoming' => $ops_incoming,

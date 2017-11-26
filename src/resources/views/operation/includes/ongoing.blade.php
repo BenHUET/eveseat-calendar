@@ -63,7 +63,7 @@
 				</tr>
 				@empty
 				<tr>
-					<td colspan="9" class="text-center"><i>{{ trans('calendar::seat.none') }}</i></th>
+					<td colspan="9" class="text-center"><i>{{ trans('calendar::seat.none') }}</i></td>
 				</tr>
 				@endforelse
 			</tbody>

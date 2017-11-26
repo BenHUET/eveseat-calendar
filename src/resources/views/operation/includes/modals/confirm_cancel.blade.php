@@ -15,7 +15,7 @@
 					{{ csrf_field() }}
 					<input type="hidden" name="operation_id">
 
-					@if($slack_integration == true)
+					@if(setting('kassie.calendar.slack_integration', true) == true)
 						<div class="checkbox">
 							<label>
 								<input type="checkbox" name="notify" id="notify">

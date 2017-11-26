@@ -1,12 +1,15 @@
 <?php
 
+namespace Seat\Kassie\Calendar\database\seeds;
+
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class CalendarTagsSeeder extends Seeder
 {
 	public function run()
 	{
-		\DB::table('calendar_tags')->insert([
+		DB::table('calendar_tags')->insert([
 			[
 				'name' => 'RED PEN',
 				'bg_color' => '#ff0000',
