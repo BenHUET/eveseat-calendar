@@ -27,37 +27,37 @@
 				@else
 				<tr data-attr-op="{{ $op->id }}">
 				@endif
-					<td>
+					<td class="text-middle">
 						<span>{{ $op->title }}</span>
 						<span class="pull-right">
 							@include('calendar::operation.includes.attendees')
 						</span>
 					</td>
-					<td class="hidden-xs">
+					<td class="hidden-xs text-middle">
 						@include('calendar::operation.includes.tags')
 					</td>
-					<td>
+					<td class="text-middle">
 						@include('calendar::operation.includes.importance')
 						<span class="visible-xs-inline-block">
 							@include('calendar::operation.includes.actions')
 						</span>
 					</td>
-					<td>
+					<td class="text-middle">
 						<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.started_at') }} {{ $op->start_at }}">{{ $op->started }} ago</span>
 					</td>
-					<td class="hidden-xs">
+					<td class="hidden-xs text-middle">
 						<span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.ends_at') }} {{ $op->end_at }}">{{ $op->ends_in }}</span>
 					</td>
-					<td class="hidden-xs">
+					<td class="hidden-xs text-middle">
 						@include('calendar::operation.includes.fleet_commander')
 					</td>
-					<td>
+					<td class="text-middle">
 						@include('calendar::operation.includes.staging')
 					</td>
-					<td class="hidden-portrait-xs">
+					<td class="hidden-portrait-xs text-middle">
 						@include('calendar::operation.includes.subscription')
 					</td>
-					<td class="hidden-xs">
+					<td class="hidden-xs text-middle">
 						@include('calendar::operation.includes.actions')
 					</td>
 				</tr>
