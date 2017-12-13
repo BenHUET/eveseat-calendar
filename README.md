@@ -15,9 +15,9 @@ https://packagist.org/packages/kassie/calendar
 * Append to the provider array in `config/app.php` the service provider of this package : `Seat\Kassie\Calendar\CalendarServiceProvider::class`
 * `php artisan vendor:publish --force`
 * `php artisan migrate`
-* `php artisan db:seed --class=Seat\\Kassie\\Calendar\\Seeders\\CalendarSettingsTableSeeder`
-* `php artisan db:seed --class=Seat\\Kassie\\Calendar\\Seeders\\CalendarTagsSeeder`
-* `php artisan db:seed --class=Seat\\Kassie\\Calendar\\Seeders\\ScheduleSeeder`
+* `php artisan db:seed --class=Seat\\Kassie\\Calendar\\database\\seeds\\CalendarSettingsTableSeeder`
+* `php artisan db:seed --class=Seat\\Kassie\\Calendar\\database\\seeds\\CalendarTagsSeeder`
+* `php artisan db:seed --class=Seat\\Kassie\\Calendar\\database\\seeds\\ScheduleSeeder`
 
 # Feedbacks or support
 @kassie_yvo on eve-seat.slack.com  
@@ -26,7 +26,7 @@ Kassie Yvo in-game
 
 If you like this module, consider giving some ISK, I'm space poor.
 
-# Screenshots
+# Screenshots (out of date)
 ## Main display  
 ![Main display](http://i.imgur.com/UXr9LfX.png "Main display")
 
