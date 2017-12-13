@@ -89,6 +89,8 @@ $('#modalUpdateOperation').on('show.bs.modal', function(e) {
 	nowRounded = moment.utc();
 	nowRounded = moment.utc(Math.ceil((+nowRounded) / ROUNDING) * ROUNDING);
 
+
+
 	$.getJSON("/calendar/operation/find/" + operation_id, function(op) {
 		$('#modalUpdateOperation').find('input[name=title]').val(op.title);
 		$('#modalUpdateOperation').find('option[value="' + op.type + '"]').prop('selected', true);
@@ -97,8 +99,8 @@ $('#modalUpdateOperation').on('show.bs.modal', function(e) {
 		$('#modalUpdateOperation').find('input[name=staging_info]').val(op.staging_info);
 		$('#modalUpdateOperation').find('input[name=fc]').val(op.fc);
 		$('#modalUpdateOperation').find('input[name=fc_character_id]').val(op.fc_character_id);
-		$('#modalUpdateOperation').find('input[name=description]').val(op.description);
-		
+		$('#modalUpdateOperation').find('textarea[name=description]').val(op.description);
+
 		$.each(op.tags, function(i, tag) {
 			$('#checkbox-update-' + tag.id).prop('checked', true);
         });

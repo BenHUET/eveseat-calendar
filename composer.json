@@ -12,7 +12,7 @@
         "eveseat/web": "^2.0.13",
         "eveseat/eveapi": "^2.0",
         "eveseat/services": "^2.0",
-        "golonka/bbcodeparser": "^2.0"
+        "s9e/text-formatter": "*"
     },
     "authors": [{
         "name": "Kassie Yvo",

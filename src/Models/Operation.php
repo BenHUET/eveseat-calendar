@@ -5,6 +5,8 @@ namespace Seat\Kassie\Calendar\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
+use s9e\TextFormatter\Bundles\Forum as TextFormatter;
+
 use Carbon\Carbon;
 use \DateTime;
 use Seat\Web\Models\User;
@@ -53,8 +55,12 @@ class Operation extends Model
 		$this->attributes['description_new'] = $value;
 	}
 	public function getParsedDescriptionAttribute() {
-		$bbcode = new \Golonka\BBCode\BBCodeParser;
-		return $bbcode->parse($this->description ?: $this->description_new);
+		$parser = TextFormatter::getParser();
+		$parser->disablePlugin('Emoji');
+
+		$xml = $parser->parse($this->description ?: $this->description_new);
+		
+		return TextFormatter::render($xml);
 	}
 
 	public function getDurationAttribute() {
