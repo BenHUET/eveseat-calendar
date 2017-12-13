@@ -7,7 +7,6 @@ use Carbon\Carbon;
 
 use Seat\Eveapi\Models\Account\ApiKeyInfoCharacters;
 
-use Seat\Kassie\Calendar\Helpers\Settings;
 
 class Helper
 {
@@ -43,9 +42,15 @@ class Helper
 		$fields = array();
 
 		$fields[trans('calendar::seat.starts_at')] = $op->start_at->format('F j @ H:i EVE');
-		$fields[trans('calendar::seat.duration')] = $op->getDurationAttribute() ? $op->getDurationAttribute() : trans('calendar::seat.unknown');
+		$fields[trans('calendar::seat.duration')] = $op->getDurationAttribute() ?
+			$op->getDurationAttribute() : trans('calendar::seat.unknown');
 
-		$fields[trans('calendar::seat.importance')] = self::ImportanceAsEmoji($op->importance, Settings::get('slack_emoji_importance_full'), Settings::get('slack_emoji_importance_half'), Settings::get('slack_emoji_importance_empty'));
+		$fields[trans('calendar::seat.importance')] =
+			self::ImportanceAsEmoji(
+				$op->importance,
+				setting('kassie.calendar.slack_emoji_importance_full', true),
+				setting('kassie.calendar.slack_emoji_importance_half', true),
+				setting('kassie.calendar.slack_emoji_importance_empty', true));
 
 		$fields[trans('calendar::seat.fleet_commander')] = $op->fc ? $op->fc : trans('calendar::seat.unknown');
 

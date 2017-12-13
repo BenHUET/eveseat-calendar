@@ -5,33 +5,44 @@ namespace Seat\Kassie\Calendar\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Seat\Web\Http\Controllers\Controller;
-use Seat\Kassie\Calendar\Helpers\Settings;
-use Seat\Kassie\Calendar\Models\Setting;
 use Seat\Kassie\Calendar\Models\Tag;
 
 class SettingController extends Controller
 {
 	public function index() {
-		$settings = Setting::all()->first();
 		$tags = Tag::all();
 
 		return view('calendar::setting.index', [
-			'settings' => $settings,
 			'tags' => $tags
 		]);
 	}
 
 	public function updateSlack(Request $request) 
-	{		
-		$settings = Setting::all()->first();
+	{
+		setting([
+			'kassie.calendar.slack_integration',
+			$request->slack_integration == 1 ? 1 : 0,
+		], true);
 
-		$settings->slack_integration = $request->slack_integration == 1 ? 1 : 0;
-		$settings->slack_webhook = $request->slack_webhook;
-		$settings->slack_emoji_importance_full = $request->slack_emoji_importance_full;
-		$settings->slack_emoji_importance_half = $request->slack_emoji_importance_half;
-		$settings->slack_emoji_importance_empty = $request->slack_emoji_importance_empty;
+		setting([
+			'kassie.calendar.slack_webhook',
+			$request->slack_webhook,
+		], true);
 
-		$settings->save();
+		setting([
+			'kassie.calendar.slack_emoji_importance_full',
+			$request->slack_emoji_importance_full
+		], true);
+
+		setting([
+			'kassie.calendar.slack_emoji_importance_half',
+			$request->slack_emoji_importance_half
+		], true);
+
+		setting([
+			'kassie.calendar.slack_emoji_importance_empty',
+			$request->slack_emoji_importance_empty
+		], true);
 
 		return redirect()->back();
 	}

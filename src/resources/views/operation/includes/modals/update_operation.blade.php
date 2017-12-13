@@ -119,7 +119,7 @@
 						</div>
 					</div>
 					{{-- Operation slack --}}
-					@if($slack_integration == true)
+					@if(setting('kassie.calendar.slack_integration', true) == true)
 						<div class="form-group">
 							<label for="notify" class="col-sm-3 control-label">
 								<i class="fa fa-slack"></i>&nbsp;
