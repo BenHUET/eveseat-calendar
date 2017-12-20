@@ -162,7 +162,9 @@ class OperationController extends Controller
 			return $operation;
 		}
 
-		return redirect()->back('error', 'An error occurred while processing the request.');
+		return redirect()
+			->back()
+			->with('error', 'An error occurred while processing the request.');
 	}
 
 	public function delete(Request $request)
@@ -175,7 +177,9 @@ class OperationController extends Controller
 			}
 		}
 
-		return redirect()->back('error', 'An error occurred while processing the request.');
+		return redirect()
+			->back()
+			->with('error', 'An error occurred while processing the request.');
 	}
 
 	public function close(Request $request)
@@ -190,7 +194,9 @@ class OperationController extends Controller
 			}
 		}
 
-		return redirect()->back('error', 'An error occurred while processing the request.');
+		return redirect()
+			->back()
+			->with('error', 'An error occurred while processing the request.');
 	}
 
 	public function cancel(Request $request)
@@ -208,7 +214,9 @@ class OperationController extends Controller
 			}
 		}
 
-		return redirect()->back('error', 'An error occurred while processing the request.');
+		return redirect()
+			->back()
+			->with('error', 'An error occurred while processing the request.');
 	}
 
 	public function activate(Request $request) 
@@ -225,7 +233,9 @@ class OperationController extends Controller
 			}
 		}
 		
-		return redirect()->back('error', 'An error occurred while processing the request.');
+		return redirect()
+			->back()
+			->with('error', 'An error occurred while processing the request.');
 	}
 
 	public function subscribe(Request $request)
@@ -249,7 +259,9 @@ class OperationController extends Controller
 			}
 		}
 
-		return redirect()->back('error', 'An error occurred while processing the request.');
+		return redirect()
+			->back()
+			->with('error', 'An error occurred while processing the request.');
 	}
 
 	public function find($operation_id) {
@@ -258,7 +270,9 @@ class OperationController extends Controller
 			return response()->json($operation);
 		}
 
-		return redirect()->back('error', 'An error occurred while processing the request.');
+		return redirect()
+			->back()
+			->with('error', 'An error occurred while processing the request.');
 	}
 
 }
