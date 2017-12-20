@@ -13,53 +13,53 @@ use Seat\Kassie\Calendar\Models\Attendee;
 class LookupController extends Controller
 {
 
-	public function lookupCharacters(Request $request)
-	{
-		$characters = ApiKeyInfoCharacters::where('characterName', 'LIKE', '%' . $request->input('query') . '%')->take(5)->get()->unique('characterID');
+    public function lookupCharacters(Request $request)
+    {
+        $characters = ApiKeyInfoCharacters::where('characterName', 'LIKE', '%' . $request->input('query') . '%')->take(5)->get()->unique('characterID');
 
-		$results = array();
+        $results = array();
 
-		foreach ($characters as $character) {
-			array_push($results, array(
-				"value" => $character->characterName, 
-				"data" => $character->characterID
-			));
-		}
+        foreach ($characters as $character) {
+            array_push($results, array(
+                "value" => $character->characterName,
+                "data" => $character->characterID
+            ));
+        }
 
-		return response()->json(array('suggestions' => $results));
-	}
+        return response()->json(array('suggestions' => $results));
+    }
 
-	public function lookupSystems(Request $request)
-	{
-		$systems = DB::table('invUniqueNames')->where([
-			['groupID', '=', 5],
-			['itemName', 'like', $request->input('query') . '%']
-		])->take(10)->get();
+    public function lookupSystems(Request $request)
+    {
+        $systems = DB::table('invUniqueNames')->where([
+            ['groupID', '=', 5],
+            ['itemName', 'like', $request->input('query') . '%']
+        ])->take(10)->get();
 
-		$results = array();
+        $results = array();
 
-		foreach ($systems as $system) {
-			array_push($results, array(
-				"value" => $system->itemName, 
-				"data" => $system->itemID
-			));
-		}
+        foreach ($systems as $system) {
+            array_push($results, array(
+                "value" => $system->itemName,
+                "data" => $system->itemID
+            ));
+        }
 
-		return response()->json(array('suggestions' => $results));
-	}
+        return response()->json(array('suggestions' => $results));
+    }
 
-	public function lookupAttendees(Request $request)
-	{
-		$attendees = Attendee::where('operation_id', $request->input('id'))
-			->with(['character' => function ($query) {
-				$query->select('characterID', 'characterName', 'corporationID');
-			}])
-			->select('character_id', 'user_id', 'status', 'comment AS _comment', 'created_at', 'updated_at')
-			->get();
-		
-		return Datatables::collection($attendees)
-			->removeColumn('character_id', 'main_character', 'user_id', 'status', 'character', 'created_at', 'updated_at')
-			->addColumn('_character', function ($row) {
+    public function lookupAttendees(Request $request)
+    {
+        $attendees = Attendee::where('operation_id', $request->input('id'))
+            ->with(['character' => function ($query) {
+                $query->select('characterID', 'characterName', 'corporationID');
+            }])
+            ->select('character_id', 'user_id', 'status', 'comment AS _comment', 'created_at', 'updated_at')
+            ->get();
+
+        return Datatables::collection($attendees)
+            ->removeColumn('character_id', 'main_character', 'user_id', 'status', 'character', 'created_at', 'updated_at')
+            ->addColumn('_character', function ($row) {
                 return view('calendar::operation.includes.cols.attendees.character', compact('row'))->render();
             })
             ->addColumn('_character_name', function ($row) {
@@ -71,7 +71,7 @@ class LookupController extends Controller
             ->addColumn('_timestamps', function ($row) {
                 return view('calendar::operation.includes.cols.attendees.timestamps', compact('row'))->render();
             })
-			->make(true);
-	}
+            ->make(true);
+    }
 
 }

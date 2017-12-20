@@ -10,21 +10,21 @@ use Seat\Kassie\Calendar\Helpers\Helper;
 
 class OperationPosted extends Notification
 {
-	use Queueable;
+    use Queueable;
 
-	public function via($notifiable)
-	{
-		return ['slack'];
-	}
+    public function via($notifiable)
+    {
+        return ['slack'];
+    }
 
-	public function toSlack($notifiable)
-	{
-		$attachment = Helper::BuildSlackNotificationAttachment($notifiable);
+    public function toSlack($notifiable)
+    {
+        $attachment = Helper::BuildSlackNotificationAttachment($notifiable);
 
-		return (new SlackMessage)
-			->success()
-			->from('SeAT Calendar', ':calendar:')
-			->content(trans('calendar::seat.notification_new_operation'))
-			->attachment($attachment);
-	}
+        return (new SlackMessage)
+            ->success()
+            ->from('SeAT Calendar', ':calendar:')
+            ->content(trans('calendar::seat.notification_new_operation'))
+            ->attachment($attachment);
+    }
 }

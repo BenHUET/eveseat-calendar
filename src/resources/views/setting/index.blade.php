@@ -4,19 +4,19 @@
 @section('page_header', trans('calendar::seat.settings'))
 
 @section('left')
-	@include('calendar::setting.includes.slack')
+    @include('calendar::setting.includes.slack')
 @stop
 
 @section('center')
-	@include('calendar::setting.includes.tags')
+    @include('calendar::setting.includes.tags')
 @stop
 
 @include('calendar::setting.includes.modals.confirm_delete_tag')
 
 @push('head')
-	<link rel="stylesheet" href="{{ asset('web/css/calendar.css') }}" />
+    <link rel="stylesheet" href="{{ asset('web/css/calendar.css') }}" />
 @endpush
 
 @push('javascript')
-	<script src="{{ asset('web/js/settings.js') }}"></script>
+    <script src="{{ asset('web/js/settings.js') }}"></script>
 @endpush

@@ -6,28 +6,28 @@ use Illuminate\Database\Migrations\Migration;
 
 class AlterCalendarOperationsDescriptionField extends Migration
 {
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::table('calendar_operations', function (Blueprint $table) {
-			$table->text('description_new')->nullable();
-		});
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('calendar_operations', function (Blueprint $table) {
+            $table->text('description_new')->nullable();
+        });
 
-	}
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::table('calendar_operations', function (Blueprint $table) {
-			$table->dropColumn('description_new');
-		});
-	}
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('calendar_operations', function (Blueprint $table) {
+            $table->dropColumn('description_new');
+        });
+    }
 }

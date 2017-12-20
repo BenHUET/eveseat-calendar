@@ -20,7 +20,7 @@ class AjaxController
         }
 
         return redirect()
-	        ->back()
-	        ->with('error', 'An error occurred while processing the request.');
+            ->back()
+            ->with('error', 'An error occurred while processing the request.');
     }
 }
