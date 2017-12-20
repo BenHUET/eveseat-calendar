@@ -3,12 +3,12 @@
 namespace Seat\Kassie\Calendar\Observers;
 
 use Illuminate\Support\Facades\Notification;
-
 use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Notifications\OperationPosted;
 use Seat\Kassie\Calendar\Notifications\OperationUpdated;
 use Seat\Kassie\Calendar\Notifications\OperationCancelled;
 use Seat\Kassie\Calendar\Notifications\OperationActivated;
+
 
 class OperationObserver
 {

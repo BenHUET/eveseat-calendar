@@ -4,10 +4,7 @@ namespace Seat\Kassie\Calendar\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
-
 use Carbon\Carbon;
-
-use Seat\Kassie\Calendar\Helpers\Settings;
 use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Notifications\OperationPinged;
 

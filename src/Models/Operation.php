@@ -4,12 +4,11 @@ namespace Seat\Kassie\Calendar\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-
 use s9e\TextFormatter\Bundles\Forum as TextFormatter;
-
 use Carbon\Carbon;
 use \DateTime;
 use Seat\Web\Models\User;
+
 
 class Operation extends Model
 {

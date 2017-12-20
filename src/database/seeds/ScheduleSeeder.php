@@ -5,6 +5,7 @@ namespace Seat\Kassie\Calendar\database\seeds;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
+
 class ScheduleSeeder extends Seeder
 {
 	public function run()

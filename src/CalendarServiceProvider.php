@@ -4,10 +4,10 @@ namespace Seat\Kassie\Calendar;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Console\Scheduling\Schedule;
-
 use Seat\Kassie\Calendar\Observers\OperationObserver;
 use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Commands\RemindOperation;
+
 
 class CalendarServiceProvider extends ServiceProvider
 {

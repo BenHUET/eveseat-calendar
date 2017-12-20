@@ -3,9 +3,9 @@
 namespace Seat\Kassie\Calendar\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use Seat\Web\Http\Controllers\Controller;
 use Seat\Kassie\Calendar\Models\Tag;
+
 
 class SettingController extends Controller
 {

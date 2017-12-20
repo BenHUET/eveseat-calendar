@@ -4,6 +4,7 @@ namespace Seat\Kassie\Calendar\database\seeds;
 
 use Illuminate\Database\Seeder;
 
+
 class CalendarSettingsTableSeeder extends Seeder
 {
 	public function run()

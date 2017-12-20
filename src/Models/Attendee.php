@@ -4,13 +4,10 @@ namespace Seat\Kassie\Calendar\Models;
 
 use Seat\Services\Repositories\Configuration\UserRespository;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Lang;
 use Seat\Eveapi\Models\Eve\CharacterInfo;
 use Seat\Web\Models\User;
-
-
 use Seat\Kassie\Calendar\Helpers\Helper;
+
 
 class Attendee extends Model
 {

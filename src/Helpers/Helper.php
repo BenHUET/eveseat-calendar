@@ -3,8 +3,6 @@
 namespace Seat\Kassie\Calendar\Helpers;
 
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
-
 use Seat\Eveapi\Models\Account\ApiKeyInfoCharacters;
 
 

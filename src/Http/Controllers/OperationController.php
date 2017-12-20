@@ -4,19 +4,17 @@ namespace Seat\Kassie\Calendar\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 use Carbon\Carbon;
-
 use Seat\Services\Repositories\Configuration\UserRespository;
 use Seat\Services\Repositories\Character\Character;
 use Seat\Web\Http\Controllers\Controller;
 use Seat\Web\Models\People;
-
 use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Models\Attendee;
 use Seat\Kassie\Calendar\Models\Tag;
 use Seat\Kassie\Calendar\Helpers\Settings;
 use Seat\Kassie\Calendar\Helpers\Helper;
+
 
 class OperationController extends Controller
 {

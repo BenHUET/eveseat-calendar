@@ -4,7 +4,6 @@ namespace Seat\Kassie\Calendar\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use Seat\Kassie\Calendar\Models\Operation;
 
 class Tag extends Model
 {

@@ -9,6 +9,7 @@ namespace Seat\Kassie\Calendar\Http\Controllers;
 
 use Seat\Kassie\Calendar\Models\Operation;
 
+
 class AjaxController
 {
     public function getDetail($operation_id)

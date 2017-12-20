@@ -4,10 +4,9 @@ namespace Seat\Kassie\Calendar\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\SlackMessage;
-
 use Seat\Kassie\Calendar\Helpers\Helper;
+
 
 class OperationActivated extends Notification
 {
