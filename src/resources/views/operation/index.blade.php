@@ -6,18 +6,25 @@
 @section('full')
 
 	@if(auth()->user()->has('calendar.create', false))
-	<div class="row">
-		<div class="col-md-offset-8 col-md-4">
-			<div class="panel-body">
-				<div class="pull-right">
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCreateOperation">
-						<i class="fa fa-plus"></i>&nbsp;&nbsp;
-						{{ trans('calendar::seat.add_operation') }}
-					</button>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="row margin-bottom">
+        <div class="col-md-4">
+            @if(!$isKnownCharacter)
+            <div class="pull-left">
+                <a href="{{ route('calendar.auth') }}">
+                    <img src="https://images.contentful.com/idjq7aai9ylm/12vrPsIMBQi28QwCGOAqGk/33234da7672c6b0cdca394fc8e0b1c2b/EVE_SSO_Login_Buttons_Small_Black.png?w=195&h=30" alt="Eve SSO" />
+                </a>
+            </div>
+            @endif
+        </div>
+        <div class="col-md-offset-4 col-md-4">
+            <div class="pull-right">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCreateOperation">
+                    <i class="fa fa-plus"></i>&nbsp;&nbsp;
+                    {{ trans('calendar::seat.add_operation') }}
+                </button>
+            </div>
+        </div>
+    </div>
 	@endif
 
 	@include('calendar::operation.includes.modals.create_operation')
@@ -59,18 +66,18 @@
 	<script src="{{ asset('web/js/bootstrap-slider.min.js') }}"></script>
 	<script src="{{ asset('web/js/jquery.autocomplete.min.js') }}"></script>
 	<script src="{{ asset('web/js/natural.js') }}"></script>
-	
+
 	<script src="{{ asset('web/js/calendar.js') }}"></script>
 	<script src="{{ asset('web/js/details.js') }}"></script>
 	<script type="text/javascript">
-        $('#modalDetails')
+		$('#modalDetails')
 			.on('show.bs.modal', function(e){
 				var link = '{{ route('operation.detail', 0) }}';
 				// load detail content dynamically
 				$(this).find('.modal-body')
 					.load(link.replace('/0', '/' + $(e.relatedTarget).attr('data-op-id')), "", function(){
 						// attach the datatable to the loaded modal
-					    var table = $('#attendees');
+						var table = $('#attendees');
 						if (! $.fn.DataTable.isDataTable(table)) {
 							table.DataTable({
 								"ajax": "/calendar/lookup/attendees?id=" + $(e.relatedTarget).attr('data-op-id'),
@@ -102,10 +109,10 @@
 				table.destroy();
 			});
 
-        // direct link
-        $(function(){
-            if ($('tr[data-attr-default=true]').length > 0)
-                $('tr[data-attr-default]').find('.hidden-xs').find('.fa-eye').click();
+		// direct link
+		$(function(){
+			if ($('tr[data-attr-default=true]').length > 0)
+				$('tr[data-attr-default]').find('.hidden-xs').find('.fa-eye').click();
 		});
 	</script>
 @endpush
