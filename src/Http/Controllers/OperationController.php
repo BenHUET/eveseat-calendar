@@ -30,12 +30,12 @@ class OperationController extends Controller
         $this->middleware('bouncer:calendar.create')->only('store');
     }
 
-	public function index(Request $request)
-	{
+    public function index(Request $request)
+    {
         $isKnownCharacter = !is_null(EsiToken::find(setting('main_character_id')));
 
-		$ops = Operation::all()->take(-50);
-		$tags = Tag::all()->sortBy('order');
+        $ops = Operation::all()->take(-50);
+        $tags = Tag::all()->sortBy('order');
 
         $ops_incoming = $ops->filter(function($op) {
             return $op->status == "incoming";

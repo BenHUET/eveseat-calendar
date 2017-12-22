@@ -5,7 +5,7 @@
 
 @section('full')
 
-	@if(auth()->user()->has('calendar.create', false))
+    @if(auth()->user()->has('calendar.create', false))
     <div class="row margin-bottom">
         <div class="col-md-4">
             @if(!$isKnownCharacter)
@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-	@endif
+    @endif
 
     @include('calendar::operation.includes.modals.create_operation')
     @include('calendar::operation.includes.modals.update_operation')
