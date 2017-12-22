@@ -2,12 +2,12 @@
 
 return [
     'calendar' => [
-		'view',
-		'create',
-		'setup',
-		'deleteAll',
-		'cancelAll',
-		'updateAll',
-		'closeAll'
+        'view',
+        'create',
+        'setup',
+        'deleteAll',
+        'cancelAll',
+        'updateAll',
+        'closeAll'
     ]
 ];
