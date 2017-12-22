@@ -21,7 +21,7 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($ops_faded->sortBy('start_at') as $op)
+                @forelse($ops_faded->sortByDesc('start_at') as $op)
                 @if($default_op == $op->id)
                 <tr class="{{ $op->is_cancelled == 0 ? '' : 'danger' }} text-muted" data-attr-op="{{ $op->id }}" data-attr-default="true">
                 @else
