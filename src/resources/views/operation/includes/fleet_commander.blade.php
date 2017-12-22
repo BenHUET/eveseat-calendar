@@ -5,5 +5,5 @@
     <a href="{{ route('operation.paps', [$op->id]) }}" class="btn btn-xs btn-default">Pap Fleet !</a>
     @endif
 @else
-	{{ $op->fc }}
+    {{ $op->fc }}
 @endif

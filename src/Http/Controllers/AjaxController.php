@@ -10,6 +10,7 @@ namespace Seat\Kassie\Calendar\Http\Controllers;
 use Seat\Kassie\Calendar\Models\Api\EsiToken;
 use Seat\Kassie\Calendar\Models\Operation;
 
+
 class AjaxController
 {
     public function getDetail($operation_id)
@@ -20,6 +21,8 @@ class AjaxController
             return view('calendar::ajax.detail_body', compact('op', 'isKnownCharacter'));
         }
 
-        return redirect()->back('error', 'An error occurred while processing the request.');
+        return redirect()
+            ->back()
+            ->with('error', 'An error occurred while processing the request.');
     }
 }
