@@ -33,11 +33,16 @@ class CreatePapsTables extends Migration {
             $table->bigInteger('character_id');
             $table->bigInteger('ship_type_id');
             $table->dateTime('join_time');
+            $table->integer('week');
             $table->integer('month');
             $table->integer('year');
 
             $table->primary(['operation_id', 'character_id']);
-
+            $table->index('week');
+            $table->index('month');
+            $table->index('year');
+            $table->index(['week', 'month']);
+            $table->index(['month', 'year']);
         });
     }
 

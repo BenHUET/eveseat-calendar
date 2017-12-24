@@ -31,6 +31,7 @@ class Pap extends Model {
     public function save( array $options = [] ) {
         if (array_key_exists('join_time', $this->attributes)) {
             $dt = carbon($this->getAttributeValue('join_time'));
+            $this->setAttribute('week', $dt->weekOfMonth);
             $this->setAttribute('month', $dt->month);
             $this->setAttribute('year', $dt->year);
         }

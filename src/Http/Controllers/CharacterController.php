@@ -17,6 +17,8 @@ class CharacterController extends Controller {
 
     public function paps($character_id)
     {
+        $today = carbon();
+
         $monthlyPaps = Pap::where('character_id', $character_id)
             ->select('character_id', 'year', 'month', DB::raw('count(*) as qty'))
             ->groupBy('year', 'month')
@@ -34,7 +36,29 @@ class CharacterController extends Controller {
             ->orderBy('groupName')
             ->get();
 
-        return view('calendar::character.paps', compact('monthlyPaps', 'shipTypePaps'));
+        $weeklyRanking = Pap::where('week', $today->weekOfMonth)
+                         ->where('month', $today->month)
+                         ->where('year', $today->year)
+                         ->select('character_id', DB::raw('count(*) as qty'))
+                         ->groupBy('character_id')
+                         ->orderBy('qty', 'desc')
+                         ->get();
+
+        $monthlyRanking = Pap::where('month', $today->month)
+                          ->where('year', $today->year)
+                          ->select('character_id', DB::raw('count(*) as qty'))
+                          ->groupBy('character_id')
+                          ->orderBy('qty', 'desc')
+                          ->get();
+
+        $yearlyRanking = Pap::where('year', $today->year)
+                         ->select('character_id', DB::raw('count(*) as qty'))
+                         ->groupBy('character_id')
+                         ->orderBy('qty', 'desc')
+                         ->get();
+
+        return view('calendar::character.paps', compact('monthlyPaps', 'shipTypePaps',
+            'weeklyRanking', 'monthlyRanking', 'yearlyRanking', 'character_id'));
     }
 
 }
