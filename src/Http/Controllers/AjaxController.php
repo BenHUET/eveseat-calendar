@@ -7,6 +7,7 @@
 
 namespace Seat\Kassie\Calendar\Http\Controllers;
 
+use Seat\Kassie\Calendar\Models\Api\EsiToken;
 use Seat\Kassie\Calendar\Models\Operation;
 
 
@@ -16,7 +17,8 @@ class AjaxController
     {
         if (auth()->user()->has('calendar.view', false)) {
             $op = Operation::find($operation_id)->load('tags');
-            return view('calendar::ajax.detail_body', compact('op'));
+            $isKnownCharacter = !is_null(EsiToken::find(setting('main_character_id')));
+            return view('calendar::ajax.detail_body', compact('op', 'isKnownCharacter'));
         }
 
         return redirect()

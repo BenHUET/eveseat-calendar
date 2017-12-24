@@ -37,9 +37,6 @@
                             <li class="list-group-item no-border">
                                 <b>{{ trans('calendar::seat.fleet_commander') }}</b> :
                                 @if($op->fc)
-                                    @if($op->fc_character_id)
-                                        &nbsp;
-                                    @endif
                                     @include('calendar::operation.includes.fleet_commander')
                                 @else
                                     <i>{{ trans('calendar::seat.unknown') }}</i>

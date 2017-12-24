@@ -12,7 +12,8 @@
         "eveseat/web": "^2.0.13",
         "eveseat/eveapi": "^2.0",
         "eveseat/services": "^2.0",
-        "s9e/text-formatter": "*"
+        "s9e/text-formatter": "*",
+        "eveseat/eseye": "0.*"
     },
     "authors": [{
         "name": "Kassie Yvo",

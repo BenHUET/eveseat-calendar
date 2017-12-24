@@ -6,15 +6,22 @@
 @section('full')
 
     @if(auth()->user()->has('calendar.create', false))
-    <div class="row">
-        <div class="col-md-offset-8 col-md-4">
-            <div class="panel-body">
-                <div class="pull-right">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCreateOperation">
-                        <i class="fa fa-plus"></i>&nbsp;&nbsp;
-                        {{ trans('calendar::seat.add_operation') }}
-                    </button>
-                </div>
+    <div class="row margin-bottom">
+        <div class="col-md-4">
+            @if(!$isKnownCharacter)
+            <div class="pull-left">
+                <a href="{{ route('calendar.auth') }}">
+                    <img src="https://images.contentful.com/idjq7aai9ylm/12vrPsIMBQi28QwCGOAqGk/33234da7672c6b0cdca394fc8e0b1c2b/EVE_SSO_Login_Buttons_Small_Black.png?w=195&h=30" alt="Eve SSO" />
+                </a>
+            </div>
+            @endif
+        </div>
+        <div class="col-md-offset-4 col-md-4">
+            <div class="pull-right">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCreateOperation">
+                    <i class="fa fa-plus"></i>&nbsp;&nbsp;
+                    {{ trans('calendar::seat.add_operation') }}
+                </button>
             </div>
         </div>
     </div>

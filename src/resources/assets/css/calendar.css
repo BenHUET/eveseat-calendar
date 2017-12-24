@@ -103,6 +103,10 @@
     background: #444;
 }
 
+.margin-bottom {
+    margin-bottom: 15px;
+}
+
 /* mobile device optimisation */
 @media (max-width: 767px) and (orientation: portrait) {
     .hidden-portrait-xs {

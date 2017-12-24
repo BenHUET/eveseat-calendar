@@ -27,11 +27,14 @@ class CalendarServiceProvider extends ServiceProvider
         });
     }
 
-    public function register()
-    {
-        $this->mergeConfigFrom(__DIR__ . '/Config/package.sidebar.php', 'package.sidebar');
-        $this->mergeConfigFrom(__DIR__ . '/Config/calendar.permissions.php', 'web.permissions');
-    }
+	public function register()
+	{
+		$this->mergeConfigFrom(__DIR__ . '/Config/package.sidebar.php', 'package.sidebar');
+        $this->mergeConfigFrom(__DIR__ . '/Config/calendar.character.menu.php', 'package.character.menu');
+		$this->mergeConfigFrom(__DIR__ . '/Config/calendar.permissions.php', 'web.permissions');
+        $this->mergeConfigFrom(__DIR__ . '/Config/character.permission.php', 'web.permissions.character');
+        $this->mergeConfigFrom(__DIR__ . '/Config/calendar.config.php', 'calendar.config');
+	}
 
     private function addRoutes()
     {

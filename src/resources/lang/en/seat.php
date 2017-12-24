@@ -139,4 +139,6 @@ return [
     'delete_tag_confirm_button_yes' => 'Yes, I am sure I want to delete this tag',
 
     'direct_link' => 'Direct link',
+
+    'paps' => 'Paps',
 ];

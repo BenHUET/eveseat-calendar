@@ -2,9 +2,40 @@
 
 Route::group([
     'namespace' => 'Seat\Kassie\Calendar\Http\Controllers',
+    'middleware' => ['web', 'auth'],
+    'prefix' => 'character',
+], function() {
+
+    Route::get('/{character_id}/paps', [
+        'as' => 'character.view.paps',
+        'uses' => 'CharacterController@paps',
+        'middleware' => 'characterbouncer:kassie_calendar_paps',
+    ]);
+
+});
+
+Route::group([
+    'namespace' => 'Seat\Kassie\Calendar\Http\Controllers',
     'middleware' => ['web', 'auth', 'bouncer:calendar.view'],
     'prefix' => 'calendar'
 ], function () {
+
+    Route::group([
+        'namespace' => 'Service',
+        'prefix' => 'auth',
+    ], function(){
+
+        Route::get('/', [
+            'as' => 'calendar.auth',
+            'uses' => 'EsiController@redirectToAuth',
+        ]);
+
+        Route::get('/callback', [
+            'as' => 'calendar.auth.callback',
+            'uses' => 'EsiController@authCallback',
+        ]);
+
+    });
 
     Route::group([
         'prefix' => 'ajax'
@@ -65,7 +96,12 @@ Route::group([
 
         Route::get('find/{id}', 'OperationController@find');
 
-    });	
+        Route::get('/{id}/paps', [
+            'as'   => 'operation.paps',
+            'uses' => 'OperationController@paps',
+        ]);
+
+	});
 
     Route::group([
         'prefix' => 'setting',
