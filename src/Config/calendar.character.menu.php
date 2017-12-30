@@ -9,7 +9,7 @@ return [
     [
         'name'  => 'paps',
         'label' => 'calendar::seat.paps',
-        'permission' => 'kassie_calendar_paps',
+        'permission' => 'character.kassie_calendar_paps',
         'highlight_view' => 'paps',
         'route' => 'character.view.paps',
     ],
