@@ -96,7 +96,6 @@ return [
     'staging' => 'Staging',
     'staging_sys' => 'Staging system',
     'staging_info' => 'Staging info',
-    'description' => 'Description',
     'fleet_commander' => 'Fleet Commander',
     'character' => 'Character',
 
@@ -141,4 +140,12 @@ return [
     'direct_link' => 'Direct link',
 
     'paps' => 'Paps',
+
+    'analytic'   => 'Analytic Axis',
+    'quantifier' => 'Quantifier',
+    'strategic'  => 'Strategic',
+    'pvp'        => 'PvP',
+    'mining'     => 'Mining',
+    'untracked'  => 'Un-Tracked',
+    'list'       => 'List',
 ];

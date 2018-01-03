@@ -8,12 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends Model
 {
     public $timestamps = false;
+
     protected $table = 'calendar_tags';
+
     protected $fillable = [
         'name',
         'bg_color',
         'text_color',
-        'order'
+        'order',
+        'quantifier',
+        'analytics',
     ];
 
     public function operations()

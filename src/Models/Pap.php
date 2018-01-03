@@ -25,10 +25,16 @@ class Pap extends Model {
     ];
 
     protected $fillable = [
-        'operation_id', 'character_id', 'ship_type_id', 'join_time',
+        'operation_id', 'character_id', 'ship_type_id', 'join_time', 'value',
     ];
 
     public function save( array $options = [] ) {
+
+        $operation = Operation::find($this->getAttributeValue('operation_id'));
+
+        if (!is_null($operation) && !is_null($operation->tags))
+            $this->setAttribute('value', $operation->tags->max('quantifier'));
+
         if (array_key_exists('join_time', $this->attributes)) {
             $dt = carbon($this->getAttributeValue('join_time'));
             $this->setAttribute('week', $dt->weekOfMonth);

@@ -20,7 +20,7 @@ class CharacterController extends Controller {
         $today = carbon();
 
         $monthlyPaps = Pap::where('character_id', $character_id)
-            ->select('character_id', 'year', 'month', DB::raw('count(*) as qty'))
+            ->select('character_id', 'year', 'month', DB::raw('sum(value) as qty'))
             ->groupBy('year', 'month')
             ->get();
 
@@ -31,7 +31,7 @@ class CharacterController extends Controller {
                 $query->where('character_id', $character_id)
                     ->orWhere('character_id', null);
             })
-            ->select('invGroups.groupID', 'categoryID', 'groupName', DB::raw('count(operation_id) as qty'))
+            ->select('invGroups.groupID', 'categoryID', 'groupName', DB::raw('sum(value) as qty'))
             ->groupBy('invGroups.groupID')
             ->orderBy('groupName')
             ->get();
@@ -39,20 +39,20 @@ class CharacterController extends Controller {
         $weeklyRanking = Pap::where('week', $today->weekOfMonth)
                          ->where('month', $today->month)
                          ->where('year', $today->year)
-                         ->select('character_id', DB::raw('count(*) as qty'))
+                         ->select('character_id', DB::raw('sum(value) as qty'))
                          ->groupBy('character_id')
                          ->orderBy('qty', 'desc')
                          ->get();
 
         $monthlyRanking = Pap::where('month', $today->month)
                           ->where('year', $today->year)
-                          ->select('character_id', DB::raw('count(*) as qty'))
+                          ->select('character_id', DB::raw('sum(value) as qty'))
                           ->groupBy('character_id')
                           ->orderBy('qty', 'desc')
                           ->get();
 
         $yearlyRanking = Pap::where('year', $today->year)
-                         ->select('character_id', DB::raw('count(*) as qty'))
+                         ->select('character_id', DB::raw('sum(value) as qty'))
                          ->groupBy('character_id')
                          ->orderBy('qty', 'desc')
                          ->get();

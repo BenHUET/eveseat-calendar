@@ -16,6 +16,32 @@ Route::group([
 
 Route::group([
     'namespace' => 'Seat\Kassie\Calendar\Http\Controllers',
+    'middleware' => ['web', 'auth'],
+    'prefix' => 'corporation',
+], function() {
+
+    Route::get('/{corporation_id}/paps', [
+        'as' => 'corporation.view.paps',
+        'uses' => 'CorporationController@getPaps',
+        'middleware' => 'corporationbouncer:kassie_calendar_paps',
+    ]);
+
+    Route::get('/{corporation_id}/paps/json/year', [
+        'as' => 'corporation.ajax.paps.year',
+        'uses' => 'CorporationController@getYearPapsStats',
+        'middleware' => 'corporationbouncer:kassie_calendar_paps',
+    ]);
+
+    Route::get('/{corporation_id}/paps/json/stacked', [
+        'as' => 'corporation.ajax.paps.stacked',
+        'uses' => 'CorporationController@getMonthlyStackedPapsStats',
+        'middleware' => 'corporationbouncer:kassie_calendar_paps',
+    ]);
+
+});
+
+Route::group([
+    'namespace' => 'Seat\Kassie\Calendar\Http\Controllers',
     'middleware' => ['web', 'auth', 'bouncer:calendar.view'],
     'prefix' => 'calendar'
 ], function () {
@@ -101,7 +127,7 @@ Route::group([
             'uses' => 'OperationController@paps',
         ]);
 
-	});
+    });
 
     Route::group([
         'prefix' => 'setting',
@@ -133,9 +159,21 @@ Route::group([
             'as' => 'setting.tag.create',
             'uses' => 'TagController@store'
             ]);
+
             Route::post('delete', [
                 'as' => 'setting.tag.delete',
                 'uses' => 'TagController@delete'
+            ]);
+
+            Route::get('show/{id}', [
+                'as' => 'tags.show',
+                'uses' => 'TagController@get',
+                'middleware' => 'bouncer:calendar.setup',
+            ]);
+
+            Route::post('update', [
+                'as' => 'setting.tag.update',
+                'uses' => 'TagController@store'
             ]);
 
         });
