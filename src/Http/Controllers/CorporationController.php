@@ -38,6 +38,7 @@ class CorporationController extends Controller {
                    ->select('character_id', 'name', DB::raw('sum(value) as qty'))
                    ->groupBy('character_id', 'name')
                    ->orderBy('qty', 'desc')
+                   ->orderBy('name', 'asc')
                    ->get());
 
         return response()->json(
@@ -50,6 +51,7 @@ class CorporationController extends Controller {
                 ->join('account_api_key_info_characters as aakic2', 'main_character_id', 'aakic2.characterID')
                 ->groupBy('main_character_id', 'main_character_name')
                 ->orderBy('qty', 'desc')
+	            ->orderBy('main_character_name', 'asc')
                 ->get());
     }
 
@@ -80,6 +82,7 @@ class CorporationController extends Controller {
                    ->select('character_id', 'ccs.name', 'analytics', DB::raw('sum(value) as qty'))
                    ->groupBy('character_id', 'ccs.name', 'analytics')
                    ->orderBy('qty', 'desc')
+                   ->orderBy('ccs.name', 'asc')
                    ->get()
             );
 
@@ -95,8 +98,9 @@ class CorporationController extends Controller {
                ->join('calendar_tag_operation as cto', 'cto.operation_id', 'co.id')
                ->join('calendar_tags as ct', 'ct.id', 'cto.tag_id')
                ->select('main_character_id as character_id', 'main_character_name as name', 'analytics', DB::raw('sum(value) as qty'))
-                ->groupBy('main_character_id', 'main_character_name', 'analytics')
+               ->groupBy('main_character_id', 'main_character_name', 'analytics')
                ->orderBy('qty', 'desc')
+               ->orderBy('main_character_name', 'asc')
                ->get());
     }
 }

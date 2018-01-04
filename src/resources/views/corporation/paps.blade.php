@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div class="chart">
-                <canvas id="monthlyStackedChart" height="300" width="900"></canvas>
+                <canvas id="monthlyStackedChart" width="900"></canvas>
             </div>
         </div>
     </div>
@@ -97,6 +97,9 @@ $(function(){
                 intersect: true
             },
             scales: {
+                xAxes: [{
+                    barThickness: 20
+                }],
                 yAxes: [{
                     id: 'quantity',
                     ticks: {
@@ -134,7 +137,8 @@ $(function(){
                     stacked: true
                 }],
                 yAxes: [{
-                    stacked: true
+                    stacked: true,
+                    barThickness: 20
                 }]
             }
         }
@@ -210,7 +214,10 @@ $(function(){
             },
             success: function(data){
 
+                var pointFound = false;
+                var seriesFound = false;
                 var datasetLabels = [];
+                var series = [];
 
                 if (typeof(monthChart) !== 'undefined')
                     monthChart.destroy();
@@ -231,6 +238,9 @@ $(function(){
                 }
 
                 $(data).each(function(index, record){
+                    pointFound = false;
+                    seriesFound = false;
+
                     if ($.inArray(record.name, monthChartSettings.data.labels) < 0)
                         monthChartSettings.data.labels.push(record.name);
 
@@ -242,19 +252,54 @@ $(function(){
                         });
                     }
 
-                    $(monthChartSettings.data.datasets).each(function(index, dataset){
-                        if (dataset.label === record.analytics)
-                            dataset.data.push(parseFloat(record.qty));
-                        else
-                            dataset.data.push(0.0);
+                    $(series).each(function(index, serie){
+                        if (serie.label === record.name) {
+                            seriesFound = true;
+
+                            $(serie.points).each(function(index, point){
+                                if (point.name === record.analytics) {
+                                    pointFound = true;
+                                    point.value += parseFloat(record.qty);
+                                }
+                            });
+
+                            if (!pointFound)
+                                serie.points.push({
+                                    name: record.analytics,
+                                    value: parseFloat(record.qty)
+                                });
+                        }
                     });
+
+                    if (!seriesFound)
+                        series.push({
+                            label: record.name,
+                            points: [{
+                                name: record.analytics,
+                                value: record.qty
+                            }]
+                        });
                 });
 
                 rainbow.setNumberRange(0, monthChartSettings.data.datasets.length);
                 rainbow.setSpectrum(themeColor, '#dddddd');
 
-                $(monthChartSettings.data.datasets).each(function(index, dataset){
-                    dataset.backgroundColor = '#' + rainbow.colourAt(index);
+                $(monthChartSettings.data.labels).each(function(labelIndex, label) {
+                    pointFound = false;
+
+                    $(monthChartSettings.data.datasets).each(function (datasetIndex, dataset) {
+                        dataset.backgroundColor = '#' + rainbow.colourAt(datasetIndex);
+
+                        $(series[labelIndex].points).each(function(pointIndex, point){
+                            if (point.name === dataset.label){
+                                pointFound = true;
+                                dataset.data.push(parseFloat(point.value));
+                            }
+                        });
+
+                        if (!pointFound)
+                            dataset.data.push(0.0);
+                    });
                 });
 
                 monthChartSettings.options.title.text = 'participation of ' + monthChartParameters
@@ -265,6 +310,9 @@ $(function(){
 
                 if (monthChartParameters.find('input[type="checkbox"]').is(':checked'))
                     monthChartSettings.options.title.text = 'grouped ' + monthChartSettings.options.title.text;
+
+                console.debug(series);
+                console.debug(monthChartSettings);
 
                 monthChart = new Chart(document.getElementById('monthlyStackedChart').getContext('2d'), monthChartSettings);
             }
