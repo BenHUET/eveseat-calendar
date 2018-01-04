@@ -34,6 +34,7 @@ class CalendarServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/Config/calendar.corporation.menu.php', 'package.corporation.menu');
         $this->mergeConfigFrom(__DIR__ . '/Config/calendar.permissions.php', 'web.permissions');
         $this->mergeConfigFrom(__DIR__ . '/Config/character.permission.php', 'web.permissions.character');
+        $this->mergeConfigFrom(__DIR__ . '/Config/corporation.permission.php', 'web.permissions.corporation');
         $this->mergeConfigFrom(__DIR__ . '/Config/calendar.config.php', 'calendar.config');
     }
 
