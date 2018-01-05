@@ -339,6 +339,7 @@ class OperationController extends Controller
                 Pap::firstOrCreate([
                     'character_id' => $member->character_id,
                     'operation_id' => $operation_id,
+                ],[
                     'ship_type_id' => $member->ship_type_id,
                     'join_time'    => carbon($member->join_time)->toDateTimeString(),
                 ]);
