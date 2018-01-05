@@ -11,6 +11,7 @@
         <h3 class="panel-title pull-left">{{ trans('calendar::seat.paps') }}</h3>
     </div>
     <div class="panel-body">
+        <h3>Stats</h3>
         <div class="row">
             <div class="col-sm-4">
                 <div class="input-group input-group-sm" id="yearChartSettings">
@@ -25,7 +26,7 @@
                 </div>
             </div>
             <div class="chart">
-                <canvas id="yearPaps" height="250" width="900"></canvas>
+                <canvas id="yearPaps" height="200" width="900"></canvas>
             </div>
         </div>
         <div class="row">
@@ -48,6 +49,86 @@
             </div>
             <div class="chart">
                 <canvas id="monthlyStackedChart" width="900"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Ranking</h3>
+                <div class="col-md-4">
+                    <h4>This week</h4>
+                    <table class="table table-striped dataTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Character</th>
+                                <th>Paps</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($weeklyRanking as $pap)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{!! img('character', $pap->character_id, 32, ['class' => 'img-circle eve-icon small-icon']) !!} {{ $pap->character->name }}</td>
+                                <td>{{ $pap->qty }}</td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="3">There are no paps for the current week.</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <h4>This month</h4>
+                    <table class="table table-striped dataTable">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Character</th>
+                            <th>Paps</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @forelse($monthlyRanking as $pap)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{!! img('character', $pap->character_id, 32, ['class' => 'img-circle eve-icon small-icon']) !!} {{ $pap->character->name }}</td>
+                                <td>{{ $pap->qty }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3">There are no paps for the current week.</td>
+                            </tr>
+                        @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <h4>This year</h4>
+                    <table class="table table-striped dataTable">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Character</th>
+                            <th>Paps</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @forelse($yearlyRanking as $pap)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{!! img('character', $pap->character_id, 32, ['class' => 'img-circle eve-icon small-icon']) !!} {{ $pap->character->name }}</td>
+                                <td>{{ $pap->qty }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3">There are no paps for the current week.</td>
+                            </tr>
+                        @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -143,6 +224,11 @@ $(function(){
             }
         }
     };
+
+    $('.dataTable').DataTable({
+        'dom':'<"toolbar">frtip',
+        'order': [[0, 'asc']]
+    });
 
     yearChartParameters.find('button').on('click', function(){
         $.ajax({

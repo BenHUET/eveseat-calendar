@@ -16,7 +16,36 @@ class CorporationController extends Controller {
 
     public function getPaps(int $corporation_id)
     {
-        return view('calendar::corporation.paps');
+	    $today = carbon();
+
+	    $weeklyRanking = Pap::join('character_character_sheets', 'character_id', 'CharacterID')
+	                        ->where('corporationID', $corporation_id)
+	                        ->where('week', $today->weekOfMonth)
+	                        ->where('month', $today->month)
+	                        ->where('year', $today->year)
+	                        ->select('character_id', DB::raw('sum(value) as qty'))
+	                        ->groupBy('character_id')
+	                        ->orderBy('qty', 'desc')
+	                        ->get();
+
+	    $monthlyRanking = Pap::join('character_character_sheets', 'character_id', 'CharacterID')
+	                         ->where('corporationID', $corporation_id)
+	                         ->where('month', $today->month)
+	                         ->where('year', $today->year)
+	                         ->select('character_id', DB::raw('sum(value) as qty'))
+	                         ->groupBy('character_id')
+	                         ->orderBy('qty', 'desc')
+	                         ->get();
+
+	    $yearlyRanking = Pap::join('character_character_sheets', 'character_id', 'CharacterID')
+	                        ->where('corporationID', $corporation_id)
+	                        ->where('year', $today->year)
+	                        ->select('character_id', DB::raw('sum(value) as qty'))
+	                        ->groupBy('character_id')
+	                        ->orderBy('qty', 'desc')
+	                        ->get();
+
+        return view('calendar::corporation.paps', compact('weeklyRanking', 'monthlyRanking', 'yearlyRanking'));
     }
 
     public function getYearPapsStats(int $corporation_id)
