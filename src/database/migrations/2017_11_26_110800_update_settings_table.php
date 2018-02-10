@@ -18,39 +18,43 @@ class UpdateSettingsTable extends Migration
 
             $settings = DB::table('calendar_settings')->first();
 
-            if (Schema::hasColumn('calendar_settings', 'slack_integration')) {
-                setting([
-                    'kassie.calendar.slack_integration',
-                    $settings->slack_integration,
-                ], true);
-            }
+            if (!is_null($settings)) {
 
-            if (Schema::hasColumn('calendar_settings', 'slack_webhook')) {
-                setting([
-                    'kassie.calendar.slack_webhook',
-                    $settings->slack_webhook,
-                ], true);
-            }
+                if (Schema::hasColumn('calendar_settings', 'slack_integration')) {
+                    setting([
+                        'kassie.calendar.slack_integration',
+                        $settings->slack_integration,
+                    ], true);
+                }
 
-            if (Schema::hasColumn('calendar_settings', 'slack_emoji_importance_full')) {
-                setting([
-                    'kassie.calendar.slack_emoji_importance_full',
-                    $settings->slack_emoji_importance_full,
-                ], true);
-            }
+                if (Schema::hasColumn('calendar_settings', 'slack_webhook')) {
+                    setting([
+                        'kassie.calendar.slack_webhook',
+                        $settings->slack_webhook,
+                    ], true);
+                }
 
-            if (Schema::hasColumn('calendar_settings', 'slack_emoji_importance_half')) {
-                setting([
-                    'kassie.calendar.slack_emoji_importance_half',
-                    $settings->slack_emoji_importance_half,
-                ], true);
-            }
+                if (Schema::hasColumn('calendar_settings', 'slack_emoji_importance_full')) {
+                    setting([
+                        'kassie.calendar.slack_emoji_importance_full',
+                        $settings->slack_emoji_importance_full,
+                    ], true);
+                }
 
-            if (Schema::hasColumn('calendar_settings', 'slack_emoji_importance_empty')) {
-                setting([
-                    'kassie.calendar.slack_emoji_importance_empty',
-                    $settings->slack_emoji_importance_empty,
-                ], true);
+                if (Schema::hasColumn('calendar_settings', 'slack_emoji_importance_half')) {
+                    setting([
+                        'kassie.calendar.slack_emoji_importance_half',
+                        $settings->slack_emoji_importance_half,
+                    ], true);
+                }
+
+                if (Schema::hasColumn('calendar_settings', 'slack_emoji_importance_empty')) {
+                    setting([
+                        'kassie.calendar.slack_emoji_importance_empty',
+                        $settings->slack_emoji_importance_empty,
+                    ], true);
+                }
+
             }
 
             Schema::drop('calendar_settings');
