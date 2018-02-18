@@ -56,7 +56,7 @@
                 <h3>Ranking</h3>
                 <div class="col-md-4">
                     <h4>This week</h4>
-                    <table class="table table-striped dataTable">
+                    <table class="table table-striped @if($weeklyRanking->count() > 0) dataTable @endif">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -68,7 +68,7 @@
                             @forelse($weeklyRanking as $pap)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{!! img('character', $pap->character_id, 32, ['class' => 'img-circle eve-icon small-icon']) !!} {{ $pap->character->name }}</td>
+                                <td>{!! img('character', $pap->character_id, 32, ['class' => 'img-circle eve-icon small-icon'], false) !!} {{ $pap->character->name }}</td>
                                 <td>{{ $pap->qty }}</td>
                             </tr>
                             @empty
@@ -81,7 +81,7 @@
                 </div>
                 <div class="col-md-4">
                     <h4>This month</h4>
-                    <table class="table table-striped dataTable">
+                    <table class="table table-striped @if($monthlyRanking->count() > 0) dataTable @endif">
                         <thead>
                         <tr>
                             <th>#</th>
@@ -93,7 +93,7 @@
                         @forelse($monthlyRanking as $pap)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{!! img('character', $pap->character_id, 32, ['class' => 'img-circle eve-icon small-icon']) !!} {{ $pap->character->name }}</td>
+                                <td>{!! img('character', $pap->character_id, 32, ['class' => 'img-circle eve-icon small-icon'], false) !!} {{ $pap->character->name }}</td>
                                 <td>{{ $pap->qty }}</td>
                             </tr>
                         @empty
@@ -106,7 +106,7 @@
                 </div>
                 <div class="col-md-4">
                     <h4>This year</h4>
-                    <table class="table table-striped dataTable">
+                    <table class="table table-striped @if($yearlyRanking->count() > 0) dataTable @endif">
                         <thead>
                         <tr>
                             <th>#</th>
@@ -118,7 +118,7 @@
                         @forelse($yearlyRanking as $pap)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{!! img('character', $pap->character_id, 32, ['class' => 'img-circle eve-icon small-icon']) !!} {{ $pap->character->name }}</td>
+                                <td>{!! img('character', $pap->character_id, 32, ['class' => 'img-circle eve-icon small-icon'], false) !!} {{ $pap->character->name }}</td>
                                 <td>{{ $pap->qty }}</td>
                             </tr>
                         @empty
