@@ -19,22 +19,39 @@ use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Models\Attendee;
 use Seat\Kassie\Calendar\Models\Tag;
 use Seat\Kassie\Calendar\Helpers\Helper;
+use Seat\Web\Models\Acl\Role;
 
 
+/**
+ * Class OperationController
+ * @package Seat\Kassie\Calendar\Http\Controllers
+ */
 class OperationController extends Controller
 {
     use UserRespository, Character;
 
+    /**
+     * OperationController constructor.
+     */
     public function __construct() {
         $this->middleware('bouncer:calendar.view')->only('index');
         $this->middleware('bouncer:calendar.create')->only('store');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Seat\Services\Exceptions\SettingException
+     */
     public function index(Request $request)
     {
         $isKnownCharacter = !is_null(EsiToken::find(setting('main_character_id')));
 
-        $ops = Operation::all()->take(-50);
+
+        $ops = Operation::all()->take(-50)->filter(function($op){
+            return $op->isUserGranted(auth()->user());
+        });
+
         $tags = Tag::all()->sortBy('order');
 
         $ops_incoming = $ops->filter(function($op) {
@@ -49,6 +66,7 @@ class OperationController extends Controller
             return $op->status == "faded" || $op->status == "cancelled";
         });
 
+        $roles = Role::orderBy('title')->get();
         $userCharacters = $this->getUserCharacters(auth()->user()->id)->unique('characterID')->sortBy('characterName');
         $mainCharacter = Helper::GetUserMainCharacter(auth()->user()->id);
 
@@ -61,6 +79,7 @@ class OperationController extends Controller
         }
 
         return view('calendar::operation.index', [
+            'roles'          => $roles,
             'userCharacters' => $userCharacters,
             'ops_all' => $ops,
             'ops_incoming' => $ops_incoming,
@@ -72,6 +91,9 @@ class OperationController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -114,6 +136,10 @@ class OperationController extends Controller
         $operation->tags()->attach($tags);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request)
     {
         $this->validate($request, [
@@ -136,24 +162,25 @@ class OperationController extends Controller
                     $tags[] = $value;
             }
 
-            $operation->title = $request->title;
-            $operation->importance = $request->importance;
-            $operation->description = $request->description;
-            $operation->staging_sys = $request->staging_sys;
-            $operation->staging_info = $request->staging_info;
-            $operation->staging_sys_id = $request->staging_sys_id == null ? null : $request->staging_sys_id;
-            $operation->fc = $request->fc;
+            $operation->title           = $request->title;
+            $operation->role_name       = $request->role_name;
+            $operation->importance      = $request->importance;
+            $operation->description     = $request->description;
+            $operation->staging_sys     = $request->staging_sys;
+            $operation->staging_info    = $request->staging_info;
+            $operation->staging_sys_id  = $request->staging_sys_id == null ? null : $request->staging_sys_id;
+            $operation->fc              = $request->fc;
             $operation->fc_character_id = $request->fc_character_id == null ? null : $request->fc_character_id;
 
             if ($request->known_duration == "no") {
                 $operation->start_at = Carbon::parse($request->time_start);
                 $operation->end_at = null;
-            }
-            else {
+            } else {
                 $dates = explode(" - ", $request->time_start_end);
                 $operation->start_at = Carbon::parse($dates[0]);
                 $operation->end_at = Carbon::parse($dates[1]);
             }
+
             $operation->start_at = Carbon::parse($operation->start_at);
 
             if ($request->importance == 0)
@@ -173,11 +200,19 @@ class OperationController extends Controller
             ->with('error', 'An error occurred while processing the request.');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function delete(Request $request)
     {
         $operation = Operation::find($request->operation_id);
         if (auth()->user()->has('calendar.deleteAll') || $operation->user->id == auth()->user()->id) {
             if ($operation != null) {
+
+                if (! $operation->isUserGranted(auth()->user()))
+                    return redirect()->back()->with('error', 'You are not granted to this operation !');
+
                 Operation::destroy($operation->id);
                 return redirect()->route('operation.index');
             }
@@ -188,6 +223,10 @@ class OperationController extends Controller
             ->with('error', 'An error occurred while processing the request.');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function close(Request $request)
     {
         $operation = Operation::find($request->operation_id);
@@ -205,6 +244,10 @@ class OperationController extends Controller
             ->with('error', 'An error occurred while processing the request.');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function cancel(Request $request)
     {
         $operation = Operation::find($request->operation_id);
@@ -225,6 +268,10 @@ class OperationController extends Controller
             ->with('error', 'An error occurred while processing the request.');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function activate(Request $request)
     {
         $operation = Operation::find($request->operation_id);
@@ -244,11 +291,19 @@ class OperationController extends Controller
             ->with('error', 'An error occurred while processing the request.');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function subscribe(Request $request)
     {
         $operation = Operation::find($request->operation_id);
 
         if ($operation != null) {
+
+            if (! $operation->isUserGranted(auth()->user()))
+                return redirect()->back()->with('error', 'You are not granted to this operation !');
+
             if ($operation->status == "incoming") {
                 Attendee::updateOrCreate(
                     [
@@ -270,9 +325,17 @@ class OperationController extends Controller
             ->with('error', 'An error occurred while processing the request.');
     }
 
+    /**
+     * @param $operation_id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function find($operation_id) {
         if (auth()->user()->has('calendar.view', false)) {
             $operation = Operation::find($operation_id)->load('tags');
+
+            if (! $operation->isUserGranted(auth()->user()))
+                return redirect()->back()->with('error', 'You are not granted to this operation !');
+
             return response()->json($operation);
         }
 
@@ -281,6 +344,13 @@ class OperationController extends Controller
             ->with('error', 'An error occurred while processing the request.');
     }
 
+    /**
+     * @param int $operation_id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Seat\Eseye\Exceptions\InvalidAuthencationException
+     * @throws \Seat\Eseye\Exceptions\InvalidContainerDataException
+     * @throws \Seat\Services\Exceptions\SettingException
+     */
     public function paps(int $operation_id)
     {
         $operation = Operation::find($operation_id);
@@ -288,6 +358,9 @@ class OperationController extends Controller
             return redirect()
                 ->back()
                 ->with('error', 'Unable to retrieve the requested operation.');
+
+        if (! $operation->isUserGranted(auth()->user()))
+            return redirect()->back()->with('error', 'You are not granted to this operation !');
 
         if (is_null($operation->fc_character_id))
             return redirect()

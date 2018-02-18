@@ -15,6 +15,7 @@ class Operation extends Model
     use Notifiable;
 
     protected $table = 'calendar_operations';
+
     protected $fillable = [
         'title',
         'start_at',
@@ -27,8 +28,10 @@ class Operation extends Model
         'staging_info',
         'is_cancelled',
         'fc',
-        'fc_character_id'
+        'fc_character_id',
+        'role_name',
     ];
+
     protected $dates = ['start_at', 'end_at', 'created_at', 'updated_at'];
 
     private $notify;
@@ -50,9 +53,11 @@ class Operation extends Model
     public function getDescriptionAttribute($value) {
         return $value ?: $this->description_new;
     }
+
     public function setDescriptionAttribute($value) {
         $this->attributes['description_new'] = $value;
     }
+
     public function getParsedDescriptionAttribute() {
         $parser = TextFormatter::getParser();
         $parser->disablePlugin('Emoji');
@@ -70,24 +75,16 @@ class Operation extends Model
     }
 
     public function getStatusAttribute() {
-        if ($this->is_cancelled == false)
-        {
-            if ($this->start_at > Carbon::now('UTC'))
-            {
-                return "incoming";
-            }
-            else if ($this->end_at > Carbon::now('UTC'))
-            {
-                return "ongoing";
-            }
-            else {
-                return "faded";
-            }
-        }
-        else
-        {
+        if ($this->is_cancelled)
             return "cancelled";
-        }
+
+        if ($this->start_at > Carbon::now('UTC'))
+            return "incoming";
+
+        if ($this->end_at > Carbon::now('UTC'))
+            return "ongoing";
+
+        return "faded";
     }
 
     public function getStartsInAttribute() {
@@ -104,8 +101,10 @@ class Operation extends Model
 
     public function getAttendeeStatus($user_id) {
         $entry = $this->attendees->where('user_id', $user_id)->first();
+
         if ($entry != null)
             return $entry->status;
+
         return null;
     }
 
@@ -145,5 +144,19 @@ class Operation extends Model
     public function routeNotificationForSlack()
     {
         return setting('kassie.calendar.slack_webhook', true);
+    }
+
+    /**
+     * Return true if the user can see the operation
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function isUserGranted(User $user) : bool
+    {
+        if (is_null($this->role_name))
+            return true;
+
+        return $user->hasRole($this->role_name);
     }
 }

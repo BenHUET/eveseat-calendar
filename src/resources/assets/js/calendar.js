@@ -93,6 +93,12 @@ $('#modalUpdateOperation').on('show.bs.modal', function(e) {
 
     $.getJSON("/calendar/operation/find/" + operation_id, function(op) {
         $('#modalUpdateOperation').find('input[name=title]').val(op.title);
+
+        if (op.role_name !== null) {
+            $('#update_operation_role').val(op.role_name);
+            $('#update_operation_role').trigger('change');
+        }
+
         $('#modalUpdateOperation').find('option[value="' + op.type + '"]').prop('selected', true);
         $('#modalUpdateOperation').find('input[name=staging_sys]').val(op.staging_sys);
         $('#modalUpdateOperation').find('input[name=staging_sys_id]').val(op.staging_sys_id);

@@ -23,6 +23,18 @@
                             <input type="text" class="form-control" id="title" name="title" placeholder="{{ trans('calendar::seat.placeholder_title') }}">
                         </div>
                     </div>
+                    {{-- Operation role restriction --}}
+                    <div class="form-group">
+                        <label for="update_operation_role" class="col-sm-3 control-label">{{ trans_choice('web::seat.role', 1) }}</label>
+                        <div class="col-sm-9">
+                            <select name="role_name" id="update_operation_role" style="width: 100%">
+                                <option value=""></option>
+                                @foreach($roles as $role)
+                                <option value="{{ $role->title }}">{{ $role->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                     {{-- Operation importance --}}
                     <div class="form-group">
                         <label for="importance" class="col-sm-3 control-label">{{ trans('calendar::seat.importance') }}
@@ -143,3 +155,12 @@
         </div>
     </div>
 </div>
+
+@push('javascript')
+<script type="text/javascript">
+    $('#update_operation_role').select2({
+        placeholder: "{{ trans('calendar::seat.select_role_filter_placeholder') }}",
+        allowClear: true
+    });
+</script>
+@endpush
