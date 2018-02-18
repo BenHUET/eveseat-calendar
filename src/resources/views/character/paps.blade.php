@@ -34,7 +34,7 @@
                     @forelse($weeklyRanking->take(10) as $top)
                     <tr data-attr="{{ $top->character_id }}">
                         <td>{{ $loop->iteration }}.</td>
-                        <td>{!! img('character', $top->character_id, 32, ['class' => 'img-circle eve-icon small-icon']) !!}
+                        <td>{!! img('character', $top->character_id, 32, ['class' => 'img-circle eve-icon small-icon'], false) !!}
                             @if(is_null($top->character))
                             Unknown
                             @else
@@ -55,7 +55,7 @@
                         <td>{{ $weeklyRanking->where('character_id', $character_id)->keys()->first() + 1 }}.</td>
                         <td>{!! img('character',
                                 $weeklyRanking->where('character_id', $character_id)->first()->character_id, 32,
-                                ['class' => 'img-circle eve-icon small-icon']) !!}
+                                ['class' => 'img-circle eve-icon small-icon'], false) !!}
                             @if(is_null($weeklyRanking->where('character_id', $character_id)->first()->character))
                             Unknown
                             @else
@@ -82,7 +82,7 @@
                     @forelse($monthlyRanking->take(10) as $top)
                     <tr data-attr="{{ $top->character_id }}">
                         <td>{{ $loop->iteration }}.</td>
-                        <td>{!! img('character', $top->character_id, 32, ['class' => 'img-circle eve-icon small-icon']) !!}
+                        <td>{!! img('character', $top->character_id, 32, ['class' => 'img-circle eve-icon small-icon'], false) !!}
                             @if (is_null($top->character))
                             Unknown
                             @else
@@ -103,7 +103,7 @@
                         <td>{{ $monthlyRanking->where('character_id', $character_id)->keys()->first() + 1 }}.</td>
                         <td>{!! img('character',
                                     $monthlyRanking->where('character_id', $character_id)->first()->character_id, 32,
-                                    ['class' => 'img-circle eve-icon small-icon']) !!}
+                                    ['class' => 'img-circle eve-icon small-icon'], false) !!}
                             @if(is_null($monthlyRanking->where('character_id', $character_id)->first()->character))
                             Unknown
                             @else
@@ -130,7 +130,7 @@
                     @forelse($yearlyRanking->take(10) as $top)
                     <tr data-attr="{{ $top->character_id }}">
                         <td>{{ $loop->iteration }}.</td>
-                        <td>{!! img('character', $top->character_id, 32, ['class' => 'img-circle eve-icon small-icon']) !!}
+                        <td>{!! img('character', $top->character_id, 32, ['class' => 'img-circle eve-icon small-icon'], false) !!}
                             @if (is_null($top->character))
                             Unknown
                             @else
@@ -151,7 +151,7 @@
                         <td>{{ $yearlyRanking->where('character_id', $character_id)->keys()->first() + 1 }}.</td>
                         <td>{!! img('character',
                                     $yearlyRanking->where('character_id', $character_id)->first()->character_id, 32,
-                                    ['class' => 'img-circle eve-icon small-icon']) !!}
+                                    ['class' => 'img-circle eve-icon small-icon'], false) !!}
                             @if(is_null($yearlyRanking->where('character_id', $character_id)->first()->character))
                             Unknown
                             @else
