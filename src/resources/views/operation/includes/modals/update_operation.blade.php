@@ -133,12 +133,17 @@
                     {{-- Operation slack --}}
                     @if(setting('kassie.calendar.slack_integration', true) == true)
                         <div class="form-group">
-                            <label for="notify" class="col-sm-3 control-label">
+                            <label for="update-operation-channel" class="col-sm-3 control-label">
                                 <i class="fa fa-slack"></i>&nbsp;
                                 {{ trans('calendar::seat.notification_enable') }}
                             </label>
                             <div class="col-sm-9">
-                                <input type="checkbox" name="notify" checked>
+                                <select name="integration_id" id="update-operation-channel" style="width: 100%;">
+                                    <option></option>
+                                    @foreach($notification_channels as $channel)
+                                    <option value="{{ $channel->id }}">{{ $channel->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     @endif
@@ -160,6 +165,11 @@
 <script type="text/javascript">
     $('#update_operation_role').select2({
         placeholder: "{{ trans('calendar::seat.select_role_filter_placeholder') }}",
+        allowClear: true
+    });
+
+    $('#update-operation-channel').select2({
+        placeholder: "{{ trans('calendar::seat.integration_channel') }}",
         allowClear: true
     });
 </script>

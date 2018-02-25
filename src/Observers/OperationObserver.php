@@ -14,13 +14,13 @@ class OperationObserver
 {
     public function created(Operation $operation)
     {
-        if (setting('kassie.calendar.slack_integration', true) == 1 && $operation->notify == true)
+        if (setting('kassie.calendar.slack_integration', true) == 1 && !is_null($operation->integration))
             Notification::send($operation, new OperationPosted());
     }
 
     public function updating(Operation $new_operation)
     {
-        if (setting('kassie.calendar.slack_integration', true) == 1 && $new_operation->notify == true) {
+        if (setting('kassie.calendar.slack_integration', true) == 1 && !is_null($new_operation->integration)) {
             $old_operation = Operation::find($new_operation->id);
             if ($old_operation->is_cancelled != $new_operation->is_cancelled) {
                 if ($new_operation->is_cancelled == true)

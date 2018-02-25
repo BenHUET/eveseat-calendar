@@ -17,14 +17,6 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="slack_webhook" class="col-sm-3 control-label">{{ trans('calendar::seat.webhook') }}</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="slack_webhook" id="slack_webhook"
-                           value="{{ setting('kassie.calendar.slack_webhook', true) }}">
-                </div>
-            </div>
-
             <p class="callout callout-info text-justify">
                 {{ trans('calendar::seat.help_emoji') }}
             </p>

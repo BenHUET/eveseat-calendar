@@ -15,11 +15,6 @@ class CalendarSettingsTableSeeder extends Seeder
         ], true);
 
         setting([
-            'kassie.calendar.slack_webhook',
-            '',
-        ], true);
-
-        setting([
             'kassie.calendar.slack_emoji_importance_full',
             ':full_moon_with_face:',
         ], true);

@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use s9e\TextFormatter\Bundles\Forum as TextFormatter;
 use Carbon\Carbon;
 use \DateTime;
+use Seat\Notifications\Models\Integration;
 use Seat\Web\Models\User;
 
 
@@ -21,6 +22,7 @@ class Operation extends Model
         'start_at',
         'end_at',
         'importance',
+        'integration_id',
         'description',
         'description_new',
         'staging_sys',
@@ -34,8 +36,6 @@ class Operation extends Model
 
     protected $dates = ['start_at', 'end_at', 'created_at', 'updated_at'];
 
-    private $notify;
-
     public function user() {
         return $this->belongsTo(User::class);
     }
@@ -48,6 +48,11 @@ class Operation extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class, 'calendar_tag_operation');
+    }
+
+    public function integration()
+    {
+        return $this->belongsTo(Integration::class, 'integration_id', 'id');
     }
 
     public function getDescriptionAttribute($value) {
@@ -132,18 +137,13 @@ class Operation extends Model
         return $duration;
     }
 
-    public function setNotifyAttribute($value)
-    {
-        $this->notify = $value;
-    }
-    public function getNotifyAttribute($value)
-    {
-        return $this->notify;
-    }
-
     public function routeNotificationForSlack()
     {
-        return setting('kassie.calendar.slack_webhook', true);
+
+        if (! is_null($this->integration()))
+            return $this->integration->settings['url'];
+
+        return '';
     }
 
     /**

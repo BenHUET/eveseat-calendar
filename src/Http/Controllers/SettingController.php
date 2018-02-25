@@ -25,11 +25,6 @@ class SettingController extends Controller
         ], true);
 
         setting([
-            'kassie.calendar.slack_webhook',
-            $request->slack_webhook,
-        ], true);
-
-        setting([
             'kassie.calendar.slack_emoji_importance_full',
             $request->slack_emoji_importance_full
         ], true);

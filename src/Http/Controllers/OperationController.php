@@ -12,6 +12,7 @@ use Seat\Eseye\Exceptions\RequestFailedException;
 use Seat\Kassie\Calendar\Helpers\EsiGuzzleFetcher;
 use Seat\Kassie\Calendar\Models\Api\EsiToken;
 use Seat\Kassie\Calendar\Models\Pap;
+use Seat\Notifications\Models\Integration;
 use Seat\Services\Repositories\Configuration\UserRespository;
 use Seat\Services\Repositories\Character\Character;
 use Seat\Web\Http\Controllers\Controller;
@@ -47,6 +48,7 @@ class OperationController extends Controller
     {
         $isKnownCharacter = !is_null(EsiToken::find(setting('main_character_id')));
 
+        $notification_channels = Integration::where('type', 'slack')->get();
 
         $ops = Operation::all()->take(-50)->filter(function($op){
             return $op->isUserGranted(auth()->user());
@@ -88,6 +90,7 @@ class OperationController extends Controller
             'default_op' => $request->id ? $request->id : 0,
             'tags' => $tags,
             'isKnownCharacter' => $isKnownCharacter,
+            'notification_channels' => $notification_channels,
         ]);
     }
 
@@ -163,7 +166,7 @@ class OperationController extends Controller
             }
 
             $operation->title           = $request->title;
-            $operation->role_name       = $request->role_name;
+            $operation->role_name       = ($request->role_name == "") ? null : $request->role_name;
             $operation->importance      = $request->importance;
             $operation->description     = $request->description;
             $operation->staging_sys     = $request->staging_sys;
@@ -186,7 +189,8 @@ class OperationController extends Controller
             if ($request->importance == 0)
                 $operation->importance = 0;
 
-            $operation->notify = $request->get('notify');
+            $operation->integration_id = ($request->get('integration_id') == "") ?
+                null : $request->get('integration_id');
 
             $operation->save();
 
