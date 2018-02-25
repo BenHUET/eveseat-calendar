@@ -68,7 +68,6 @@
     <script src="{{ asset('web/js/natural.js') }}"></script>
 
     <script src="{{ asset('web/js/calendar.js') }}"></script>
-    <script src="{{ asset('web/js/details.js') }}"></script>
     <script type="text/javascript">
         $('#modalDetails')
             .on('show.bs.modal', function(e){
