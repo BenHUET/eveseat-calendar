@@ -130,7 +130,8 @@ class OperationController extends Controller
         if ($request->importance == 0)
             $operation->importance = 0;
 
-        $operation->notify = $request->get('notify');
+        $operation->integration_id = ($request->get('integration_id') == "") ?
+            null : $request->get('integration_id');
 
         $operation->user()->associate(auth()->user());
 
@@ -260,7 +261,8 @@ class OperationController extends Controller
 
                 $operation->timestamps = false;
                 $operation->is_cancelled = true;
-                $operation->notify = $request->get('notify');
+                $operation->integration_id = ($request->get('integration_id') == "") ?
+                    null : $request->get('integration_id');
                 $operation->save();
 
                 return redirect()->route('operation.index');
@@ -283,7 +285,8 @@ class OperationController extends Controller
             if ($operation != null) {
                 $operation->timestamps = false;
                 $operation->is_cancelled = false;
-                $operation->notify = $request->get('notify');
+                $operation->integration_id = ($request->get('integration_id') == "") ?
+                    null : $request->get('integration_id');
                 $operation->save();
 
                 return redirect()->route('operation.index');
