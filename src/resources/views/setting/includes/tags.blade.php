@@ -34,9 +34,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="analytic" class="col-sm-3 control-label">{{ trans('calendar::seat.analytic') }}</label>
+                        <label for="analytics" class="col-sm-3 control-label">{{ trans('calendar::seat.analytic') }}</label>
                         <div class="col-sm-9">
-                            <select name="analytic" id="analytic" class="form-control">
+                            <select name="analytics" id="analytics" class="form-control">
                                 <option value="strategic">{{ trans('calendar::seat.strategic') }}</option>
                                 <option value="pvp">{{ trans('calendar::seat.pvp') }}</option>
                                 <option value="mining">{{ trans('calendar::seat.mining') }}</option>
