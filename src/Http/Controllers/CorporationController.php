@@ -18,29 +18,29 @@ class CorporationController extends Controller {
     {
 	    $today = carbon();
 
-	    $weeklyRanking = Pap::join('character_character_sheets', 'character_id', 'CharacterID')
-	                        ->where('corporationID', $corporation_id)
+	    $weeklyRanking = Pap::join('character_infos', 'kassie_calendar_paps.character_id', 'character_infos.character_id')
+	                        ->where('corporation_id', $corporation_id)
 	                        ->where('week', $today->weekOfMonth)
 	                        ->where('month', $today->month)
 	                        ->where('year', $today->year)
-	                        ->select('character_id', DB::raw('sum(value) as qty'))
+	                        ->select('kassie_calendar_paps.character_id', DB::raw('sum(value) as qty'))
 	                        ->groupBy('character_id')
 	                        ->orderBy('qty', 'desc')
 	                        ->get();
 
-	    $monthlyRanking = Pap::join('character_character_sheets', 'character_id', 'CharacterID')
-	                         ->where('corporationID', $corporation_id)
+	    $monthlyRanking = Pap::join('character_infos', 'kassie_calendar_paps.character_id', 'character_infos.character_id')
+	                         ->where('corporation_id', $corporation_id)
 	                         ->where('month', $today->month)
 	                         ->where('year', $today->year)
-	                         ->select('character_id', DB::raw('sum(value) as qty'))
+	                         ->select('kassie_calendar_paps.character_id', DB::raw('sum(value) as qty'))
 	                         ->groupBy('character_id')
 	                         ->orderBy('qty', 'desc')
 	                         ->get();
 
-	    $yearlyRanking = Pap::join('character_character_sheets', 'character_id', 'CharacterID')
-	                        ->where('corporationID', $corporation_id)
+	    $yearlyRanking = Pap::join('character_infos', 'kassie_calendar_paps.character_id', 'character_infos.character_id')
+	                        ->where('corporation_id', $corporation_id)
 	                        ->where('year', $today->year)
-	                        ->select('character_id', DB::raw('sum(value) as qty'))
+	                        ->select('kassie_calendar_paps.character_id', DB::raw('sum(value) as qty'))
 	                        ->groupBy('character_id')
 	                        ->orderBy('qty', 'desc')
 	                        ->get();
@@ -62,8 +62,8 @@ class CorporationController extends Controller {
         if (!$grouped)
             return response()->json(
                 Pap::where('year', intval($year))
-                   ->where('corporationID', $corporation_id)
-                   ->leftJoin('character_character_sheets', 'characterID', 'character_id')
+                   ->where('corporation_id', $corporation_id)
+                   ->leftJoin('character_infos', 'character_id', 'character_id')
                    ->select('character_id', 'name', DB::raw('sum(value) as qty'))
                    ->groupBy('character_id', 'name')
                    ->orderBy('qty', 'desc')
@@ -72,15 +72,13 @@ class CorporationController extends Controller {
 
         return response()->json(
             Pap::where('year', intval($year))
-                ->where('aakic2.corporationID', $corporation_id)
-                ->select('main_character_id as character_id', 'main_character_name as name', DB::raw('sum(value) as qty'))
-                ->join('account_api_key_info_characters as aakic', 'character_id', 'aakic.characterID')
-                ->join('person_members as pm', 'aakic.keyID', 'pm.key_id')
-                ->join('people as p', 'pm.person_id', 'p.id')
-                ->join('account_api_key_info_characters as aakic2', 'main_character_id', 'aakic2.characterID')
-                ->groupBy('main_character_id', 'main_character_name')
+                ->where('corporation_id', $corporation_id)
+                ->select('ci.character_id', 'name', DB::raw('sum(value) as qty'))
+                ->join('character_infos as ci', 'ci.character_id', 'kassie_calendar_paps.character_id')
+                ->join('group_user as gu', 'ci.character_id', 'gu.user_id')
+                ->groupBy('group_id')
                 ->orderBy('qty', 'desc')
-	            ->orderBy('main_character_name', 'asc')
+	            ->orderBy('name', 'asc')
                 ->get());
     }
 
@@ -101,22 +99,20 @@ class CorporationController extends Controller {
 
         $paps = Pap::where('year', intval($year))
                    ->where('month', intval($month))
-                   ->join('account_api_key_info_characters as aakic', 'character_id', 'aakic.characterID')
+                   ->join('character_infos as ci', 'kassie_calendar_paps.character_id', 'ci.character_id')
                    ->join('calendar_operations as co', 'co.id', 'operation_id')
                    ->join('calendar_tag_operation as cto', 'cto.operation_id', 'co.id')
                    ->join('calendar_tags as ct', 'ct.id', 'cto.tag_id');
 
         if ($grouped)
-	        $paps = $paps->where( 'aakic2.corporationID', $corporation_id )
-	                     ->join( 'person_members as pm', 'aakic.keyID', 'pm.key_id' )
-	                     ->join( 'people as p', 'pm.person_id', 'p.id' )
-	                     ->join( 'account_api_key_info_characters as aakic2', 'main_character_id', 'aakic2.characterID' )
-	                     ->select( 'main_character_id as character_id', 'main_character_name as name', 'cto.operation_id', 'analytics', 'value' )
-	                     ->groupBy( 'main_character_id', 'main_character_name', 'cto.operation_id', 'analytics', 'value' );
+	        $paps = $paps->where('corporation_id', $corporation_id )
+	                     ->join('group_user as gu', 'gu.user_id', 'ci.character_id' )
+	                     ->select('ci.character_id', 'ci.name', 'cto.operation_id', 'analytics', 'value' )
+	                     ->groupBy('group_id', 'cto.operation_id', 'analytics', 'value' );
         else
-	        $paps = $paps->where('corporationID', $corporation_id)
-	                     ->select('character_id', 'characterName as name', 'cto.operation_id', 'analytics', 'value')
-	                     ->groupBy('character_id', 'characterName', 'cto.operation_id', 'analytics', 'value');
+	        $paps = $paps->where('corporation_id', $corporation_id)
+	                     ->select('ci.character_id', 'ci.name', 'cto.operation_id', 'analytics', 'value')
+	                     ->groupBy('ci.character_id', 'cto.operation_id', 'analytics', 'value');
 
         return response()->json(
         	DB::table(DB::raw("({$paps->toSql()}) as paps"))

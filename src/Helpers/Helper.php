@@ -2,9 +2,8 @@
 
 namespace Seat\Kassie\Calendar\Helpers;
 
-use Illuminate\Support\Facades\DB;
-use Seat\Eveapi\Models\Account\ApiKeyInfoCharacters;
-
+use Seat\Eveapi\Models\Character\CharacterInfo;
+use Seat\Services\Models\UserSetting;
 
 class Helper
 {
@@ -61,14 +60,13 @@ class Helper
     }
 
     public static function GetUserMainCharacter($user_id) {
-        $main = DB::table('user_settings')
-            ->where('user_id', $user_id)
+        $main = UserSetting::where('user_id', $user_id)
             ->where('name', 'main_character_id')
             ->select('value')
             ->get();
 
         if ($main->count() > 0 && $main->first()->value != '1')
-            return ApiKeyInfoCharacters::where('characterID', $main->first()->value)->first();
+            return CharacterInfo::where('character_id', $main->first()->value)->first();
 
         return null;
     }

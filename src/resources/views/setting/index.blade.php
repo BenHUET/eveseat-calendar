@@ -9,19 +9,24 @@
 
 @section('center')
     @include('calendar::setting.includes.tags')
+
+    @include('calendar::setting.includes.modals.confirm_delete_tag')
+
+    @include('calendar::setting.includes.modals.edit_tag')
 @stop
 
-@include('calendar::setting.includes.modals.confirm_delete_tag')
-
-@include('calendar::setting.includes.modals.edit_tag')
-
 @push('head')
+    <link rel="stylesheet" href="{{ asset('web/css/bootstrap-colorpicker.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('web/css/calendar.css') }}" />
 @endpush
 
 @push('javascript')
-    <script src="{{ asset('web/js/settings.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('web/js/bootstrap-colorpicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('web/js/settings.js') }}"></script>
     <script type="text/javascript">
+        var bgEditPicker = $('#edit_tag_bg_color').colorpicker();
+        var fgEditPicker = $('#edit_tag_text_color').colorpicker();
+
         $('#modalEdit').on('show.bs.modal', function(e){
             var link = '{{ route('tags.show', 0) }}';
             var modal = $(this);
@@ -44,7 +49,9 @@
                 modal.find('input[name="text_color"]').val(data.text_color);
                 modal.find('input[name="tag_id"]').val(data.id);
 
-                $('#tag_bg_color').change();
+                bgEditPicker.colorpicker('setValue', data.bg_color);
+                fgEditPicker.colorpicker('setValue', data.text_color);
+                $('#tag_preview').change();
             });
 
             $(this).find('.overlay').hide();

@@ -55,15 +55,23 @@
 
                     <div class="form-group">
                         <label for="bg_color" class="col-sm-3 control-label">{{ trans('calendar::seat.background') }}</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="bg_color" id="tag_bg_color" placeholder="{{ trans('calendar::seat.background_placeholder') }}" maxlength="7">
+                        <div class="col-md-9">
+                            <div class="input-group colorpicker-component" id="tag_bg_color">
+                                <input type="text" name="bg_color" value="#000" class="form-control"
+                                       maxlength="7" placeholder="{{ trans('calendar::seat.background_placeholder') }}" />
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="text_color" class="col-sm-3 control-label">{{ trans('calendar::seat.text_color') }}</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="text_color" id="tag_text_color" placeholder="{{ trans('calendar::seat.text_color_placeholder') }}" maxlength="7">
+                            <div class="input-group colorpicker-component" id="tag_text_color">
+                                <input type="text" name="text_color" value="#fff" class="form-control"
+                                       maxlength="7" placeholder="{{ trans('calendar::seat.text_color_placeholder') }}" />
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
                         </div>
                     </div>
 

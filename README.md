@@ -1,5 +1,9 @@
 # eveseat-calendar
-Calendar plugin for EVE SeAT 2.X
+[![Latest Stable Version](https://img.shields.io/packagist/v/kassie/calendar.svg?style=flat-square)](https://packagist.org/packages/kassie/calendar)
+[![Next Version](https://img.shields.io/packagist/vpre/kassie/calendar.svg?style=flat-square)](https://packagist.org/packages/kassie/calendar)
+[![License](https://img.shields.io/badge/license-GPLv3-blue.svg?style=flat-square)](https://raw.githubusercontent.com/warlof/slackbot/master/LICENSE)
+
+Calendar plugin for EVE SeAT 2.x and 3.x
 
 # Features
 * Create/Update/Cancel/Delete/Close & Tag operations

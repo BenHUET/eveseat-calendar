@@ -64,7 +64,9 @@ class CalendarServiceProvider extends ServiceProvider
             __DIR__ . '/resources/assets/css' => public_path('web/css'),
             __DIR__ . '/resources/assets/vendors/css' => public_path('web/css'),
             __DIR__ . '/resources/assets/js' => public_path('web/js'),
-            __DIR__ . '/resources/assets/vendors/js' => public_path('web/js')
+            __DIR__ . '/resources/assets/vendors/js' => public_path('web/js'),
+            app_path() . '/../vendor/itsjavi/bootstrap-colorpicker/dist/js' => public_path('web/js'),
+            app_path() . '/../vendor/itsjavi/bootstrap-colorpicker/dist/css' => public_path('web/css'),
         ]);
     }
 

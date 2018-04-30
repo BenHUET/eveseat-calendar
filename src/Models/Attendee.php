@@ -2,9 +2,9 @@
 
 namespace Seat\Kassie\Calendar\Models;
 
+use Seat\Eveapi\Models\Character\CharacterInfo;
 use Seat\Services\Repositories\Configuration\UserRespository;
 use Illuminate\Database\Eloquent\Model;
-use Seat\Eveapi\Models\Eve\CharacterInfo;
 use Seat\Web\Models\User;
 use Seat\Kassie\Calendar\Helpers\Helper;
 
@@ -25,7 +25,7 @@ class Attendee extends Model
     protected $appends = array('main_character');
 
     public function character() {
-        return $this->belongsTo(CharacterInfo::class);
+        return $this->belongsTo(CharacterInfo::class, 'character_id', 'character_id');
     }
 
     public function user() {

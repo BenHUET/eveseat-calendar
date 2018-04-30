@@ -15,7 +15,7 @@ class CreateCalendarTables extends Migration
     {
         Schema::create('calendar_operations', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
+            $table->bigInteger('user_id');
 
             $table->string('title');
             $table->timestamp('start_at')->nullable();
@@ -25,7 +25,7 @@ class CreateCalendarTables extends Migration
             $table->string('description')->nullable();
             $table->string('staging')->nullable();
             $table->string('fc')->nullable();
-            $table->integer('fc_character_id')->nullable();
+            $table->bigInteger('fc_character_id')->nullable();
             $table->boolean('is_cancelled')->default(false);
             $table->nullableTimestamps();
 
@@ -34,8 +34,8 @@ class CreateCalendarTables extends Migration
                 ->on('users')
                 ->onDelete('cascade');
             $table->foreign('fc_character_id')
-                ->references('characterID')
-                ->on('eve_character_infos')
+                ->references('character_id')
+                ->on('character_infos')
                 ->onDelete('cascade');
         });
 
@@ -43,8 +43,8 @@ class CreateCalendarTables extends Migration
             $table->increments('id');
 
             $table->integer('operation_id')->unsigned();
-            $table->integer('user_id')->unsigned();
-            $table->integer('character_id');
+            $table->bigInteger('user_id');
+            $table->bigInteger('character_id');
             $table->enum('status', ['yes', 'no', 'maybe']);
             $table->string('comment')->nullable();
             $table->nullableTimestamps();
@@ -58,8 +58,8 @@ class CreateCalendarTables extends Migration
                 ->on('users')
                 ->onDelete('cascade');
             $table->foreign('character_id')
-                ->references('characterID')
-                ->on('eve_character_infos')
+                ->references('character_id')
+                ->on('character_infos')
                 ->onDelete('cascade');
         });
 

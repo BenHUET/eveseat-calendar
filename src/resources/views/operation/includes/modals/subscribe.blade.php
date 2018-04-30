@@ -27,17 +27,17 @@
                                 @foreach($characters as $character)
                                 <div class="radio col-md-4"  style="margin-top:-5px">
                                     <label>
-                                        <input type="radio" name="character_id" value="{{ $character->characterID }}"
+                                        <input type="radio" name="character_id" value="{{ $character->character_id }}"
                                            @if($loop->parent->first && $loop->first)
                                            checked
-                                            @endif
+                                           @endif
                                         >
-                                        {!! img('character', $character->characterID, 64, ['class' => 'img-circle eve-icon small-icon'], false) !!}
+                                        {!! img('character', $character->character_id, 64, ['class' => 'img-circle eve-icon small-icon'], false) !!}
                                         @if($character->main)
-                                        <b>{{ $character->characterName }}</b>
+                                        <b>{{ $character->name }}</b>
                                         <span class="text-muted"><i>(main)</i></span>
                                         @else
-                                        {{ $character->characterName }}
+                                        {{ $character->name }}
                                         @endif
                                     </label>
                                 </div>

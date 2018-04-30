@@ -9,7 +9,7 @@ namespace Seat\Kassie\Calendar\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
-use Seat\Eveapi\Models\Character\CharacterSheet;
+use Seat\Eveapi\Models\Character\CharacterInfo;
 use Seat\Kassie\Calendar\Models\Sde\InvType;
 
 class Pap extends Model {
@@ -32,7 +32,10 @@ class Pap extends Model {
 
         $operation = Operation::find($this->getAttributeValue('operation_id'));
 
-        if (!is_null($operation) && !is_null($operation->tags))
+        if (is_null($this->getAttributeValue('value')))
+            $this->setAttribute('value', 0);
+
+        if (! is_null($operation) && $operation->tags->count() > 0)
             $this->setAttribute('value', $operation->tags->max('quantifier'));
 
         if (array_key_exists('join_time', $this->attributes)) {
@@ -47,7 +50,7 @@ class Pap extends Model {
 
     public function character()
     {
-        return $this->belongsTo(CharacterSheet::class, 'character_id', 'characterID');
+        return $this->belongsTo(CharacterInfo::class, 'character_id', 'character_id');
     }
 
     public function operation()

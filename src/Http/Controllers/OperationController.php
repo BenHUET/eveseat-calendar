@@ -2,14 +2,13 @@
 
 namespace Seat\Kassie\Calendar\Http\Controllers;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Seat\Eseye\Configuration;
 use Seat\Eseye\Containers\EsiAuthentication;
-use Seat\Eseye\Eseye;
 use Seat\Eseye\Exceptions\EsiScopeAccessDeniedException;
 use Seat\Eseye\Exceptions\RequestFailedException;
-use Seat\Kassie\Calendar\Helpers\EsiGuzzleFetcher;
+use Seat\Eveapi\Models\RefreshToken;
 use Seat\Kassie\Calendar\Models\Api\EsiToken;
 use Seat\Kassie\Calendar\Models\Pap;
 use Seat\Notifications\Models\Integration;
@@ -21,6 +20,7 @@ use Seat\Kassie\Calendar\Models\Attendee;
 use Seat\Kassie\Calendar\Models\Tag;
 use Seat\Kassie\Calendar\Helpers\Helper;
 use Seat\Web\Models\Acl\Role;
+use Seat\Web\Models\User;
 
 
 /**
@@ -69,7 +69,7 @@ class OperationController extends Controller
         });
 
         $roles = Role::orderBy('title')->get();
-        $userCharacters = $this->getUserCharacters(auth()->user()->id)->unique('characterID')->sortBy('characterName');
+        $userCharacters = User::whereIn('id', auth()->user()->associatedCharacterIds())->orderBy('name')->get();
         $mainCharacter = Helper::GetUserMainCharacter(auth()->user()->id);
 
         if($mainCharacter != null) {
@@ -374,44 +374,27 @@ class OperationController extends Controller
                 ->back()
                 ->with('error', 'No fleet commander has been set for this operation.');
 
-        if ($operation->fc_character_id != setting('main_character_id'))
+        if (! in_array($operation->fc_character_id, auth()->user()->associatedCharacterIds()->toArray()))
             return redirect()
                 ->back()
                 ->with('error', 'You are not the fleet commander or wrong character has been set.');
 
-        $token = EsiToken::find(setting('main_character_id'));
-        if (is_null($token))
+        try {
+            $token = RefreshToken::findOrFail($operation->fc_character_id);
+        } catch (ModelNotFoundException $e) {
             return redirect()
                 ->back()
-                ->with('error', 'Fleet commander is not already linked to SeAT.');
+                ->with('error', 'Fleet commander is not already linked to SeAT. Unable to PAP the fleet.');
+        }
 
-        $configuration = Configuration::getInstance();
-        $configuration->http_user_agent = sprintf('eveseat-calendar/%s (Kassie Yvo;Daerie Inc.;Get Off My Lawn)',
-            config('calendar.config.version'));
-        $configuration->logfile_location = storage_path('logs/eseye.log');
-        $configuration->file_cache_location = storage_path('app/eseye/');
-        $configuration->datasource = env('CALENDAR_ESI_SERVER');
-        $configuration->fetcher = EsiGuzzleFetcher::class;
-
-        $authentication = new EsiAuthentication([
-            'client_id'     => env('CALENDAR_EVE_CLIENT_ID'),
-            'secret'        => env('CALENDAR_EVE_CLIENT_SECRET'),
-            'access_token'  => $token->access_token,
-            'refresh_token' => $token->refresh_token,
-            'scopes'        => [
-                'esi-fleets.read_fleet.v1',
-            ],
-            'token_expires' => $token->expires_at,
-        ]);
-
-        $esi = new Eseye($authentication);
+        $client = $this->eseye($token);
 
         try {
-            $fleet = $esi->setVersion('v1')->invoke('get', '/characters/{character_id}/fleet/', [
+            $fleet = $client->setVersion('v1')->invoke('get', '/characters/{character_id}/fleet/', [
                 'character_id' => $token->character_id,
             ]);
 
-            $members = $esi->setVersion('v1')->invoke('get', '/fleets/{fleet_id}/members/', [
+            $members = $client->setVersion('v1')->invoke('get', '/fleets/{fleet_id}/members/', [
                 'fleet_id' => $fleet->fleet_id,
             ]);
 
@@ -425,33 +408,65 @@ class OperationController extends Controller
                 ]);
             }
         } catch (RequestFailedException $e) {
+
+            $this->updateToken($token, $client->getAuthentication());
+
             if ($e->getError() == 'Character is not in a fleet')
                 return redirect()
                     ->back()
                     ->with('error', $e->getError());
 
+            if ($e->getError() == 'The fleet does not exist or you don\'t have access to it!')
+                return redirect()
+                    ->back()
+                    ->with('error', sprintf('%s Ensure %s have the fleet boss and try again.', $e->getError(), $operation->fc));
+
             return redirect()
                 ->back()
                 ->with('error', 'Esi respond with an unhandled error : (' . $e->getCode() . ') ' . $e->getError());
         } catch (EsiScopeAccessDeniedException $e) {
-            $token->delete();
+
+            $this->updateToken($token, $client->getAuthentication());
+
             return redirect()
                 ->back()
-                ->with('error', 'Registered tokens has been dropped due to missing privileges. '.
+                ->with('error', 'Registered tokens has not enough privileges. '.
                                 'Please bind your character and pap again.');
         }
 
-        if ($token->access_token  != $esi->getAuthentication()->access_token ||
-            $token->refresh_token != $esi->getAuthentication()->refresh_token) {
-            $token->access_token  = $esi->getAuthentication()->access_token;
-            $token->refresh_token = $esi->getAuthentication()->refresh_token;
-            $token->expires_at    = $esi->getAuthentication()->token_expires;
-            $token->save();
-        }
+        $this->updateToken($token, $client->getAuthentication());
 
         return redirect()
             ->back()
             ->with('success', 'Fleet members has been successfully papped.');
+    }
+
+    /**
+     * @param RefreshToken $token
+     * @return mixed
+     * @throws \Seat\Eseye\Exceptions\InvalidContainerDataException
+     */
+    private function eseye(RefreshToken $token)
+    {
+        $client = app('esi-client');
+
+        return $client = $client->get(new EsiAuthentication([
+            'refresh_token' => $token->refresh_token,
+            'access_token'  => $token->token,
+            'token_expires' => $token->expires_on,
+            'scopes'        => $token->scopes,
+        ]));
+    }
+
+    /**
+     * @param RefreshToken $token
+     * @param EsiAuthentication $last_auth
+     */
+    private function updateToken(RefreshToken $token, EsiAuthentication $last_auth)
+    {
+        $token->token = $last_auth->access_token ?? '-';
+        $token->expires_on = $last_auth->token_expires;
+        $token->save();
     }
 
 }

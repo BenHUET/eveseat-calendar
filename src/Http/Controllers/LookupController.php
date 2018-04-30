@@ -4,8 +4,8 @@ namespace Seat\Kassie\Calendar\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Seat\Eveapi\Models\Character\CharacterInfo;
 use Yajra\Datatables\Facades\Datatables;
-use Seat\Eveapi\Models\Account\ApiKeyInfoCharacters;
 use Seat\Web\Http\Controllers\Controller;
 use Seat\Kassie\Calendar\Models\Attendee;
 
@@ -15,14 +15,17 @@ class LookupController extends Controller
 
     public function lookupCharacters(Request $request)
     {
-        $characters = ApiKeyInfoCharacters::where('characterName', 'LIKE', '%' . $request->input('query') . '%')->take(5)->get()->unique('characterID');
+        $characters = CharacterInfo::where('name', 'LIKE', '%' . $request->input('query') . '%')
+            ->take(5)
+            ->get()
+            ->unique('character_id');
 
         $results = array();
 
         foreach ($characters as $character) {
             array_push($results, array(
-                "value" => $character->characterName,
-                "data" => $character->characterID
+                "value" => $character->name,
+                "data" => $character->character_id
             ));
         }
 
@@ -52,7 +55,7 @@ class LookupController extends Controller
     {
         $attendees = Attendee::where('operation_id', $request->input('id'))
             ->with(['character' => function ($query) {
-                $query->select('characterID', 'characterName', 'corporationID');
+                $query->select('character_id', 'name', 'corporation_id');
             }])
             ->select('character_id', 'user_id', 'status', 'comment AS _comment', 'created_at', 'updated_at')
             ->get();
@@ -63,7 +66,7 @@ class LookupController extends Controller
                 return view('calendar::operation.includes.cols.attendees.character', compact('row'))->render();
             })
             ->addColumn('_character_name', function ($row) {
-                return $row->character->characterName;
+                return $row->character->name;
             })
             ->addColumn('_status', function ($row) {
                 return view('calendar::operation.includes.cols.attendees.status', compact('row'))->render();
