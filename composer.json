@@ -25,5 +25,10 @@
     }],
     "license": "GPL-3.0-or-later",
     "minimum-stability": "alpha",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "extra": {
+        "providers": [
+            "Seat\\Kassie\\Calendar\\CalendarServiceProvider"
+        ]
+    }
 }

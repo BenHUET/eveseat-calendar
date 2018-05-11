@@ -47,23 +47,6 @@ Route::group([
 ], function () {
 
     Route::group([
-        'namespace' => 'Service',
-        'prefix' => 'auth',
-    ], function(){
-
-        Route::get('/', [
-            'as' => 'calendar.auth',
-            'uses' => 'EsiController@redirectToAuth',
-        ]);
-
-        Route::get('/callback', [
-            'as' => 'calendar.auth.callback',
-            'uses' => 'EsiController@authCallback',
-        ]);
-
-    });
-
-    Route::group([
         'prefix' => 'ajax'
     ], function(){
 
