@@ -151,7 +151,7 @@ class OperationController extends Controller
         $operation = Operation::find($request->operation_id);
         $tags = array();
 
-        if (auth()->user()->has('calendar.updateAll') || $operation->user->id == auth()->user()->id) {
+        if (auth()->user()->has('calendar.updateAll', false) || $operation->user->id == auth()->user()->id) {
 
             foreach ($request->toArray() as $name => $value) {
                 if (empty($value))
@@ -206,7 +206,7 @@ class OperationController extends Controller
     public function delete(Request $request)
     {
         $operation = Operation::find($request->operation_id);
-        if (auth()->user()->has('calendar.deleteAll') || $operation->user->id == auth()->user()->id) {
+        if (auth()->user()->has('calendar.deleteAll', false) || $operation->user->id == auth()->user()->id) {
             if ($operation != null) {
 
                 if (! $operation->isUserGranted(auth()->user()))
@@ -229,7 +229,7 @@ class OperationController extends Controller
     public function close(Request $request)
     {
         $operation = Operation::find($request->operation_id);
-        if (auth()->user()->has('calendar.closeAll') || $operation->user->id == auth()->user()->id) {
+        if (auth()->user()->has('calendar.closeAll', false) || $operation->user->id == auth()->user()->id) {
 
             if ($operation != null) {
                 $operation->end_at = Carbon::now('UTC');
@@ -250,7 +250,7 @@ class OperationController extends Controller
     public function cancel(Request $request)
     {
         $operation = Operation::find($request->operation_id);
-        if (auth()->user()->has('calendar.closeAll') || $operation->user->id == auth()->user()->id) {
+        if (auth()->user()->has('calendar.closeAll', false) || $operation->user->id == auth()->user()->id) {
             if ($operation != null) {
 
                 $operation->timestamps = false;
@@ -275,7 +275,7 @@ class OperationController extends Controller
     public function activate(Request $request)
     {
         $operation = Operation::find($request->operation_id);
-        if (auth()->user()->has('calendar.closeAll') || $operation->user->id == auth()->user()->id) {
+        if (auth()->user()->has('calendar.closeAll', false) || $operation->user->id == auth()->user()->id) {
             if ($operation != null) {
                 $operation->timestamps = false;
                 $operation->is_cancelled = false;
