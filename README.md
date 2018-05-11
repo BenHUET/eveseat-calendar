@@ -16,7 +16,6 @@ https://packagist.org/packages/kassie/calendar
 
 # Installation
 * `composer require kassie/calendar` in the SeAT root directory
-* Append to the provider array in `config/app.php` the service provider of this package : `Seat\Kassie\Calendar\CalendarServiceProvider::class`
 * `php artisan vendor:publish --force`
 * `php artisan migrate`
 * `php artisan db:seed --class=Seat\\Kassie\\Calendar\\database\\seeds\\CalendarSettingsTableSeeder`
@@ -24,16 +23,7 @@ https://packagist.org/packages/kassie/calendar
 * `php artisan db:seed --class=Seat\\Kassie\\Calendar\\database\\seeds\\ScheduleSeeder`
 
 ## Since 1.3.2
-Since 1.3.2, the PAP mechanism has been implemented. A few extra setup steps are required :
-* Create a new application on https://developers.eveonline.com with authentication & api access
-  * add the scope `esi-fleets.read_fleet.v1` to it
-  * put the following value into callback URL : `{seatpublicuri}/calendar/auth/callback` (replace `seatpublicuri` with the url you're using to access to your SeAT)
-* Open `.env` file which is located at root SeAT directory
-* At the end of the files, add the following values
-  * CALENDAR_EVE_CLIENT_ID=`The client ID from the created application`
-  * CALENDAR_EVE_CLIENT_SECRET=`The client secret from the created application`
-  * CALENDAR_SSO_BASE=https://login.eveonline.com/oauth
-  * CALENDAR_ESI_SERVER=tranquility
+Since 1.3.2, the PAP mechanism has been implemented. You need `esi-fleets.read_fleet.v1` into your requested scopes list.
 
 # Feedbacks or support
 @kassie_yvo on eve-seat.slack.com  
