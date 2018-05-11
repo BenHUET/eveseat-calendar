@@ -2,9 +2,6 @@
 
 namespace Seat\Kassie\Calendar\Helpers;
 
-use Seat\Eveapi\Models\Character\CharacterInfo;
-use Seat\Services\Models\UserSetting;
-
 class Helper
 {
 
@@ -57,18 +54,6 @@ class Helper
                 ->footer(trans('calendar::seat.created_by') . ' ' . $op->user->name)
                 ->markdown(['fields']);
         };
-    }
-
-    public static function GetUserMainCharacter($user_id) {
-        $main = UserSetting::where('user_id', $user_id)
-            ->where('name', 'main_character_id')
-            ->select('value')
-            ->get();
-
-        if ($main->count() > 0 && $main->first()->value != '1')
-            return CharacterInfo::where('character_id', $main->first()->value)->first();
-
-        return null;
     }
 
 }

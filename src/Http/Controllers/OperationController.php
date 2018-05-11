@@ -9,7 +9,6 @@ use Seat\Eseye\Containers\EsiAuthentication;
 use Seat\Eseye\Exceptions\EsiScopeAccessDeniedException;
 use Seat\Eseye\Exceptions\RequestFailedException;
 use Seat\Eveapi\Models\RefreshToken;
-use Seat\Kassie\Calendar\Models\Api\EsiToken;
 use Seat\Kassie\Calendar\Models\Pap;
 use Seat\Notifications\Models\Integration;
 use Seat\Services\Repositories\Configuration\UserRespository;
@@ -18,9 +17,7 @@ use Seat\Web\Http\Controllers\Controller;
 use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Models\Attendee;
 use Seat\Kassie\Calendar\Models\Tag;
-use Seat\Kassie\Calendar\Helpers\Helper;
 use Seat\Web\Models\Acl\Role;
-use Seat\Web\Models\User;
 
 
 /**
@@ -46,8 +43,6 @@ class OperationController extends Controller
      */
     public function index(Request $request)
     {
-        $isKnownCharacter = !is_null(EsiToken::find(setting('main_character_id')));
-
         $notification_channels = Integration::where('type', 'slack')->get();
 
         $ops = Operation::all()->take(-50)->filter(function($op){
@@ -69,13 +64,13 @@ class OperationController extends Controller
         });
 
         $roles = Role::orderBy('title')->get();
-        $userCharacters = User::whereIn('id', auth()->user()->associatedCharacterIds())->orderBy('name')->get();
-        $mainCharacter = Helper::GetUserMainCharacter(auth()->user()->id);
+        $userCharacters = auth()->user()->group->users->sortBy('name');
+        $mainCharacter = auth()->user()->group->main_character->character;
 
         if($mainCharacter != null) {
             $mainCharacter['main'] = true;
             $userCharacters = $userCharacters->reject(function ($character) use ($mainCharacter) {
-                return $character->characterID == $mainCharacter['characterID'];
+                return $character->id == $mainCharacter['character_id'];
             });
             $userCharacters->prepend($mainCharacter);
         }
@@ -89,7 +84,6 @@ class OperationController extends Controller
             'ops_faded' => $ops_faded,
             'default_op' => $request->id ? $request->id : 0,
             'tags' => $tags,
-            'isKnownCharacter' => $isKnownCharacter,
             'notification_channels' => $notification_channels,
         ]);
     }
