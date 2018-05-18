@@ -27,7 +27,7 @@
     "minimum-stability": "alpha",
     "prefer-stable": true,
     "extra": {
-        "larevel": {
+        "laravel": {
             "providers": [
                 "Seat\\Kassie\\Calendar\\CalendarServiceProvider"
             ]
