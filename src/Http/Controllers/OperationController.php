@@ -65,12 +65,12 @@ class OperationController extends Controller
 
         $roles = Role::orderBy('title')->get();
         $userCharacters = auth()->user()->group->users->sortBy('name');
-        $mainCharacter = auth()->user()->group->main_character->character;
+        $mainCharacter = auth()->user()->group->main_character;
 
         if($mainCharacter != null) {
             $mainCharacter['main'] = true;
             $userCharacters = $userCharacters->reject(function ($character) use ($mainCharacter) {
-                return $character->id == $mainCharacter['character_id'];
+                return $character->id == $mainCharacter->id;
             });
             $userCharacters->prepend($mainCharacter);
         }

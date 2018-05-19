@@ -2,6 +2,6 @@
 <a href="{{ route('character.view.sheet', ['character_id' => $row->character_id]) }}">
     {{ $row->character->name }}
 </a>
-@if ($row->user->group->main_character && $row->user->group->main_character->id != $row->character_id)
-    <span class="text-muted pull-right"><i>({{ $row->user->group->main_character->name }})</i></span>
+@if ($row->user->group->main_character && $row->user->group->main_character_id != $row->character_id)
+    <span class="text-muted pull-right"><i>({{ optional($row->user->group->main_character)->name }})</i></span>
 @endif
