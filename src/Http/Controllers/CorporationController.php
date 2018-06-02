@@ -59,13 +59,13 @@ class CorporationController extends Controller {
         if (is_null($grouped))
             $grouped = false;
 
-        if (!$grouped)
+        if (! $grouped)
             return response()->json(
                 Pap::where('year', intval($year))
                    ->where('corporation_id', $corporation_id)
-                   ->leftJoin('character_infos', 'character_id', 'character_id')
-                   ->select('character_id', 'name', DB::raw('sum(value) as qty'))
-                   ->groupBy('character_id', 'name')
+                   ->leftJoin('character_infos', 'character_infos.character_id', 'kassie_calendar_paps.character_id')
+                   ->select('kassie_calendar_paps.character_id', 'name', DB::raw('sum(value) as qty'))
+                   ->groupBy('kassie_calendar_paps.character_id', 'name')
                    ->orderBy('qty', 'desc')
                    ->orderBy('name', 'asc')
                    ->get());
@@ -73,9 +73,9 @@ class CorporationController extends Controller {
         return response()->json(
             Pap::where('year', intval($year))
                 ->where('corporation_id', $corporation_id)
-                ->select('ci.character_id', 'name', DB::raw('sum(value) as qty'))
+                ->select('ci.character_id', 'ci.name', DB::raw('sum(value) as qty'))
                 ->join('character_infos as ci', 'ci.character_id', 'kassie_calendar_paps.character_id')
-                ->join('group_user as gu', 'ci.character_id', 'gu.user_id')
+                ->join('users', 'ci.character_id', 'users.id')
                 ->groupBy('group_id')
                 ->orderBy('qty', 'desc')
 	            ->orderBy('name', 'asc')
@@ -84,35 +84,23 @@ class CorporationController extends Controller {
 
     public function getMonthlyStackedPapsStats(int $corporation_id)
     {
-        $year = request()->query('year');
-        $month = request()->query('month');
-        $grouped = request()->query('grouped');
+        $year = is_null(request()->query('year')) ? carbon()->year : intval(request()->query('year'));
+        $month = is_null(request()->query('month')) ? carbon()->year : intval(request()->query('month'));
+        $grouped = request()->query('grouped') ?: false;
 
-        if (is_null($year))
-            $year = carbon()->year;
-
-        if (is_null($month))
-            $month = carbon()->month;
-
-        if (is_null($grouped))
-            $grouped = false;
-
-        $paps = Pap::where('year', intval($year))
-                   ->where('month', intval($month))
+        $paps = Pap::select('ci.character_id', 'ci.name', 'cto.operation_id', 'analytics', 'value')
                    ->join('character_infos as ci', 'kassie_calendar_paps.character_id', 'ci.character_id')
-                   ->join('calendar_operations as co', 'co.id', 'operation_id')
-                   ->join('calendar_tag_operation as cto', 'cto.operation_id', 'co.id')
-                   ->join('calendar_tags as ct', 'ct.id', 'cto.tag_id');
+                   ->join('calendar_tag_operation as cto', 'cto.operation_id', 'kassie_calendar_paps.operation_id')
+                   ->join('calendar_tags as ct', 'ct.id', 'cto.tag_id')
+                   ->where('year', $year)
+                   ->where('month', $month)
+                   ->where('corporation_id', $corporation_id);
 
         if ($grouped)
-	        $paps = $paps->where('corporation_id', $corporation_id )
-	                     ->join('group_user as gu', 'gu.user_id', 'ci.character_id' )
-	                     ->select('ci.character_id', 'ci.name', 'cto.operation_id', 'analytics', 'value' )
-	                     ->groupBy('group_id', 'cto.operation_id', 'analytics', 'value' );
+	        $paps = $paps->join('users', 'users.id', 'ci.character_id')
+	                     ->groupBy('group_id', 'cto.operation_id', 'analytics');
         else
-	        $paps = $paps->where('corporation_id', $corporation_id)
-	                     ->select('ci.character_id', 'ci.name', 'cto.operation_id', 'analytics', 'value')
-	                     ->groupBy('ci.character_id', 'cto.operation_id', 'analytics', 'value');
+	        $paps = $paps->groupBy('ci.character_id', 'cto.operation_id', 'analytics');
 
         return response()->json(
         	DB::table(DB::raw("({$paps->toSql()}) as paps"))
@@ -121,7 +109,6 @@ class CorporationController extends Controller {
 		        ->groupBy('character_id', 'name', 'analytics')
                 ->orderBy('qty', 'desc')
                 ->orderBy('name', 'asc')
-		        ->distinct()
                 ->get());
     }
 }
