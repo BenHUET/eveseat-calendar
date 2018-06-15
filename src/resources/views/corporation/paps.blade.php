@@ -56,7 +56,7 @@
                 <h3>Ranking</h3>
                 <div class="col-md-4">
                     <h4>This week</h4>
-                    <table class="table table-striped @if($weeklyRanking->count() > 0) dataTable @endif">
+                    <table class="table table-striped @if($weeklyRanking->count() > 0) ranking-table @endif">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -81,7 +81,7 @@
                 </div>
                 <div class="col-md-4">
                     <h4>This month</h4>
-                    <table class="table table-striped @if($monthlyRanking->count() > 0) dataTable @endif">
+                    <table class="table table-striped @if($monthlyRanking->count() > 0) ranking-table @endif">
                         <thead>
                         <tr>
                             <th>#</th>
@@ -106,7 +106,7 @@
                 </div>
                 <div class="col-md-4">
                     <h4>This year</h4>
-                    <table class="table table-striped @if($yearlyRanking->count() > 0) dataTable @endif">
+                    <table class="table table-striped @if($yearlyRanking->count() > 0) ranking-table @endif">
                         <thead>
                         <tr>
                             <th>#</th>
@@ -225,7 +225,7 @@ $(function(){
         }
     };
 
-    $('.dataTable').DataTable({
+    $('.ranking-table').DataTable({
         'dom':'<"toolbar">frtip',
         'order': [[0, 'asc']]
     });
