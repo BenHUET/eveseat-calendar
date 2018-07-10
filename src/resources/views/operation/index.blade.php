@@ -48,7 +48,6 @@
 @push('head')
     <link rel="stylesheet" href="{{ asset('web/css/daterangepicker.css') }}" />
     <link rel="stylesheet" href="{{ asset('web/css/bootstrap-slider.min.css') }}" />
-
     <link rel="stylesheet" href="{{ asset('web/css/calendar.css') }}" />
 @endpush
 
@@ -59,6 +58,7 @@
     <script src="{{ asset('web/js/natural.js') }}"></script>
 
     <script src="{{ asset('web/js/calendar.js') }}"></script>
+    @include('web::includes.javascript.id-to-name')
     <script type="text/javascript">
         $('#modalDetails')
             .on('show.bs.modal', function(e){
@@ -67,16 +67,17 @@
                 $(this).find('.modal-body')
                     .load(link.replace('/0', '/' + $(e.relatedTarget).attr('data-op-id')), "", function(){
                         // attach the datatable to the loaded modal
-                        var table = $('#attendees');
-                        if (! $.fn.DataTable.isDataTable(table)) {
-                            table.DataTable({
+                        var attendees_table = $('#attendees');
+                        var confirmed_table = $('#confirmed');
+
+                        if (! $.fn.DataTable.isDataTable(attendees_table)) {
+                            attendees_table.DataTable({
                                 "ajax": "/calendar/lookup/attendees?id=" + $(e.relatedTarget).attr('data-op-id'),
                                 "ordering": true,
                                 "info": false,
                                 "paging": true,
                                 "processing": true,
                                 "order": [[ 1, "asc" ]],
-
                                 "aoColumnDefs": [
                                     { orderable: false, targets: "no-sort" }
                                 ],
@@ -89,6 +90,35 @@
                                 createdRow: function(row, data, dataIndex) {
                                     $(row).find('td:eq(0)').attr('data-order', data._character_name);
                                     $(row).find('td:eq(0)').attr('data-search', data._character_name);
+                                }
+                            });
+                        }
+
+                        if (! $.fn.DataTable.isDataTable(confirmed_table)) {
+                            confirmed_table.DataTable({
+                                "ajax": "/calendar/lookup/confirmed?id=" + $(e.relatedTarget).attr('data-op-id'),
+                                "ordering": true,
+                                "info": false,
+                                "paging": true,
+                                "processing": true,
+                                "order": [[ 1, "asc" ]],
+                                "aoColumnsDefs": [
+                                    { orderable: false, targets: "no-sort" }
+                                ],
+                                'fnDrawCallback': function () {
+                                    $(document).ready(function () {
+                                        ids_to_names();
+                                    });
+                                },
+                                "columns": [
+                                    { data: 'character.character_id'},
+                                    { data: 'character.corporation_id'},
+                                    { data: 'type.typeID'},
+                                    { data: 'type.group.groupName'}
+                                ],
+                                createdRow: function(row, data, dataIndex) {
+                                    $(row).find('td:eq(0)').attr('data-order', data.character.character_id);
+                                    $(row).find('td:eq(0)').attr('data-search', data.character.character_id);
                                 }
                             });
                         }

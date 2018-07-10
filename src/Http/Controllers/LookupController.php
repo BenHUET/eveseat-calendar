@@ -5,6 +5,7 @@ namespace Seat\Kassie\Calendar\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Seat\Eveapi\Models\Character\CharacterInfo;
+use Seat\Kassie\Calendar\Models\Pap;
 use Yajra\Datatables\Facades\Datatables;
 use Seat\Web\Http\Controllers\Controller;
 use Seat\Kassie\Calendar\Models\Attendee;
@@ -73,6 +74,27 @@ class LookupController extends Controller
             })
             ->addColumn('_timestamps', function ($row) {
                 return view('calendar::operation.includes.cols.attendees.timestamps', compact('row'))->render();
+            })
+            ->make(true);
+    }
+
+    public function lookupConfirmed(Request $request)
+    {
+        $confirmed = Pap::with(['character:character_id,name,corporation_id', 'type:typeID,typeName,groupID', 'type.group:groupID,groupName'])
+            ->where('operation_id', $request->input('id'))
+            ->select('character_id', 'ship_type_id')
+            ->get();
+
+        return Datatables::collection($confirmed)
+            ->removeColumn('ship_type_id', 'character_id')
+            ->editColumn('character.character_id', function ($row) {
+                return view('calendar::operation.includes.cols.confirmed.character', compact('row'))->render();
+            })
+            ->editColumn('character.corporation_id', function ($row) {
+                return view('calendar::operation.includes.cols.confirmed.corporation', compact('row'))->render();
+            })
+            ->editColumn('type.typeID', function ($row) {
+                return view('calendar::operation.includes.cols.confirmed.ship', compact('row'))->render();
             })
             ->make(true);
     }

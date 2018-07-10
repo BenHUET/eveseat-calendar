@@ -170,6 +170,7 @@ Route::group([
         Route::get('characters', 'LookupController@lookupCharacters');
         Route::get('systems', 'LookupController@lookupSystems');
         Route::get('attendees', 'LookupController@lookupAttendees');
+        Route::get('confirmed', 'LookupController@lookupConfirmed');
 
     });
 

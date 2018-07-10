@@ -57,6 +57,7 @@ return [
     'unknown'                      => 'Unknown',
     'informations'                 => 'Informations',
     'attendees'                    => 'Attendees',
+    'confirmed'                    => 'Confirmed',
 
     'month'  => 'month|months',
     'day'    => 'day|days',

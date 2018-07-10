@@ -60,7 +60,7 @@ class Pap extends Model {
 
     public function type()
     {
-        return $this->hasOne(InvType::class, 'typeID', 'type_id');
+        return $this->hasOne(InvType::class, 'typeID', 'ship_type_id');
     }
 
 }
