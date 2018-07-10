@@ -55,9 +55,7 @@ class LookupController extends Controller
     public function lookupAttendees(Request $request)
     {
         $attendees = Attendee::where('operation_id', $request->input('id'))
-            ->with(['character' => function ($query) {
-                $query->select('character_id', 'name', 'corporation_id');
-            }])
+            ->with('character:character_id,name,corporation_id')
             ->select('character_id', 'user_id', 'status', 'comment AS _comment', 'created_at', 'updated_at')
             ->get();
 
@@ -80,7 +78,13 @@ class LookupController extends Controller
 
     public function lookupConfirmed(Request $request)
     {
-        $confirmed = Pap::with(['character:character_id,name,corporation_id', 'type:typeID,typeName,groupID', 'type.group:groupID,groupName'])
+        $confirmed = Pap::with([
+                'character:character_id,name,corporation_id',
+                'user:id,group_id',
+                'user.group:id',
+                'type:typeID,typeName,groupID',
+                'type.group:groupID,groupName'
+            ])
             ->where('operation_id', $request->input('id'))
             ->select('character_id', 'ship_type_id')
             ->get();
