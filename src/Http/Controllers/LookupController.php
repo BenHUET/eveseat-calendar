@@ -58,7 +58,7 @@ class LookupController extends Controller
             ->select('character_id', 'user_id', 'status', 'comment AS _comment', 'created_at', 'updated_at')
             ->get();
 
-        return app('DataTables')::collection($attendees)
+        return app('Datatables')::collection($attendees)
             ->removeColumn('character_id', 'main_character', 'user_id', 'status', 'character', 'created_at', 'updated_at')
             ->addColumn('_character', function ($row) {
                 return view('calendar::operation.includes.cols.attendees.character', compact('row'))->render();
@@ -88,7 +88,7 @@ class LookupController extends Controller
             ->select('character_id', 'ship_type_id')
             ->get();
 
-        return app('DataTables')::collection($confirmed)
+        return app('Datatables')::collection($confirmed)
             ->removeColumn('ship_type_id', 'character_id')
             ->editColumn('character.character_id', function ($row) {
                 return view('calendar::operation.includes.cols.confirmed.character', compact('row'))->render();
