@@ -1,6 +1,18 @@
 <?php
 
 Route::group([
+    'namespace' => 'Seat\Kassie\Calendar\Http\Controllers\Api\v1',
+    'prefix' => 'api',
+    'middleware' => 'api.auth'
+], function() {
+    Route::group(['prefix' => 'v2'], function () {
+        Route::group(['prefix' => 'calendar'], function () {
+                Route::get('/operations', 'CalendarApiController@getAllOperations');
+        });
+    });
+});
+
+Route::group([
     'namespace' => 'Seat\Kassie\Calendar\Http\Controllers',
     'middleware' => ['web', 'auth'],
     'prefix' => 'character',

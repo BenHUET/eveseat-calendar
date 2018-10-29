@@ -14,7 +14,92 @@ use Seat\Web\Models\User;
 /**
  * Class Operation.
  * @package Seat\Kassie\Calendar\Models
+ *
+ * @SWG\Definition(
+ *     description="Operation model",
+ *     title="Operation model",
+ *     type="object"
+ * )
+ *
+ * @SWG\Property(
+ *     format="string",
+ *     description="Title of the operation",
+ *     property="title",
+ * )
+ *
+ * @SWG\Property(
+ *     format="object",
+ *     description="End date details",
+ *     property="end_at",
+ * )
+ *
+ * @SWG\Property(
+ *     format="string",
+ *     description="Importance of the operation",
+ *     property="importance",
+ * )
+ *
+ * @SWG\Property(
+ *     format="int",
+ *     description="ID of the integration used",
+ *     property="integration_id",
+ * )
+ *
+ * @SWG\Property(
+ *     format="string",
+ *     description="Description of the operation",
+ *     property="description",
+ * )
+ *
+ * @SWG\Property(
+ *     format="string",
+ *     description="Description (new) of the operation",
+ *     property="description_new",
+ * )
+ *
+ * @SWG\Property(
+ *     format="string",
+ *     description="Staging system name",
+ *     property="staging_sys",
+ * )
+ *
+ * @SWG\Property(
+ *     format="int",
+ *     description="EVE ID of the staging system",
+ *     property="staging_sys_id",
+ * )
+ *
+ * @SWG\Property(
+ *     format="string",
+ *     description="Staging system info",
+ *     property="staging_info",
+ * )
+ *
+ * @SWG\Property(
+ *     format="boolean",
+ *     description="Whether or not the operation is cancelled",
+ *     property="is_cancelled",
+ * )
+ *
+ * @SWG\Property(
+ *     format="string",
+ *     description="Name of the fleet commander",
+ *     property="fc",
+ * )
+ *
+ * @SWG\Property(
+ *     format="int",
+ *     description="EVE ID of the fleet commander",
+ *     property="fc_character_id",
+ * )
+ *
+ * @SWG\Property(
+ *     format="string",
+ *     description="Name of the role the operation is mapped to",
+ *     property="role_name",
+ * )
  */
+
 class Operation extends Model
 {
     use Notifiable;

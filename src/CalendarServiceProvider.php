@@ -23,6 +23,7 @@ class CalendarServiceProvider extends AbstractSeatPlugin
         $this->addMigrations();
         $this->addPublications();
         $this->addObservers();
+        $this->configureApi();
 
         $this->app->booted(function () {
             $schedule = $this->app->make(Schedule::class);
@@ -82,6 +83,21 @@ class CalendarServiceProvider extends AbstractSeatPlugin
     {
         $this->commands([
             RemindOperation::class,
+        ]);
+    }
+
+    private function configureApi()
+    {
+        // ensure current annotations setting is an array of path or transform into it
+        $current_annotations = config('l5-swagger.paths.annotations');
+        if (! is_array($current_annotations))
+            $current_annotations = [$current_annotations];
+        // merge paths together and update config
+        config([
+            'l5-swagger.paths.annotations' => array_unique(array_merge($current_annotations, [
+                __DIR__ . '/Models',
+                __DIR__ . '/Http/Controllers/Api/v1',
+            ])),
         ]);
     }
 
