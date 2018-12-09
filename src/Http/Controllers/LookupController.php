@@ -72,6 +72,7 @@ class LookupController extends Controller
             ->addColumn('_timestamps', function ($row) {
                 return view('calendar::operation.includes.cols.attendees.timestamps', compact('row'))->render();
             })
+            ->rawColumns(['_character', '_status', '_timestamps'])
             ->make(true);
     }
 
@@ -99,6 +100,7 @@ class LookupController extends Controller
             ->editColumn('type.typeID', function ($row) {
                 return view('calendar::operation.includes.cols.confirmed.ship', compact('row'))->render();
             })
+            ->rawColumns(['character.character_id', 'character.corporation_id', 'type.typeID'])
             ->make(true);
     }
 
