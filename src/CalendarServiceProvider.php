@@ -8,8 +8,11 @@ use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Commands\RemindOperation;
 use Seat\Services\AbstractSeatPlugin;
 
-
-class CalendarServiceProvider extends ServiceProvider
+/**
+ * Class CalendarServiceProvider.
+ * @package Seat\Kassie\Calendar
+ */
+class CalendarServiceProvider extends AbstractSeatPlugin
 {
     public function boot()
     {
