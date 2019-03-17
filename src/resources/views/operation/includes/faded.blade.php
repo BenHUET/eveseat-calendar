@@ -6,7 +6,7 @@
         </h4>
     </div>
     <div class="box-footer no-padding">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover" id="calendar-faded" style="margin-top: 0 !important;">
             <thead class="bg-grey">
                 <tr>
                     <th>{{ trans('calendar::seat.title') }}</th>
@@ -20,49 +20,7 @@
                     <th class="hidden-xs"></th>
                 </tr>
             </thead>
-            <tbody>
-                @forelse($ops_faded->sortByDesc('start_at') as $op)
-                @if($default_op == $op->id)
-                <tr class="{{ $op->is_cancelled == 0 ? '' : 'danger' }} text-muted" data-attr-op="{{ $op->id }}" data-attr-default="true">
-                @else
-                <tr class="{{ $op->is_cancelled == 0 ? '' : 'danger' }} text-muted" data-attr-op="{{ $op->id }}">
-                @endif
-                    <td class="text-middle">
-                        <span>{{ $op->title }}</span>
-                        <span class="pull-right">
-                            @include('calendar::operation.includes.attendees')
-                        </span>
-                    </td>
-                    <td class="hidden-xs text-middle">
-                        @include('calendar::operation.includes.tags')
-                    </td>
-                    <td class="text-middle">
-                        @include('calendar::operation.includes.importance')
-                        <span class="visible-xs-inline-block">
-                            @include('calendar::operation.includes.actions')
-                        </span>
-                    </td>
-                    <td class="hidden-xs text-middle">{{ $op->start_at }}</td>
-                    <td class="text-middle">{{ $op->end_at }}</td>
-                    <td class="hidden-xs text-middle">
-                        @include('calendar::operation.includes.fleet_commander')
-                    </td>
-                    <td class="text-middle">
-                        @include('calendar::operation.includes.staging')
-                    </td>
-                    <td class="hidden-portrait-xs text-middle">
-                        @include('calendar::operation.includes.subscription')
-                    </td>
-                    <td class="hidden-xs text-middle">
-                        @include('calendar::operation.includes.actions')
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="9" class="text-center"><i>{{ trans('calendar::seat.none') }}</i></td>
-                </tr>
-                @endforelse
-            </tbody>
+            <tbody></tbody>
         </table>
     </div>
 </div>

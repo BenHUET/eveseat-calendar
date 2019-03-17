@@ -7,16 +7,26 @@ use Illuminate\Notifications\Notifiable;
 use s9e\TextFormatter\Bundles\Forum as TextFormatter;
 use Carbon\Carbon;
 use \DateTime;
+use Seat\Eveapi\Models\Character\CharacterInfo;
 use Seat\Notifications\Models\Integration;
 use Seat\Web\Models\User;
 
-
+/**
+ * Class Operation.
+ * @package Seat\Kassie\Calendar\Models
+ */
 class Operation extends Model
 {
     use Notifiable;
 
+    /**
+     * @var string
+     */
     protected $table = 'calendar_operations';
 
+    /**
+     * @var array
+     */
     protected $fillable = [
         'title',
         'start_at',
@@ -34,35 +44,69 @@ class Operation extends Model
         'role_name',
     ];
 
+    /**
+     * @var array
+     */
     protected $dates = ['start_at', 'end_at', 'created_at', 'updated_at'];
 
-    public function user() {
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function fleet_commander()
+    {
+        return $this->hasOne(CharacterInfo::class, 'character_id', 'fc_character_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function attendees()
     {
         return $this->hasMany(Attendee::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function tags()
     {
         return $this->belongsToMany(Tag::class, 'calendar_tag_operation');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function integration()
     {
         return $this->belongsTo(Integration::class, 'integration_id', 'id');
     }
 
+    /**
+     * @param $value
+     * @return mixed
+     */
     public function getDescriptionAttribute($value) {
         return $value ?: $this->description_new;
     }
 
+    /**
+     * @param $value
+     */
     public function setDescriptionAttribute($value) {
         $this->attributes['description_new'] = $value;
     }
 
+    /**
+     * @return mixed
+     */
     public function getParsedDescriptionAttribute() {
         $parser = TextFormatter::getParser();
         $parser->disablePlugin('Emoji');
@@ -72,6 +116,9 @@ class Operation extends Model
         return TextFormatter::render($xml);
     }
 
+    /**
+     * @return string|null
+     */
     public function getDurationAttribute() {
         if ($this->end_at)
             return $this->diffToHumanFormat($this->start_at, $this->end_at);
@@ -79,6 +126,9 @@ class Operation extends Model
         return null;
     }
 
+    /**
+     * @return string
+     */
     public function getStatusAttribute() {
         if ($this->is_cancelled)
             return "cancelled";
@@ -92,18 +142,31 @@ class Operation extends Model
         return "faded";
     }
 
+    /**
+     * @return string
+     */
     public function getStartsInAttribute() {
         return $this->diffToHumanFormat(Carbon::now('UTC'), $this->start_at);
     }
 
+    /**
+     * @return string
+     */
     public function getEndsInAttribute() {
         return $this->diffToHumanFormat(Carbon::now('UTC'), $this->end_at);
     }
 
+    /**
+     * @return string
+     */
     public function getStartedAttribute() {
         return $this->diffToHumanFormat($this->start_at, Carbon::now('UTC'));
     }
 
+    /**
+     * @param $user_id
+     * @return |null
+     */
     public function getAttendeeStatus($user_id) {
         $entry = $this->attendees->where('user_id', $user_id)->first();
 
@@ -113,6 +176,12 @@ class Operation extends Model
         return null;
     }
 
+    /**
+     * @param $_date1
+     * @param $_date2
+     * @return string
+     * @throws \Exception
+     */
     private function diffToHumanFormat($_date1, $_date2) {
         $diff = (new DateTime($_date1))->diff(new DateTime($_date2));
 
@@ -137,6 +206,9 @@ class Operation extends Model
         return $duration;
     }
 
+    /**
+     * @return string
+     */
     public function routeNotificationForSlack()
     {
 

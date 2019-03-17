@@ -53,6 +53,21 @@ Route::group([
         Route::get('/operation/{id}', [
             'as' => 'operation.detail',
             'uses' => 'AjaxController@getDetail'
+        ])->where('id', '[0-9]+');
+
+        Route::get('/operation/ongoing', [
+            'as' => 'operation.ongoing',
+            'uses' => 'AjaxController@getOngoing',
+        ]);
+
+        Route::get('/operation/incoming', [
+            'as' => 'operation.incoming',
+            'uses' => 'AjaxController@getIncoming',
+        ]);
+
+        Route::get('/operation/faded', [
+            'as' => 'operation.faded',
+            'uses' => 'AjaxController@getFaded',
         ]);
     });
 

@@ -56,10 +56,99 @@
     <script src="{{ asset('web/js/bootstrap-slider.min.js') }}"></script>
     <script src="{{ asset('web/js/jquery.autocomplete.min.js') }}"></script>
     <script src="{{ asset('web/js/natural.js') }}"></script>
-
     <script src="{{ asset('web/js/calendar.js') }}"></script>
     @include('web::includes.javascript.id-to-name')
     <script type="text/javascript">
+        $('#calendar-ongoing').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '{{ route('operation.ongoing') }}'
+            },
+            dom: 'rt<"col-sm-5"i><"col-sm-7"p>',
+            columns: [
+                {data: 'title', name: 'title'},
+                {data: 'tags', name: 'tags', orderable: false},
+                {data: 'importance', name: 'importance'},
+                {data: 'start_at', name: 'start_at'},
+                {data: 'end_at', name: 'end_at'},
+                {data: 'fleet_commander', name: 'fleet_commander', orderable: false},
+                {data: 'staging_sys', name: 'staging_sys'},
+                {data: 'subscription', name: 'subscription', orderable: false},
+                {data: 'actions', name: 'actions', orderable: false, searchable: false}
+            ],
+            order: [
+                [4, 'desc']
+            ],
+            drawCallback: function () {
+                // enable tooltip
+                $('[data-toggle="tooltip"]').tooltip();
+
+                // resolve EVE ids to names.
+                ids_to_names();
+            }
+        });
+
+        $('#calendar-incoming').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '{{ route('operation.incoming') }}'
+            },
+            dom: 'rt<"col-sm-5"i><"col-sm-7"p>',
+            columns: [
+                {data: 'title', name: 'title'},
+                {data: 'tags', name: 'tags', orderable: false},
+                {data: 'importance', name: 'importance'},
+                {data: 'start_at', name: 'start_at'},
+                {data: 'duration', name: 'duration', orderable: false},
+                {data: 'fleet_commander', name: 'fleet_commander', orderable: false},
+                {data: 'staging_sys', name: 'staging_sys'},
+                {data: 'subscription', name: 'subscription', orderable: false},
+                {data: 'actions', name: 'actions', orderable: false, searchable: false}
+            ],
+            order: [
+                [3, 'asc']
+            ],
+            drawCallback: function () {
+                // enable tooltip
+                $('[data-toggle="tooltip"]').tooltip();
+
+                // resolve EVE ids to names.
+                ids_to_names();
+            }
+        });
+
+        $('#calendar-faded').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '{{ route('operation.faded') }}'
+            },
+            dom: 'rt<"col-sm-5"i><"col-sm-7"p>',
+            columns: [
+                {data: 'title', name: 'title'},
+                {data: 'tags', name: 'tags', orderable: false},
+                {data: 'importance', name: 'importance'},
+                {data: 'start_at', name: 'start_at'},
+                {data: 'end_at', name: 'end_at'},
+                {data: 'fleet_commander', name: 'fleet_commander', orderable: false},
+                {data: 'staging_sys', name: 'staging_sys'},
+                {data: 'subscription', name: 'subscription', orderable: false},
+                {data: 'actions', name: 'actions', orderable: false, searchable: false}
+            ],
+            order: [
+                [4, 'desc']
+            ],
+            drawCallback: function () {
+                // enable tooltip
+                $('[data-toggle="tooltip"]').tooltip();
+
+                // resolve EVE ids to names.
+                ids_to_names();
+            }
+        });
+
         $('#modalDetails')
             .on('show.bs.modal', function(e){
                 var link = '{{ route('operation.detail', 0) }}';
