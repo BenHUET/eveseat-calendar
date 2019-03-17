@@ -2,11 +2,11 @@
 
 namespace Seat\Kassie\Calendar;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Console\Scheduling\Schedule;
 use Seat\Kassie\Calendar\Observers\OperationObserver;
 use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Commands\RemindOperation;
+use Seat\Services\AbstractSeatPlugin;
 
 
 class CalendarServiceProvider extends ServiceProvider
@@ -82,4 +82,61 @@ class CalendarServiceProvider extends ServiceProvider
         ]);
     }
 
+    /**
+     * Return the plugin public name as it should be displayed into settings.
+     *
+     * @example SeAT Web
+     *
+     * @return string
+     */
+    public function getName(): string
+    {
+        return 'Calendar';
+    }
+
+    /**
+     * Return the plugin repository address.
+     *
+     * @example https://github.com/eveseat/web
+     *
+     * @return string
+     */
+    public function getPackageRepositoryUrl(): string
+    {
+        return 'https://github.com/BenHUET/eveseat-calendar';
+    }
+
+    /**
+     * Return the plugin technical name as published on package manager.
+     *
+     * @example web
+     *
+     * @return string
+     */
+    public function getPackagistPackageName(): string
+    {
+        return 'calendar';
+    }
+
+    /**
+     * Return the plugin vendor tag as published on package manager.
+     *
+     * @example eveseat
+     *
+     * @return string
+     */
+    public function getPackagistVendorName(): string
+    {
+        return 'kassie';
+    }
+
+    /**
+     * Return the plugin installed version.
+     *
+     * @return string
+     */
+    public function getVersion(): string
+    {
+        return config('calendar.config.version');
+    }
 }
