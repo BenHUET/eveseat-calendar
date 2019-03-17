@@ -11,7 +11,8 @@ $('#modalCreateOperation').on('show.bs.modal', function(e) {
         startDate: nowRounded,
         locale: {
             "format": "MM/DD/YYYY HH:mm"
-        }
+        },
+        parentEl: '#modalCreateOperation'
     };
 
     options.singleDatePicker = true;
@@ -124,7 +125,8 @@ $('#modalUpdateOperation').on('show.bs.modal', function(e) {
             startDate: moment.utc(op.start_at),
             locale: {
                 "format": "MM/DD/YYYY HH:mm"
-                }
+            },
+            parentEl: '#modalUpdateOperation'
         };
 
         options.singleDatePicker = true;
