@@ -6,7 +6,7 @@ Route::group([
     'prefix' => 'character',
 ], function() {
 
-    Route::get('/{character_id}/paps', [
+    Route::get('/view/paps/{character_id}', [
         'as' => 'character.view.paps',
         'uses' => 'CharacterController@paps',
         'middleware' => 'characterbouncer:kassie_calendar_paps',
@@ -20,19 +20,19 @@ Route::group([
     'prefix' => 'corporation',
 ], function() {
 
-    Route::get('/{corporation_id}/paps', [
+    Route::get('/view/paps/{corporation_id}', [
         'as' => 'corporation.view.paps',
         'uses' => 'CorporationController@getPaps',
         'middleware' => 'corporationbouncer:kassie_calendar_paps',
     ]);
 
-    Route::get('/{corporation_id}/paps/json/year', [
+    Route::get('/view/paps/{corporation_id}/json/year', [
         'as' => 'corporation.ajax.paps.year',
         'uses' => 'CorporationController@getYearPapsStats',
         'middleware' => 'corporationbouncer:kassie_calendar_paps',
     ]);
 
-    Route::get('/{corporation_id}/paps/json/stacked', [
+    Route::get('/view/paps/{corporation_id}/json/stacked', [
         'as' => 'corporation.ajax.paps.stacked',
         'uses' => 'CorporationController@getMonthlyStackedPapsStats',
         'middleware' => 'corporationbouncer:kassie_calendar_paps',
