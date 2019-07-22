@@ -25,16 +25,18 @@
 @endif
 
 @if(auth()->user()->has('calendar.cancelAll', false) || $op->user->id == auth()->user()->id)
-    @if($op->is_cancelled == true)
+    @if($op->is_cancelled)
         &nbsp;
         <span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.activate') }}" class="clickable">
             <i class="fa fa-undo text-success" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalConfirmActivate"></i>
         </span>
     @else
-        &nbsp;
-        <span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.cancel') }}" class="clickable">
-            <i class="fa fa-ban text-danger" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalConfirmCancel"></i>
-        </span>
+        @if(carbon()->now()->lt($op->start_at))
+            &nbsp;
+            <span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.cancel') }}" class="clickable">
+                <i class="fa fa-ban text-orange" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalConfirmCancel"></i>
+            </span>
+        @endif
     @endif
 @endif
 
