@@ -45,23 +45,7 @@ class OperationController extends Controller
     {
         $notification_channels = Integration::where('type', 'slack')->get();
 
-        $ops = Operation::all()->take(-50)->filter(function($op){
-            return $op->isUserGranted(auth()->user());
-        });
-
         $tags = Tag::all()->sortBy('order');
-
-        $ops_incoming = $ops->filter(function($op) {
-            return $op->status == "incoming";
-        });
-
-        $ops_ongoing = $ops->filter(function($op) {
-            return $op->status == "ongoing";
-        });
-
-        $ops_faded = $ops->filter(function($op) {
-            return $op->status == "faded" || $op->status == "cancelled";
-        });
 
         $roles = Role::orderBy('title')->get();
         $userCharacters = auth()->user()->group->users->sortBy('name');
@@ -78,10 +62,6 @@ class OperationController extends Controller
         return view('calendar::operation.index', [
             'roles'          => $roles,
             'userCharacters' => $userCharacters,
-            'ops_all' => $ops,
-            'ops_incoming' => $ops_incoming,
-            'ops_ongoing' => $ops_ongoing,
-            'ops_faded' => $ops_faded,
             'default_op' => $request->id ? $request->id : 0,
             'tags' => $tags,
             'notification_channels' => $notification_channels,
