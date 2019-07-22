@@ -2,7 +2,7 @@
     <i class="fa fa-eye text-primary" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalDetails"></i>
 </span>
 
-@if($op->status == "incoming")
+@if(carbon()->now()->lt($op->start_at))
     <span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.subscribe') }}" class="clickable">
         &nbsp;
         <i class="fa fa-reply text-primary" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalSubscribe"></i>
@@ -15,11 +15,11 @@
     @endif
 @endif
 
-@if($op->status == "ongoing")
+@if(carbon()->now()->gt($op->start_at) && in_array($op->end_at, [null, carbon()->now()]))
     @if(auth()->user()->has('calendar.closeAll', false) || $op->user->id == auth()->user()->id)
         &nbsp;
         <span data-toggle="tooltip" data-placement="top" title="{{ trans('calendar::seat.close') }}" class="clickable">
-            <i class="fa fa-check text-danger" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalConfirmClose"></i>
+            <i class="fa fa-check text-success" data-toggle="modal" data-op-id="{{ $op->id }}" data-target="#modalConfirmClose"></i>
         </span>
     @endif
 @endif

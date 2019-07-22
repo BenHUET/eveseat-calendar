@@ -23,7 +23,10 @@ class AjaxController
     {
         $operations = Operation::with('tags', 'fleet_commander', 'attendees')
                                ->where('start_at', '<', carbon()->now())
-                               ->where('end_at', '>', carbon()->now())
+                               ->where(function ($query) {
+                                   $query->where('end_at', '>', carbon()->now());
+                                   $query->orWhereNull('end_at');
+                               })
                                ->where('is_cancelled', false);
 
         return $this->buildOperationDataTable($operations);
