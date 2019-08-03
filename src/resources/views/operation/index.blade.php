@@ -154,7 +154,8 @@
                 var link = '{{ route('operation.detail', 0) }}';
                 // load detail content dynamically
                 $(this).find('.modal-body')
-                    .load(link.replace('/0', '/' + $(e.relatedTarget).attr('data-op-id')), "", function(){
+                    .html('Loading...')
+                    .load(link.replace(/0$/gi, $(e.relatedTarget).attr('data-op-id')), "", function(){
                         // attach the datatable to the loaded modal
                         var attendees_table = $('#attendees');
                         var confirmed_table = $('#confirmed');
@@ -215,6 +216,9 @@
             })
             .on('hidden.bs.modal', function(e) {
                 var table = $(this).find('#attendees').DataTable();
+                table.destroy();
+
+                table = $(this).find('#confirmed').DataTable();
                 table.destroy();
             });
 

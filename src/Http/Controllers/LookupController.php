@@ -64,6 +64,9 @@ class LookupController extends Controller
                 return view('calendar::operation.includes.cols.attendees.character', compact('row'))->render();
             })
             ->addColumn('_character_name', function ($row) {
+                if (is_null($row->character))
+                    return '';
+
                 return $row->character->name;
             })
             ->addColumn('_status', function ($row) {
