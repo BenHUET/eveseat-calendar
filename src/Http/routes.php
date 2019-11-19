@@ -52,8 +52,8 @@ Route::group([
 
         Route::get('/calendar/operations', 'AjaxController@getIncoming');
 
-    })
-})
+    });
+});
 
 Route::group([
     'namespace' => 'Seat\Kassie\Calendar\Http\Controllers',
