@@ -50,7 +50,7 @@ Route::group([
         'prefix' => 'v2'
     ], function(){
 
-        Route::get('/calendar/operations', AjaxController@getIncoming');
+        Route::get('/calendar/operations', 'AjaxController@getIncoming');
 
     })
 })
