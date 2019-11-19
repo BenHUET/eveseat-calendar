@@ -1,18 +1,6 @@
 <?php
 
 Route::group([
-    'namespace' => 'Seat\Kassie\Calendar\Http\Controllers\Api\v1',
-    'prefix' => 'api',
-    'middleware' => 'api.auth'
-], function() {
-    Route::group(['prefix' => 'v2'], function () {
-        Route::group(['prefix' => 'calendar'], function () {
-                Route::get('/operations', 'CalendarApiController@getAllOperations');
-        });
-    });
-});
-
-Route::group([
     'namespace' => 'Seat\Kassie\Calendar\Http\Controllers',
     'middleware' => ['web', 'auth'],
     'prefix' => 'character',
@@ -51,6 +39,21 @@ Route::group([
     ]);
 
 });
+
+Route::group([
+    'namespace' => 'Seat\Kassie\Calendar\Http\Controllers',
+    'middleware' => ['api.auth'],
+    'prefix' => 'api'
+], function () {
+
+    Route::group([
+        'prefix' => 'v2'
+    ], function(){
+
+        Route::get('/calendar/operations', AjaxController@getIncoming');
+
+    })
+})
 
 Route::group([
     'namespace' => 'Seat\Kassie\Calendar\Http\Controllers',
