@@ -39,6 +39,7 @@ class CalendarServiceProvider extends AbstractSeatPlugin
         $this->mergeConfigFrom(__DIR__ . '/Config/character.permission.php', 'web.permissions.character');
         $this->mergeConfigFrom(__DIR__ . '/Config/corporation.permission.php', 'web.permissions.corporation');
         $this->mergeConfigFrom(__DIR__ . '/Config/calendar.config.php', 'calendar.config');
+        $this->mergeConfigFrom(__DIR__ . '/Config/calendar.locale.php', 'calendar.locale');
     }
 
     private function addRoutes()
