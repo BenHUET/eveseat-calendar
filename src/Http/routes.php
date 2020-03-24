@@ -2,7 +2,7 @@
 
 Route::group([
     'namespace' => 'Seat\Kassie\Calendar\Http\Controllers',
-    'middleware' => ['web', 'auth'],
+    'middleware' => ['web', 'auth', 'locale'],
     'prefix' => 'character',
 ], function() {
 
@@ -16,7 +16,7 @@ Route::group([
 
 Route::group([
     'namespace' => 'Seat\Kassie\Calendar\Http\Controllers',
-    'middleware' => ['web', 'auth'],
+    'middleware' => ['web', 'auth', 'locale'],
     'prefix' => 'corporation',
 ], function() {
 
@@ -42,7 +42,7 @@ Route::group([
 
 Route::group([
     'namespace' => 'Seat\Kassie\Calendar\Http\Controllers',
-    'middleware' => ['web', 'auth', 'bouncer:calendar.view'],
+    'middleware' => ['web', 'auth', 'locale', 'bouncer:calendar.view'],
     'prefix' => 'calendar'
 ], function () {
 
