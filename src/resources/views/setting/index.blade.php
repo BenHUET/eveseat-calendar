@@ -31,7 +31,7 @@
             var link = '{{ route('tags.show', 0) }}';
             var modal = $(this);
 
-            modal.find('.overlay').show();
+            modal.find('.overlay').removeClass('d-none').addClass('d-flex');
             modal.find('input[type="text"]').each(function(index, input){
                 $(input).val('');
             });
@@ -41,20 +41,17 @@
                 dataType: 'json',
                 method: 'GET'
             }).done(function(data){
+                bgEditPicker.colorpicker('setValue', data.bg_color);
+                fgEditPicker.colorpicker('setValue', data.text_color);
+
                 modal.find('input[name="name"]').val(data.name);
                 modal.find('input[name="order"]').val(data.order);
                 modal.find('select[name="analytics"]').val(data.analytics);
                 modal.find('input[name="quantifier"]').val(data.quantifier);
-                modal.find('input[name="bg_color"]').val(data.bg_color);
-                modal.find('input[name="text_color"]').val(data.text_color);
                 modal.find('input[name="tag_id"]').val(data.id);
 
-                bgEditPicker.colorpicker('setValue', data.bg_color);
-                fgEditPicker.colorpicker('setValue', data.text_color);
-                $('#tag_preview').change();
+                modal.find('.overlay').addClass('d-none').removeClass('d-flex');
             });
-
-            $(this).find('.overlay').hide();
         });
     </script>
 @endpush

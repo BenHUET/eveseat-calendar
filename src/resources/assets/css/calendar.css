@@ -1,30 +1,9 @@
-.modal-calendar {
-    text-align: center;
-    font-size: 5em;
-}
-
 .text-padding {
     padding : 5px 10px;
 }
 
 .text-middle {
     vertical-align: middle;
-}
-
-.modal-calendar-green, .text-bg-green {
-    background-color: #baffc9;
-}
-
-.modal-calendar-yellow, .text-bg-yellow {
-    background-color: #ffffba;
-}
-
-.modal-calendar-orange, .text-bg-orange {
-    background-color: #ffdfba;
-}
-
-.modal-calendar-red, .text-bg-red {
-    background-color: #ffb3ba;
 }
 
 .table-title {
@@ -70,26 +49,6 @@
     text-transform: uppercase;
 }
 
-/* Modals confirmation design */
-.modal {
-    text-align: center;
-    padding: 0!important;
-}
-
-.modal:before {
-    content: '';
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-    margin-right: -4px;
-}
-
-.modal-dialog {
-    display: inline-block;
-    text-align: left;
-    vertical-align: middle;
-}
-
 /* Sliders format */
 #sliderImportance .slider-selection {
     background: #00a65a;
@@ -105,24 +64,6 @@
 
 .margin-bottom {
     margin-bottom: 15px;
-}
-
-.modal-body .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 50;
-    background: #ffffffb3;
-}
-
-.modal-body .overlay > .fa {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-left: -15px;
-    margin-right: -15px;
 }
 
 /* mobile device optimisation */

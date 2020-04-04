@@ -1,4 +1,10 @@
-$('#modalCreateOperation').on('show.bs.modal', function(e) {
+var op_modals = {
+    create: $('#modalCreateOperation'),
+    update: $('#modalUpdateOperation'),
+    subscribe: $('#modalSubscribe')
+};
+
+op_modals.create.on('show.bs.modal', function(e) {
     var ROUNDING = 15 * 60 * 1000;
     nowRounded = moment.utc();
     nowRounded = moment.utc(Math.ceil((+nowRounded) / ROUNDING) * ROUNDING);
@@ -16,10 +22,10 @@ $('#modalCreateOperation').on('show.bs.modal', function(e) {
     };
 
     options.singleDatePicker = true;
-    $('#modalCreateOperation').find('input[name="time_start"]').daterangepicker(options);
+    op_modals.create.find('input[name="time_start"]').daterangepicker(options);
     options.singleDatePicker = false;
     options.endDate = nowRounded.clone().add('2', 'h');
-    $('#modalCreateOperation').find('input[name="time_start_end"]').daterangepicker(options);
+    op_modals.create.find('input[name="time_start_end"]').daterangepicker(options);
 
     if ($('#sliderImportance').length <= 0)
         $('#modalCreateOperation').find('input[name="importance"]').slider({
@@ -29,9 +35,11 @@ $('#modalCreateOperation').on('show.bs.modal', function(e) {
         });
 });
 
-$('#modalCreateOperation').find('input[name="known_duration"]:radio').change(function () {
-    $('#modalCreateOperation').find('.datepicker').toggleClass("hidden");
-});
+op_modals.create.find('input[name="known_duration"]')
+    .on('change', function () {
+        console.debug('trigger');
+        op_modals.create.find('.datepicker').toggleClass("d-none");
+    });
 
 $('#create_operation_submit').click(function(){
     $('#formCreateOperation').submit();
@@ -69,31 +77,36 @@ $('#formCreateOperation').submit(function(e) {
             $(location).attr('href', 'operation');
         },
         error: function (response) {
-            $('#modalCreateOperation').find('.form-group').removeClass('has-error');
-            $('#modalCreateOperation').find('.modal-errors ul').empty();
-            $('#modalCreateOperation').find('.modal-errors').removeClass('hidden');
+            op_modals.create.find('.form-group').removeClass('has-error');
+            op_modals.create.find('.modal-errors ul').empty();
+            op_modals.create.find('.modal-errors').removeClass('hidden');
             $.each(response['responseJSON'], function (index, value) {
-                $('#modalCreateOperation').find('[name="' + index + '"]').closest('div.form-group').addClass('has-error');
-                $('#modalCreateOperation').find('.modal-errors ul').append('<li>' + value + '</li>');
+                op_modals.create.find('[name="' + index + '"]').closest('div.form-group').addClass('has-error');
+                op_modals.create.find('.modal-errors ul').append('<li>' + value + '</li>');
             });
             $('#create_operation_submit').prop('disabled', false);
         }
     });
 });
 
-$('#modalUpdateOperation').on('show.bs.modal', function(e) {
+op_modals.update.on('show.bs.modal', function(e) {
+    var ROUNDING = 15 * 60 * 1000;
     var operation_id = $(e.relatedTarget).data('op-id');
+
+    op_modals.update.find('.overlay').removeClass('d-none').addClass('d-flex');
 
     $(e.currentTarget).find('input[name="operation_id"]').val(operation_id);
 
-    var ROUNDING = 15 * 60 * 1000;
     nowRounded = moment.utc();
     nowRounded = moment.utc(Math.ceil((+nowRounded) / ROUNDING) * ROUNDING);
 
-
+    op_modals.update.find('input[name="known_duration"][value="yes"]').prop('checked', false);
+    op_modals.update.find('input[name="known_duration"][value="no"]').prop('checked', true);
+    op_modals.update.find('input[name="time_start"]').closest('div.form-group').removeClass('d-none');
+    op_modals.update.find('input[name="time_start_end"]').closest('div.form-group').addClass('d-none');
 
     $.getJSON("/calendar/operation/find/" + operation_id, function(op) {
-        $('#modalUpdateOperation').find('input[name="title"]').val(op.title);
+        op_modals.update.find('input[name="title"]').val(op.title);
 
         if (op.role_name !== null) {
             $('#update_operation_role').val(op.role_name);
@@ -105,13 +118,13 @@ $('#modalUpdateOperation').on('show.bs.modal', function(e) {
             $('#update-operation-channel').trigger('change');
         }
 
-        $('#modalUpdateOperation').find('option[value="' + op.type + '"]').prop('selected', true);
-        $('#modalUpdateOperation').find('input[name="staging_sys"]').val(op.staging_sys);
-        $('#modalUpdateOperation').find('input[name="staging_sys_id"]').val(op.staging_sys_id);
-        $('#modalUpdateOperation').find('input[name="staging_info"]').val(op.staging_info);
-        $('#modalUpdateOperation').find('input[name="fc"]').val(op.fc);
-        $('#modalUpdateOperation').find('input[name="fc_character_id"]').val(op.fc_character_id);
-        $('#modalUpdateOperation').find('textarea[name="description"]').val(op.description);
+        op_modals.update.find('option[value="' + op.type + '"]').prop('selected', true);
+        op_modals.update.find('input[name="staging_sys"]').val(op.staging_sys);
+        op_modals.update.find('input[name="staging_sys_id"]').val(op.staging_sys_id);
+        op_modals.update.find('input[name="staging_info"]').val(op.staging_info);
+        op_modals.update.find('input[name="fc"]').val(op.fc);
+        op_modals.update.find('input[name="fc_character_id"]').val(op.fc_character_id);
+        op_modals.update.find('textarea[name="description"]').val(op.description);
 
         $.each(op.tags, function(i, tag) {
             $('#checkbox-update-' + tag.id).prop('checked', true);
@@ -130,40 +143,43 @@ $('#modalUpdateOperation').on('show.bs.modal', function(e) {
         };
 
         options.singleDatePicker = true;
-        $('#modalUpdateOperation').find('input[name="time_start"]').daterangepicker(options);
-
+        op_modals.update.find('input[name="time_start"]').daterangepicker(options);
         options.singleDatePicker = false;
+
         if (op.end_at) {
             options.endDate = moment.utc(op.end_at);
-            $('#modalUpdateOperation').find('input[name="known_duration"][value="yes"]').prop('checked', true);
-            $('#modalUpdateOperation').find('input[name="time_start"]').closest('div.form-group').addClass('hidden');
-            $('#modalUpdateOperation').find('input[name="time_start_end"]').closest('div.form-group').removeClass('hidden');
+            op_modals.update.find('input[name="known_duration"][value="yes"]').prop('checked', true).trigger('change');
+            op_modals.update.find('input[name="time_start"]').closest('div.form-group').addClass('hidden');
+            op_modals.update.find('input[name="time_start_end"]').closest('div.form-group').removeClass('hidden');
         } else {
             options.endDate = moment.utc(op.start_at).clone().add('2', 'h');
-            $('#modalUpdateOperation').find('input[name="known_duration"][value="no"]').prop('checked', true);
-            $('#modalUpdateOperation').find('input[name="time_start"]').closest('div.form-group').removeClass('hidden');
-            $('#modalUpdateOperation').find('input[name="time_start_end"]').closest('div.form-group').addClass('hidden');
+            op_modals.update.find('input[name="time_start"]').closest('div.form-group').removeClass('hidden');
+            op_modals.update.find('input[name="time_start_end"]').closest('div.form-group').addClass('hidden');
         }
-        $('#modalUpdateOperation').find('input[name="time_start_end"]').daterangepicker(options);
+
+        op_modals.update.find('input[name="time_start_end"]').daterangepicker(options);
 
         if ($('#updateSliderImportance').length > 0) {
             $('#modalUpdateOperation').find('input[name="importance"]').slider('destroy');
         }
 
-        $('#modalUpdateOperation').find('input[name="importance"]').attr('data-slider-value', op.importance);
-        $('#modalUpdateOperation').find('input[name="importance"]').slider({
+        op_modals.update.find('input[name="importance"]').attr('data-slider-value', op.importance);
+        op_modals.update.find('input[name="importance"]').slider({
             formatter: function(value) {
                 return value;
             }
         });
     }).fail(function() {
         $(location).attr('href', 'operation');
+    }).done(function () {
+        op_modals.update.find('.overlay').addClass('d-none').removeClass('d-flex');
     });
 });
 
-$('#modalUpdateOperation').find('input[name="known_duration"]:radio').change(function () {
-    $('#modalUpdateOperation').find('.datepicker').toggleClass("hidden");
-});
+op_modals.update.find('input[name="known_duration"]')
+    .on('change', function () {
+        op_modals.update.find('.datepicker').toggleClass("d-none");
+    });
 
 $('#update_operation_submit').click(function(){
     $('#formUpdateOperation').submit();
@@ -185,31 +201,34 @@ $('#formUpdateOperation').submit(function(e) {
             $(location).attr('href', 'operation');
         },
         error: function (response) {
-            $('#modalUpdateOperation').find('.form-group').removeClass('has-error');
-            $('#modalUpdateOperation').find('.modal-errors ul').empty();
-            $('#modalUpdateOperation').find('.modal-errors').removeClass('hidden');
+            op_modals.update.find('.form-group').removeClass('has-error');
+            op_modals.update.find('.modal-errors ul').empty();
+            op_modals.update.find('.modal-errors').removeClass('hidden');
             $.each(response['responseJSON'], function (index, value) {
-                $('#modalUpdateOperation').find('[name="' + index + '"]').closest('div.form-group').addClass('has-error');
-                $('#modalUpdateOperation').find('.modal-errors ul').append('<li>' + value + '</li>');
+                op_modals.update.find('[name="' + index + '"]').closest('div.form-group').addClass('has-error');
+                op_modals.update.find('.modal-errors ul').append('<li>' + value + '</li>');
             });
             $('#update_operation_submit').prop('disabled', false);
         }
     });
 });
 
-$('#modalSubscribe').on('show.bs.modal', function(e) {
-    var operation_id = $(e.relatedTarget).data('op-id');
-    var character_id = $(e.relatedTarget).data('character-id');
-    var status = $(e.relatedTarget).data('status');
+op_modals.subscribe
+    .on('show.bs.modal', function(e) {
+        var operation_id = $(e.relatedTarget).data('op-id');
+        var character_id = $(e.relatedTarget).data('character-id');
+        var status = $(e.relatedTarget).data('status');
 
-    $(e.currentTarget).find('input[name="operation_id"]').val(operation_id);
+        $(e.currentTarget).find('input[name="operation_id"]').val(operation_id);
 
-    if (status && character_id) {
-        $('#modalSubscribe').find("input[name=character_id][value=" + character_id + "]").prop('checked', true);
-        $('#modalSubscribe').find('option[value="' + status + '"]').prop('selected', true);
-        $("#status").trigger('change');
-    }
-});
+        $('#status').select2();
+
+        if (status && character_id) {
+            op_modals.subscribe.find("input[name=character_id][value=" + character_id + "]").prop('checked', true);
+            op_modals.subscribe.find('option[value="' + status + '"]').prop('selected', true);
+            $("#status").trigger('change');
+        }
+    });
 
 $('#subscribe_submit').click(function(){
     $('#formSubscribe').submit();

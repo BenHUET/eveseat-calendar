@@ -7,9 +7,13 @@
 
 namespace Seat\Kassie\Calendar\Exceptions;
 
-
 use Exception;
 
+/**
+ * Class MissingCharacterException.
+ *
+ * @package Seat\Kassie\Calendar\Exceptions
+ */
 class MissingCharacterException extends Exception {
 
 }

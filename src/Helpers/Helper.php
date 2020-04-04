@@ -2,9 +2,20 @@
 
 namespace Seat\Kassie\Calendar\Helpers;
 
+/**
+ * Class Helper.
+ *
+ * @package Seat\Kassie\Calendar\Helpers
+ */
 class Helper
 {
-
+    /**
+     * @param $importance
+     * @param $emoji_full
+     * @param $emoji_half
+     * @param $emoji_empty
+     * @return string
+     */
     public static function ImportanceAsEmoji($importance, $emoji_full, $emoji_half, $emoji_empty) {
         $output = "";
 
@@ -30,6 +41,10 @@ class Helper
         return $output;
     }
 
+    /**
+     * @param $op
+     * @return \Closure
+     */
     public static function BuildSlackNotificationAttachment($op) {
         $url = url('/calendar/operation', [$op->id]);
 
