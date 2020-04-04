@@ -8,6 +8,7 @@ use s9e\TextFormatter\Bundles\Forum as TextFormatter;
 use Carbon\Carbon;
 use \DateTime;
 use Seat\Eveapi\Models\Character\CharacterInfo;
+use Seat\Eveapi\Models\Sde\MapDenormalize;
 use Seat\Notifications\Models\Integration;
 use Seat\Web\Models\User;
 
@@ -87,6 +88,23 @@ class Operation extends Model
     public function integration()
     {
         return $this->belongsTo(Integration::class, 'integration_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function staging()
+    {
+        return $this->hasOne(MapDenormalize::class, 'itemID', 'staging_sys_id')
+            ->withDefault();
+    }
+
+    public function getIsFleetCommanderAttribute()
+    {
+        if ($this->fc_character_id == null)
+            return false;
+
+        return in_array($this->fc_character_id, auth()->user()->associatedCharacterIds()->toArray());
     }
 
     /**

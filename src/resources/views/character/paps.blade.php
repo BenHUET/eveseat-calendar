@@ -6,11 +6,11 @@
 @inject('request', 'Illuminate\Http\Request')
 
 @section('character_content')
-<div class="panel panel-default">
-    <div class="panel-heading clearfix">
-        <h3 class="panel-title pull-left">{{ trans('calendar::seat.paps') }}</h3>
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">{{ trans('calendar::seat.paps') }}</h3>
     </div>
-    <div class="panel-body">
+    <div class="card-body">
         <h4>My participation per month</h4>
         <div class="chart">
             <canvas id="papPerMonth" height="150" width="1000"></canvas>
@@ -20,149 +20,121 @@
             <canvas id="papPerType" height="150" width="1000"></canvas>
         </div>
         <h4>All of fame</h4>
-        <div class="col-md-4">
-            <h5>This week</h5>
-            <table class="table table-striped" id="weekly-top">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Character</th>
-                        <th>Paps</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($weeklyRanking->take(10) as $top)
-                    <tr data-attr="{{ $top->character_id }}">
-                        <td>{{ $loop->iteration }}.</td>
-                        <td>{!! img('character', $top->character_id, 32, ['class' => 'img-circle eve-icon small-icon'], false) !!}
-                            @if(is_null($top->character))
-                            Unknown
-                            @else
-                            {{ $top->character->name }}
-                            @endif
-                        </td>
-                        <td>{{ $top->qty }}</td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="3" class="text-center">Be the first to be PAP this week !</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-                @if(!$weeklyRanking->where('character_id', $character_id)->isEmpty())
-                <tfoot class="hidden">
-                    <tr>
-                        <td>{{ $weeklyRanking->where('character_id', $character_id)->keys()->first() + 1 }}.</td>
-                        <td>{!! img('character',
-                                $weeklyRanking->where('character_id', $character_id)->first()->character_id, 32,
-                                ['class' => 'img-circle eve-icon small-icon'], false) !!}
-                            @if(is_null($weeklyRanking->where('character_id', $character_id)->first()->character))
-                            Unknown
-                            @else
-                            {{ $weeklyRanking->where('character_id', $character_id)->first()->character->name }}
-                            @endif
-                        </td>
-                        <td>{{ $weeklyRanking->where('character_id', $character_id)->first()->qty }}</td>
-                    </tr>
-                </tfoot>
-                @endif
-            </table>
-        </div>
-        <div class="col-md-4">
-            <h5>This month</h5>
-            <table class="table table-striped" id="monthly-top">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Character</th>
-                        <th>Paps</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($monthlyRanking->take(10) as $top)
-                    <tr data-attr="{{ $top->character_id }}">
-                        <td>{{ $loop->iteration }}.</td>
-                        <td>{!! img('character', $top->character_id, 32, ['class' => 'img-circle eve-icon small-icon'], false) !!}
-                            @if (is_null($top->character))
-                            Unknown
-                            @else
-                            {{ $top->character->name }}
-                            @endif
-                        </td>
-                        <td>{{ $top->qty }}</td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="3" class="text-center">Be the first to be PAP this month !</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-                @if(!$monthlyRanking->where('character_id', $character_id)->isEmpty())
-                <tfoot class="hidden">
-                    <tr>
-                        <td>{{ $monthlyRanking->where('character_id', $character_id)->keys()->first() + 1 }}.</td>
-                        <td>{!! img('character',
-                                    $monthlyRanking->where('character_id', $character_id)->first()->character_id, 32,
-                                    ['class' => 'img-circle eve-icon small-icon'], false) !!}
-                            @if(is_null($monthlyRanking->where('character_id', $character_id)->first()->character))
-                            Unknown
-                            @else
-                            {{ $monthlyRanking->where('character_id', $character_id)->first()->character->name }}
-                            @endif
-                        </td>
-                        <td>{{ $monthlyRanking->where('character_id', $character_id)->first()->qty }}</td>
-                    </tr>
-                </tfoot>
-                @endif
-            </table>
-        </div>
-        <div class="col-md-4">
-            <h5>This year</h5>
-            <table class="table table-striped" id="yearly-top">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Character</th>
-                        <th>Paps</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($yearlyRanking->take(10) as $top)
-                    <tr data-attr="{{ $top->character_id }}">
-                        <td>{{ $loop->iteration }}.</td>
-                        <td>{!! img('character', $top->character_id, 32, ['class' => 'img-circle eve-icon small-icon'], false) !!}
-                            @if (is_null($top->character))
-                            Unknown
-                            @else
-                            {{ $top->character->name }}
-                            @endif
-                        </td>
-                        <td>{{ $top->qty }}</td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="3" class="text-center">Be the first to be PAP this year !</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-                @if(!$yearlyRanking->where('character_id', $character_id)->isEmpty())
-                <tfoot class="hidden">
-                    <tr>
-                        <td>{{ $yearlyRanking->where('character_id', $character_id)->keys()->first() + 1 }}.</td>
-                        <td>{!! img('character',
-                                    $yearlyRanking->where('character_id', $character_id)->first()->character_id, 32,
-                                    ['class' => 'img-circle eve-icon small-icon'], false) !!}
-                            @if(is_null($yearlyRanking->where('character_id', $character_id)->first()->character))
-                            Unknown
-                            @else
-                            {{ $yearlyRanking->where('character_id', $character_id)->first()->character->name }}
-                            @endif
-                        </td>
-                        <td>{{ $yearlyRanking->where('character_id', $character_id)->first()->qty }}</td>
-                    </tr>
-                </tfoot>
-                @endif
-            </table>
+        <div class="row">
+            <div class="col-md-4">
+                <h5>This week</h5>
+                <table class="table table-striped" id="weekly-top">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Character</th>
+                            <th>Paps</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($weeklyRanking->take(10) as $top)
+                            <tr data-attr="{{ $top->character_id }}">
+                                <td>{{ $loop->iteration }}.</td>
+                                <td>
+                                    @include('web::partials.character', ['character' => $top])
+                                </td>
+                                <td>{{ $top->qty }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="text-center">Be the first to be PAP this week !</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                    @if(! $weeklyRanking->where('character_id', $character_id)->isEmpty())
+                        <tfoot class="hidden">
+                            <tr>
+                                <td>{{ $weeklyRanking->where('character_id', $character_id)->keys()->first() + 1 }}.</td>
+                                <td>
+                                    @include('web::partials.character', ['character' => $weeklyRanking->where('character_id', $character_id)->first()->character])
+                                </td>
+                                <td>{{ $weeklyRanking->where('character_id', $character_id)->first()->qty }}</td>
+                            </tr>
+                        </tfoot>
+                    @endif
+                </table>
+            </div>
+            <div class="col-md-4">
+                <h5>This month</h5>
+                <table class="table table-striped" id="monthly-top">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Character</th>
+                            <th>Paps</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($monthlyRanking->take(10) as $top)
+                            <tr data-attr="{{ $top->character_id }}">
+                                <td>{{ $loop->iteration }}.</td>
+                                <td>
+                                    @include('web::partials.character', ['character' => $top->character])
+                                </td>
+                                <td>{{ $top->qty }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="text-center">Be the first to be PAP this month !</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                    @if(! $monthlyRanking->where('character_id', $character_id)->isEmpty())
+                        <tfoot class="hidden">
+                            <tr>
+                                <td>{{ $monthlyRanking->where('character_id', $character_id)->keys()->first() + 1 }}.</td>
+                                <td>
+                                    @include('web::partials.character', ['character' => $monthlyRanking->where('character_id', $character_id)->first()->character])
+                                </td>
+                                <td>{{ $monthlyRanking->where('character_id', $character_id)->first()->qty }}</td>
+                            </tr>
+                        </tfoot>
+                    @endif
+                </table>
+            </div>
+            <div class="col-md-4">
+                <h5>This year</h5>
+                <table class="table table-striped" id="yearly-top">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Character</th>
+                            <th>Paps</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($yearlyRanking->take(10) as $top)
+                            <tr data-attr="{{ $top->character_id }}">
+                                <td>{{ $loop->iteration }}.</td>
+                                <td>
+                                    @include('web::partials.character', ['character' => $top->character])
+                                </td>
+                                <td>{{ $top->qty }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="text-center">Be the first to be PAP this year !</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                    @if(! $yearlyRanking->where('character_id', $character_id)->isEmpty())
+                        <tfoot class="hidden">
+                            <tr>
+                                <td>{{ $yearlyRanking->where('character_id', $character_id)->keys()->first() + 1 }}.</td>
+                                <td>
+                                    @include('web::partials.character', ['character' => $yearlyRanking->where('character_id', $character_id)->first()->character])
+                                </td>
+                                <td>{{ $yearlyRanking->where('character_id', $character_id)->first()->qty }}</td>
+                            </tr>
+                        </tfoot>
+                    @endif
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -173,14 +145,14 @@
 <script type="text/javascript">
     $(function() {
         var rainbow = new Rainbow();
-        var themeColor = rgb2hex($('nav.navbar').css('backgroundColor'));
+        var themeColor = rgb2hex($('.nav-pills .nav-link.active').css('backgroundColor'));
         var monthlyData = [];
         var shipTypeData = [];
         var shipTypeLabels = [];
         var shipTypeColors = [];
 
         // just in case we're on white paper, reverse color
-        if (themeColor.substr(4) === rgb2hex($('.panel').css('backgroundColor')).substr(4))
+        if (themeColor.substr(4) === rgb2hex($('.card').css('backgroundColor')).substr(4))
             themeColor = '#000000';
 
         rainbow.setSpectrum('#dddddd', themeColor, '#8e8e8e');
@@ -191,7 +163,7 @@
         @endforeach
 
         @foreach($shipTypePaps as $pap)
-        shipTypeData.push({{ $pap->qty }});
+        shipTypeData.push({{ $pap->qty ?: 0 }});
         shipTypeLabels.push("{{ $pap->groupName }}");
         shipTypeColors.push('#' + rainbow.colourAt({{ $loop->index }}));
         @endforeach

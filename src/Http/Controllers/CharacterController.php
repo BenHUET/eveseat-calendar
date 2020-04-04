@@ -7,21 +7,29 @@
 
 namespace Seat\Kassie\Calendar\Http\Controllers;
 
-
 use Illuminate\Support\Facades\DB;
+use Seat\Eveapi\Models\Sde\InvType;
 use Seat\Kassie\Calendar\Models\Pap;
-use Seat\Kassie\Calendar\Models\Sde\InvType;
 use Seat\Web\Http\Controllers\Controller;
 
-class CharacterController extends Controller {
-
+/**
+ * Class CharacterController.
+ *
+ * @package Seat\Kassie\Calendar\Http\Controllers
+ */
+class CharacterController extends Controller
+{
+    /**
+     * @param $character_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function paps($character_id)
     {
         $today = carbon();
 
         $monthlyPaps = Pap::where('character_id', $character_id)
             ->select('character_id', 'year', 'month', DB::raw('sum(value) as qty'))
-            ->groupBy('year', 'month')
+            ->groupBy('character_id', 'year', 'month')
             ->get();
 
         $shipTypePaps = InvType::rightJoin('invGroups', 'invGroups.groupID', '=', 'invTypes.groupID')
@@ -32,7 +40,7 @@ class CharacterController extends Controller {
                     ->orWhere('character_id', null);
             })
             ->select('invGroups.groupID', 'categoryID', 'groupName', DB::raw('sum(value) as qty'))
-            ->groupBy('invGroups.groupID')
+            ->groupBy('invGroups.groupID', 'categoryID', 'groupName')
             ->orderBy('groupName')
             ->get();
 
@@ -60,5 +68,4 @@ class CharacterController extends Controller {
         return view('calendar::character.paps', compact('monthlyPaps', 'shipTypePaps',
             'weeklyRanking', 'monthlyRanking', 'yearlyRanking', 'character_id'));
     }
-
 }

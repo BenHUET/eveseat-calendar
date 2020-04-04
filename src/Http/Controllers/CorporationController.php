@@ -7,47 +7,68 @@
 
 namespace Seat\Kassie\Calendar\Http\Controllers;
 
-
 use Illuminate\Support\Facades\DB;
 use Seat\Kassie\Calendar\Models\Pap;
 use Seat\Web\Http\Controllers\Controller;
 
-class CorporationController extends Controller {
-
+/**
+ * Class CorporationController.
+ *
+ * @package Seat\Kassie\Calendar\Http\Controllers
+ */
+class CorporationController extends Controller
+{
+    /**
+     * @param int $corporation_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getPaps(int $corporation_id)
     {
 	    $today = carbon();
 
-	    $weeklyRanking = Pap::join('character_infos', 'kassie_calendar_paps.character_id', 'character_infos.character_id')
-	                        ->where('corporation_id', $corporation_id)
-	                        ->where('week', $today->weekOfMonth)
-	                        ->where('month', $today->month)
-	                        ->where('year', $today->year)
-	                        ->select('kassie_calendar_paps.character_id', DB::raw('sum(value) as qty'))
-	                        ->groupBy('character_id')
-	                        ->orderBy('qty', 'desc')
-	                        ->get();
+	    $weeklyRanking = Pap::with('character', 'character.affiliation')
+            ->whereHas('character.affiliation', function ($query) use ($corporation_id) {
+                $query->where('corporation_id', $corporation_id);
+            })
+            ->where('week', $today->weekOfMonth)
+            ->where('month', $today->month)
+            ->where('year', $today->year)
+            ->select('character_id')
+            ->selectRaw('SUM(value) as qty')
+            ->groupBy('character_id')
+            ->orderBy('qty', 'desc')
+            ->get();
 
-	    $monthlyRanking = Pap::join('character_infos', 'kassie_calendar_paps.character_id', 'character_infos.character_id')
-	                         ->where('corporation_id', $corporation_id)
-	                         ->where('month', $today->month)
-	                         ->where('year', $today->year)
-	                         ->select('kassie_calendar_paps.character_id', DB::raw('sum(value) as qty'))
-	                         ->groupBy('character_id')
-	                         ->orderBy('qty', 'desc')
-	                         ->get();
+	    $monthlyRanking = Pap::with('character', 'character.affiliation')
+            ->whereHas('character.affiliation', function ($query) use ($corporation_id) {
+                $query->where('corporation_id', $corporation_id);
+            })
+            ->where('month', $today->month)
+            ->where('year', $today->year)
+            ->select('character_id')
+            ->selectRaw('SUM(value) as qty')
+            ->groupBy('character_id')
+            ->orderBy('qty', 'desc')
+            ->get();
 
-	    $yearlyRanking = Pap::join('character_infos', 'kassie_calendar_paps.character_id', 'character_infos.character_id')
-	                        ->where('corporation_id', $corporation_id)
-	                        ->where('year', $today->year)
-	                        ->select('kassie_calendar_paps.character_id', DB::raw('sum(value) as qty'))
-	                        ->groupBy('character_id')
-	                        ->orderBy('qty', 'desc')
-	                        ->get();
+	    $yearlyRanking = Pap::with('character', 'character.affiliation')
+            ->whereHas('character.affiliation', function ($query) use ($corporation_id) {
+                $query->where('corporation_id', $corporation_id);
+            })
+            ->where('year', $today->year)
+            ->select('character_id')
+            ->selectRaw('SUM(value) as qty')
+            ->groupBy('character_id')
+            ->orderBy('qty', 'desc')
+            ->get();
 
         return view('calendar::corporation.paps', compact('weeklyRanking', 'monthlyRanking', 'yearlyRanking'));
     }
 
+    /**
+     * @param int $corporation_id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getYearPapsStats(int $corporation_id)
     {
         $year = request()->query('year');
@@ -61,52 +82,97 @@ class CorporationController extends Controller {
 
         if (! $grouped)
             return response()->json(
-                Pap::where('year', intval($year))
-                   ->where('corporation_id', $corporation_id)
-                   ->leftJoin('character_infos', 'character_infos.character_id', 'kassie_calendar_paps.character_id')
-                   ->select('kassie_calendar_paps.character_id', 'name', DB::raw('sum(value) as qty'))
-                   ->groupBy('kassie_calendar_paps.character_id', 'name')
-                   ->orderBy('qty', 'desc')
-                   ->orderBy('name', 'asc')
-                   ->get());
+                Pap::with('character', 'character.affiliation')
+                    ->whereHas('character.affiliation', function ($query) use ($corporation_id) {
+                        $query->where('corporation_id', $corporation_id);
+                    })
+                    ->where('year', intval($year))
+                    ->select('character_id')
+                    ->selectRaw('SUM(value) as qty')
+                    ->groupBy('character_id')
+                    ->orderBy('qty', 'desc')
+                    ->get()
+                    ->map(function ($pap) {
+                        return [
+                            'character_id' => $pap->character_id,
+                            'name'         => $pap->character->name,
+                            'qty'          => $pap->qty,
+                        ];
+                    })
+                    ->sortBy('name')
+                    ->values());
 
         return response()->json(
-            Pap::where('year', intval($year))
-                ->where('corporation_id', $corporation_id)
-                ->select('ci.character_id', 'ci.name', DB::raw('sum(value) as qty'))
-                ->join('character_infos as ci', 'ci.character_id', 'kassie_calendar_paps.character_id')
-                ->join('users', 'ci.character_id', 'users.id')
-                ->groupBy('group_id')
+            Pap::with('character', 'character.affiliation', 'character.user')
+                ->whereHas('character.affiliation', function ($query) use ($corporation_id) {
+                    $query->where('corporation_id', $corporation_id);
+                })
+                ->where('year', intval($year))
+                ->select('character_id')
+                ->selectRaw(DB::raw('SUM(value) as qty'))
+                ->groupBy('character_id')
                 ->orderBy('qty', 'desc')
-	            ->orderBy('name', 'asc')
-                ->get());
+                ->get()
+                ->groupBy('character.user.id')
+                ->map(function ($user) {
+                    $pap = [
+                        'character_id' => 0,
+                        'name'         => trans('web::seat.unknown'),
+                        'qty'          => 0,
+                    ];
+
+                    foreach ($user as $character) {
+                        $pap['character_id'] = $character->user->main_character_id;
+                        $pap['name'] = $character->user->name;
+                        $pap['qty'] += $character->qty;
+                    }
+
+                    return $pap;
+                })
+                ->sortBy('name')
+                ->values());
     }
 
+    /**
+     * @param int $corporation_id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getMonthlyStackedPapsStats(int $corporation_id)
     {
         $year = is_null(request()->query('year')) ? carbon()->year : intval(request()->query('year'));
         $month = is_null(request()->query('month')) ? carbon()->year : intval(request()->query('month'));
         $grouped = request()->query('grouped') ?: false;
 
-        $paps = Pap::select('ci.character_id', 'ci.name', 'cto.operation_id', 'analytics', 'value')
+        $paps = Pap::select('ci.character_id', 'cto.operation_id', 'analytics', 'value')
                    ->join('character_infos as ci', 'kassie_calendar_paps.character_id', 'ci.character_id')
+                   ->join('character_affiliations as ca', 'ci.character_id', 'ca.character_id')
                    ->join('calendar_tag_operation as cto', 'cto.operation_id', 'kassie_calendar_paps.operation_id')
                    ->join('calendar_tags as ct', 'ct.id', 'cto.tag_id')
                    ->where('year', $year)
                    ->where('month', $month)
                    ->where('corporation_id', $corporation_id);
 
-        if ($grouped)
-	        $paps = $paps->join('users', 'users.id', 'ci.character_id')
-	                     ->groupBy('group_id', 'cto.operation_id', 'analytics');
-        else
-	        $paps = $paps->groupBy('ci.character_id', 'cto.operation_id', 'analytics');
+        if ($grouped) {
+            return response()->json(
+                DB::table(DB::raw("({$paps->toSql()}) as paps"))
+                    ->join('refresh_tokens as rt', 'paps.character_id', 'rt.character_id')
+                    ->join('users as u', 'rt.user_id', 'u.id')
+                    ->mergeBindings($paps->getQuery())
+                    ->select('analytics', 'main_character_id as character_id', 'name')
+                    ->selectRaw('SUM(value) as qty')
+                    ->groupBy('analytics', 'main_character_id', 'name')
+                    ->orderBy('qty', 'desc')
+                    ->orderBy('name', 'asc')
+                    ->get()
+            );
+        }
 
         return response()->json(
-        	DB::table(DB::raw("({$paps->toSql()}) as paps"))
+        	DB::table(DB::raw("({$paps->addSelect('ci.name')->toSql()}) as paps"))
 		        ->mergeBindings($paps->getQuery())
-		        ->select('analytics', 'character_id', 'name', DB::raw('sum(value) as qty'))
-		        ->groupBy('character_id', 'name', 'analytics')
+		        ->select('analytics', 'character_id', 'name')
+                ->selectRaw('SUM(value) as qty')
+		        ->groupBy('analytics', 'character_id', 'name')
                 ->orderBy('qty', 'desc')
                 ->orderBy('name', 'asc')
                 ->get());

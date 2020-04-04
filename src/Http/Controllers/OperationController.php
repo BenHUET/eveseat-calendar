@@ -11,14 +11,11 @@ use Seat\Eseye\Exceptions\RequestFailedException;
 use Seat\Eveapi\Models\RefreshToken;
 use Seat\Kassie\Calendar\Models\Pap;
 use Seat\Notifications\Models\Integration;
-use Seat\Services\Repositories\Configuration\UserRespository;
-use Seat\Services\Repositories\Character\Character;
 use Seat\Web\Http\Controllers\Controller;
 use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Models\Attendee;
 use Seat\Kassie\Calendar\Models\Tag;
 use Seat\Web\Models\Acl\Role;
-
 
 /**
  * Class OperationController
@@ -26,8 +23,6 @@ use Seat\Web\Models\Acl\Role;
  */
 class OperationController extends Controller
 {
-    use UserRespository, Character;
-
     /**
      * OperationController constructor.
      */
@@ -48,22 +43,22 @@ class OperationController extends Controller
         $tags = Tag::all()->sortBy('order');
 
         $roles = Role::orderBy('title')->get();
-        $userCharacters = auth()->user()->group->users->sortBy('name');
-        $mainCharacter = auth()->user()->group->main_character;
+        $user_characters = auth()->user()->characters->sortBy('name');
+        $main_character = auth()->user()->main_character;
 
-        if($mainCharacter != null) {
-            $mainCharacter->main = true;
-            $userCharacters = $userCharacters->reject(function ($character) use ($mainCharacter) {
-                return $character->id == $mainCharacter->character_id;
+        if ($main_character != null) {
+            $main_character->main = true;
+            $user_characters = $user_characters->reject(function ($character) use ($main_character) {
+                return $character->character_id == $main_character->character_id;
             });
-            $userCharacters->prepend($mainCharacter);
+            $user_characters->prepend($main_character);
         }
 
         return view('calendar::operation.index', [
-            'roles'          => $roles,
-            'userCharacters' => $userCharacters,
-            'default_op' => $request->id ? $request->id : 0,
-            'tags' => $tags,
+            'roles'                 => $roles,
+            'characters'            => $user_characters,
+            'default_op'            => $request->id ? $request->id : 0,
+            'tags'                  => $tags,
             'notification_channels' => $notification_channels,
         ]);
     }
@@ -131,7 +126,7 @@ class OperationController extends Controller
         $operation = Operation::find($request->operation_id);
         $tags = array();
 
-        if (auth()->user()->has('calendar.updateAll', false) || $operation->user->id == auth()->user()->id) {
+        if (auth()->user()->has('calendar.update_all', false) || $operation->user->id == auth()->user()->id) {
 
             foreach ($request->toArray() as $name => $value) {
                 if (empty($value))
@@ -186,7 +181,7 @@ class OperationController extends Controller
     public function delete(Request $request)
     {
         $operation = Operation::find($request->operation_id);
-        if (auth()->user()->has('calendar.deleteAll', false) || $operation->user->id == auth()->user()->id) {
+        if (auth()->user()->has('calendar.delete_all', false) || $operation->user->id == auth()->user()->id) {
             if ($operation != null) {
 
                 if (! $operation->isUserGranted(auth()->user()))
@@ -209,7 +204,7 @@ class OperationController extends Controller
     public function close(Request $request)
     {
         $operation = Operation::find($request->operation_id);
-        if (auth()->user()->has('calendar.closeAll', false) || $operation->user->id == auth()->user()->id) {
+        if (auth()->user()->has('calendar.close_all', false) || $operation->user->id == auth()->user()->id) {
 
             if ($operation != null) {
                 $operation->end_at = Carbon::now('UTC');
@@ -230,7 +225,7 @@ class OperationController extends Controller
     public function cancel(Request $request)
     {
         $operation = Operation::find($request->operation_id);
-        if (auth()->user()->has('calendar.closeAll', false) || $operation->user->id == auth()->user()->id) {
+        if (auth()->user()->has('calendar.close_all', false) || $operation->user->id == auth()->user()->id) {
             if ($operation != null) {
 
                 $operation->timestamps = false;
@@ -255,7 +250,7 @@ class OperationController extends Controller
     public function activate(Request $request)
     {
         $operation = Operation::find($request->operation_id);
-        if (auth()->user()->has('calendar.closeAll', false) || $operation->user->id == auth()->user()->id) {
+        if (auth()->user()->has('calendar.close_all', false) || $operation->user->id == auth()->user()->id) {
             if ($operation != null) {
                 $operation->timestamps = false;
                 $operation->is_cancelled = false;
@@ -328,9 +323,7 @@ class OperationController extends Controller
     /**
      * @param int $operation_id
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Seat\Eseye\Exceptions\InvalidAuthencationException
      * @throws \Seat\Eseye\Exceptions\InvalidContainerDataException
-     * @throws \Seat\Services\Exceptions\SettingException
      */
     public function paps(int $operation_id)
     {
@@ -438,8 +431,12 @@ class OperationController extends Controller
      */
     private function updateToken(RefreshToken $token, EsiAuthentication $last_auth)
     {
+        if (! empty($last_auth->refresh_token))
+            $token->refresh_token = $last_auth->refresh_token;
+
         $token->token = $last_auth->access_token ?? '-';
         $token->expires_on = $last_auth->token_expires;
+
         $token->save();
     }
 

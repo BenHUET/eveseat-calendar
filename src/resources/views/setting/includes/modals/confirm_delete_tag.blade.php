@@ -1,11 +1,11 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="modalConfirmDelete">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog">
         <div class="modal-content">
 
-            <div class="modal-header modal-calendar modal-calendar-red">
-                <p>
-                    <i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;{{ trans('calendar::seat.delete') }}
-                </p>
+            <div class="modal-header bg-red">
+                <h4 class="modal-title">
+                    <i class="fas fa-trash-alt"></i> {{ trans('calendar::seat.delete') }}
+                </h4>
             </div>
 
             <div class="modal-body">
@@ -13,8 +13,16 @@
                     {{ csrf_field() }}
                     <input type="hidden" name="tag_id">
 
-                    <button type="button" class="btn btn-block btn-lg btn-primary" data-dismiss="modal">{{ trans('calendar::seat.delete_tag_confirm_button_no') }}</button>
-                    <button type="submit" class="btn btn-block btn-sm btn-danger" id="confirm_delete_submit">{{ trans('calendar::seat.delete_tag_confirm_button_yes') }}</button>
+                    <p>This action will delete definitely this tag. This can't be reverted, are you sure ?</p>
+
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-light" data-dismiss="modal">
+                            <i class="fas fa-times-circle"></i> {{ trans('web::seat.no') }}
+                        </button>
+                        <button type="submit" class="btn btn-danger" id="confirm_delete_submit">
+                            <i class="fas fa-check-circle"></i> {{ trans('web::seat.yes') }}
+                        </button>
+                    </div>
                 </form>
             </div>
 
