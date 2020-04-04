@@ -9,12 +9,12 @@
         }
     },
     "require": {
-        "eveseat/web": "^3.0",
-        "eveseat/eveapi": "^3.0",
-        "eveseat/notifications": "^3.0",
-        "eveseat/services": "^3.0",
-        "itsjavi/bootstrap-colorpicker": "^2.0",
-        "s9e/text-formatter": "^1.1"
+        "eveseat/web": "^4.0",
+        "eveseat/eveapi": "^4.0",
+        "eveseat/notifications": "^4.0",
+        "eveseat/services": "^4.0",
+        "eveseat/eseye": "^2.1",
+        "s9e/text-formatter": "^2.4"
     },
     "authors": [{
         "name": "Kassie Yvo",
