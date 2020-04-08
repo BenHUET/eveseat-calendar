@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header bg-yellow">
         <h4 class="modal-title">
-          <i class="fas fa-pencil-alt"></i> {{ trans('calendar::seat.delete') }}
+          <i class="fas fa-pencil-alt"></i> {{ trans('calendar::seat.update') }}
         </h4>
       </div>
 
