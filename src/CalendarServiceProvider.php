@@ -2,11 +2,11 @@
 
 namespace Seat\Kassie\Calendar;
 
-use App\Providers\AbstractSeatPlugin;
 use Illuminate\Console\Scheduling\Schedule;
 use Seat\Kassie\Calendar\Observers\OperationObserver;
 use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Commands\RemindOperation;
+use Seat\Services\AbstractSeatPlugin;
 
 /**
  * Class CalendarServiceProvider.
