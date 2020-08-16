@@ -27,8 +27,8 @@ class OperationController extends Controller
      * OperationController constructor.
      */
     public function __construct() {
-        $this->middleware('bouncer:calendar.view')->only('index');
-        $this->middleware('bouncer:calendar.create')->only('store');
+        $this->middleware('can:calendar.view')->only('index');
+        $this->middleware('can:calendar.create')->only('store');
     }
 
     /**
@@ -126,7 +126,7 @@ class OperationController extends Controller
         $operation = Operation::find($request->operation_id);
         $tags = array();
 
-        if (auth()->user()->has('calendar.update_all', false) || $operation->user->id == auth()->user()->id) {
+        if (auth()->user()->can('calendar.update_all', false) || $operation->user->id == auth()->user()->id) {
 
             foreach ($request->toArray() as $name => $value) {
                 if (empty($value))
@@ -181,7 +181,7 @@ class OperationController extends Controller
     public function delete(Request $request)
     {
         $operation = Operation::find($request->operation_id);
-        if (auth()->user()->has('calendar.delete_all', false) || $operation->user->id == auth()->user()->id) {
+        if (auth()->user()->can('calendar.delete_all', false) || $operation->user->id == auth()->user()->id) {
             if ($operation != null) {
 
                 if (! $operation->isUserGranted(auth()->user()))
@@ -204,7 +204,7 @@ class OperationController extends Controller
     public function close(Request $request)
     {
         $operation = Operation::find($request->operation_id);
-        if (auth()->user()->has('calendar.close_all', false) || $operation->user->id == auth()->user()->id) {
+        if (auth()->user()->can('calendar.close_all', false) || $operation->user->id == auth()->user()->id) {
 
             if ($operation != null) {
                 $operation->end_at = Carbon::now('UTC');
@@ -225,7 +225,7 @@ class OperationController extends Controller
     public function cancel(Request $request)
     {
         $operation = Operation::find($request->operation_id);
-        if (auth()->user()->has('calendar.close_all', false) || $operation->user->id == auth()->user()->id) {
+        if (auth()->user()->can('calendar.close_all', false) || $operation->user->id == auth()->user()->id) {
             if ($operation != null) {
 
                 $operation->timestamps = false;
@@ -250,7 +250,7 @@ class OperationController extends Controller
     public function activate(Request $request)
     {
         $operation = Operation::find($request->operation_id);
-        if (auth()->user()->has('calendar.close_all', false) || $operation->user->id == auth()->user()->id) {
+        if (auth()->user()->can('calendar.close_all', false) || $operation->user->id == auth()->user()->id) {
             if ($operation != null) {
                 $operation->timestamps = false;
                 $operation->is_cancelled = false;
@@ -306,7 +306,7 @@ class OperationController extends Controller
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     public function find($operation_id) {
-        if (auth()->user()->has('calendar.view', false)) {
+        if (auth()->user()->can('calendar.view', false)) {
             $operation = Operation::find($operation_id)->load('tags');
 
             if (! $operation->isUserGranted(auth()->user()))

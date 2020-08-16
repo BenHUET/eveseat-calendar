@@ -5,7 +5,7 @@
 
 @section('full')
 
-    @if(auth()->user()->has('calendar.create', false))
+    @if(auth()->user()->can('calendar.create', false))
     <div class="row margin-bottom">
         <div class="col-md-offset-8 col-md-4">
             <div class="pull-right">
