@@ -6,10 +6,10 @@ Route::group([
     'prefix' => 'character',
 ], function() {
 
-    Route::get('/{character_id}/paps', [
+    Route::get('/{character}/paps', [
         'as' => 'character.view.paps',
         'uses' => 'CharacterController@paps',
-        'middleware' => 'characterbouncer:kassie_calendar_paps',
+        'middleware' => 'can:character.kassie_calendar_paps,character',
     ]);
 
 });
@@ -20,29 +20,29 @@ Route::group([
     'prefix' => 'corporation',
 ], function() {
 
-    Route::get('/{corporation_id}/paps', [
+    Route::get('/{corporation}/paps', [
         'as' => 'corporation.view.paps',
         'uses' => 'CorporationController@getPaps',
-        'middleware' => 'corporationbouncer:kassie_calendar_paps',
+        'middleware' => 'can:corporation.kassie_calendar_paps,corporation',
     ]);
 
-    Route::get('/{corporation_id}/paps/json/year', [
+    Route::get('/{corporation}/paps/json/year', [
         'as' => 'corporation.ajax.paps.year',
         'uses' => 'CorporationController@getYearPapsStats',
-        'middleware' => 'corporationbouncer:kassie_calendar_paps',
+        'middleware' => 'can:corporation.kassie_calendar_paps,corporation',
     ]);
 
-    Route::get('/{corporation_id}/paps/json/stacked', [
+    Route::get('/{corporation}/paps/json/stacked', [
         'as' => 'corporation.ajax.paps.stacked',
         'uses' => 'CorporationController@getMonthlyStackedPapsStats',
-        'middleware' => 'corporationbouncer:kassie_calendar_paps',
+        'middleware' => 'can:corporation.kassie_calendar_paps,corporation',
     ]);
 
 });
 
 Route::group([
     'namespace' => 'Seat\Kassie\Calendar\Http\Controllers',
-    'middleware' => ['web', 'auth', 'locale', 'bouncer:calendar.view'],
+    'middleware' => ['web', 'auth', 'locale', 'can:calendar.view'],
     'prefix' => 'calendar'
 ], function () {
 
@@ -83,7 +83,7 @@ Route::group([
         Route::post('/', [
             'as' => 'operation.store',
             'uses' => 'OperationController@store',
-            'middleware' => 'bouncer:calendar.create'
+            'middleware' => 'can:calendar.create'
         ]);
 
         Route::post('update', [
@@ -129,7 +129,7 @@ Route::group([
 
     Route::group([
         'prefix' => 'setting',
-        'middleware' => 'bouncer:calendar.setup'
+        'middleware' => 'can:calendar.setup'
     ], function() {
 
         Route::get('/', [
@@ -166,7 +166,7 @@ Route::group([
             Route::get('show/{id}', [
                 'as' => 'tags.show',
                 'uses' => 'TagController@get',
-                'middleware' => 'bouncer:calendar.setup',
+                'middleware' => 'can:calendar.setup',
             ]);
 
             Route::post('update', [

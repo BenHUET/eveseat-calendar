@@ -8,6 +8,7 @@
 namespace Seat\Kassie\Calendar\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use Seat\Eveapi\Models\Character\CharacterInfo;
 use Seat\Eveapi\Models\Sde\InvType;
 use Seat\Kassie\Calendar\Models\Pap;
 use Seat\Web\Http\Controllers\Controller;
@@ -20,14 +21,15 @@ use Seat\Web\Http\Controllers\Controller;
 class CharacterController extends Controller
 {
     /**
-     * @param $character_id
+     * @param \Seat\Eveapi\Models\Character\CharacterInfo $character
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function paps($character_id)
+    public function paps(CharacterInfo $character)
     {
         $today = carbon();
 
-        $monthlyPaps = Pap::where('character_id', $character_id)
+        $monthlyPaps = Pap::where('character_id', $character->character_id)
             ->select('character_id', 'year', 'month', DB::raw('sum(value) as qty'))
             ->groupBy('character_id', 'year', 'month')
             ->get();
@@ -35,8 +37,8 @@ class CharacterController extends Controller
         $shipTypePaps = InvType::rightJoin('invGroups', 'invGroups.groupID', '=', 'invTypes.groupID')
             ->leftJoin('kassie_calendar_paps', 'ship_type_id', '=', 'typeID')
             ->where('categoryID', 6)
-            ->where(function($query) use ($character_id) {
-                $query->where('character_id', $character_id)
+            ->where(function($query) use ($character) {
+                $query->where('character_id', $character->character_id)
                     ->orWhere('character_id', null);
             })
             ->select('invGroups.groupID', 'categoryID', 'groupName', DB::raw('sum(value) as qty'))
@@ -66,6 +68,6 @@ class CharacterController extends Controller
                          ->get();
 
         return view('calendar::character.paps', compact('monthlyPaps', 'shipTypePaps',
-            'weeklyRanking', 'monthlyRanking', 'yearlyRanking', 'character_id'));
+            'weeklyRanking', 'monthlyRanking', 'yearlyRanking', 'character'));
     }
 }

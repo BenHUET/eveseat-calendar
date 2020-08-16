@@ -239,7 +239,7 @@ $(function(){
 
     yearChartParameters.find('button').on('click', function(){
         $.ajax({
-            url: '{{ route('corporation.ajax.paps.year', request()->route('corporation_id')) }}',
+            url: '{{ route('corporation.ajax.paps.year', request()->route('corporation')) }}',
             data: {
                 year: yearChartParameters.find('input[type="text"]').val(),
                 grouped: yearChartParameters.find('input[type="checkbox"]').is(':checked') ? 1 : 0
@@ -299,7 +299,7 @@ $(function(){
 
     monthChartParameters.find('button').on('click', function(){
         $.ajax({
-            url: '{{ route('corporation.ajax.paps.stacked', request()->route('corporation_id')) }}',
+            url: '{{ route('corporation.ajax.paps.stacked', request()->route('corporation')) }}',
             data: {
                 year: monthChartParameters.find('input[name="year"]').val(),
                 month: monthChartParameters.find('select[name="month"]').val(),

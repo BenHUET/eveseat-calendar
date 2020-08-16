@@ -66,7 +66,7 @@ class AjaxController
      */
     public function getDetail($operation_id)
     {
-        if (auth()->user()->has('calendar.view', false)) {
+        if (auth()->user()->can('calendar.view', false)) {
             $op = Operation::with('tags')->find($operation_id);
             return view('calendar::operation.modals/details.content', compact('op'));
         }

@@ -104,7 +104,7 @@ class Operation extends Model
         if ($this->fc_character_id == null)
             return false;
 
-        return in_array($this->fc_character_id, auth()->user()->associatedCharacterIds()->toArray());
+        return in_array($this->fc_character_id, auth()->user()->associatedCharacterIds());
     }
 
     /**

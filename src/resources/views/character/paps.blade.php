@@ -46,14 +46,14 @@
                             </tr>
                         @endforelse
                     </tbody>
-                    @if(! $weeklyRanking->where('character_id', $character_id)->isEmpty())
+                    @if(! $weeklyRanking->where('character_id', $character->character_id)->isEmpty())
                         <tfoot class="hidden">
                             <tr>
-                                <td>{{ $weeklyRanking->where('character_id', $character_id)->keys()->first() + 1 }}.</td>
+                                <td>{{ $weeklyRanking->where('character_id', $character->character_id)->keys()->first() + 1 }}.</td>
                                 <td>
-                                    @include('web::partials.character', ['character' => $weeklyRanking->where('character_id', $character_id)->first()->character])
+                                    @include('web::partials.character', ['character' => $weeklyRanking->where('character_id', $character->character_id)->first()->character])
                                 </td>
-                                <td>{{ $weeklyRanking->where('character_id', $character_id)->first()->qty }}</td>
+                                <td>{{ $weeklyRanking->where('character_id', $character->character_id)->first()->qty }}</td>
                             </tr>
                         </tfoot>
                     @endif
@@ -84,14 +84,14 @@
                             </tr>
                         @endforelse
                     </tbody>
-                    @if(! $monthlyRanking->where('character_id', $character_id)->isEmpty())
+                    @if(! $monthlyRanking->where('character_id', $character->character_id)->isEmpty())
                         <tfoot class="hidden">
                             <tr>
-                                <td>{{ $monthlyRanking->where('character_id', $character_id)->keys()->first() + 1 }}.</td>
+                                <td>{{ $monthlyRanking->where('character_id', $character->character_id)->keys()->first() + 1 }}.</td>
                                 <td>
-                                    @include('web::partials.character', ['character' => $monthlyRanking->where('character_id', $character_id)->first()->character])
+                                    @include('web::partials.character', ['character' => $monthlyRanking->where('character_id', $character->character_id)->first()->character])
                                 </td>
-                                <td>{{ $monthlyRanking->where('character_id', $character_id)->first()->qty }}</td>
+                                <td>{{ $monthlyRanking->where('character_id', $character->character_id)->first()->qty }}</td>
                             </tr>
                         </tfoot>
                     @endif
@@ -122,14 +122,14 @@
                             </tr>
                         @endforelse
                     </tbody>
-                    @if(! $yearlyRanking->where('character_id', $character_id)->isEmpty())
+                    @if(! $yearlyRanking->where('character_id', $character->character_id)->isEmpty())
                         <tfoot class="hidden">
                             <tr>
-                                <td>{{ $yearlyRanking->where('character_id', $character_id)->keys()->first() + 1 }}.</td>
+                                <td>{{ $yearlyRanking->where('character_id', $character->character_id)->keys()->first() + 1 }}.</td>
                                 <td>
-                                    @include('web::partials.character', ['character' => $yearlyRanking->where('character_id', $character_id)->first()->character])
+                                    @include('web::partials.character', ['character' => $yearlyRanking->where('character_id', $character->character_id)->first()->character])
                                 </td>
-                                <td>{{ $yearlyRanking->where('character_id', $character_id)->first()->qty }}</td>
+                                <td>{{ $yearlyRanking->where('character_id', $character->character_id)->first()->qty }}</td>
                             </tr>
                         </tfoot>
                     @endif
@@ -237,7 +237,7 @@
             var found = false;
             var children = $(this).find('tr');
             children.each(function(){
-                if ($(this).attr('data-attr') == {{ $character_id }}) {
+                if ($(this).attr('data-attr') == {{ $character->character_id }}) {
                     $(this).addClass('bg-' + getActiveThemeColor() + '-gradient');
                     found = true;
                 }
