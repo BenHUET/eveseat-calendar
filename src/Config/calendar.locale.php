@@ -24,8 +24,8 @@ return [
 
     'languages' => [
         [
-            'short' => 'cn',
-            'full'  => 'Chinese',
+            'short' => 'zh-CN',
+            'full'  => 'Chinese (Simplified)',
         ],
         [
             'short' => 'en',
