@@ -15,7 +15,12 @@ class CreateCalendarTables extends Migration
     {
         Schema::create('calendar_operations', function (Blueprint $table) {
             $table->increments('id');
-            $table->bigInteger('user_id');
+
+            if (Schema::hasTable('groups')) {
+                $table->bigInteger('user_id');
+            } else {
+                $table->unsignedInteger('user_id');
+            }
 
             $table->string('title');
             $table->timestamp('start_at')->nullable();
@@ -43,7 +48,13 @@ class CreateCalendarTables extends Migration
             $table->increments('id');
 
             $table->integer('operation_id')->unsigned();
-            $table->bigInteger('user_id');
+
+            if (Schema::hasTable('groups')) {
+                $table->bigInteger('user_id');
+            } else {
+                $table->unsignedInteger('user_id');
+            }
+
             $table->bigInteger('character_id');
             $table->enum('status', ['yes', 'no', 'maybe']);
             $table->string('comment')->nullable();
