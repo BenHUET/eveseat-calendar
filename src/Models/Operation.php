@@ -247,6 +247,6 @@ class Operation extends Model
         if (is_null($this->role_name))
             return true;
 
-        return $user->hasRole($this->role_name);
+        return $user->roles->where('title', $this->role_name)->isNotEmpty() || auth()->user()->isAdmin();
     }
 }

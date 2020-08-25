@@ -27,6 +27,12 @@ class AjaxController
                                    $query->where('end_at', '>', carbon()->now());
                                    $query->orWhereNull('end_at');
                                })
+                               ->where(function ($query) {
+                                   if (! auth()->user()->isAdmin()) {
+                                       $query->whereIn('role_name', auth()->user()->roles->pluck('title')->toArray());
+                                       $query->orWhereNull('role_name');
+                                   }
+                               })
                                ->where('is_cancelled', false);
 
         return $this->buildOperationDataTable($operations);
@@ -38,6 +44,12 @@ class AjaxController
     public function getIncoming()
     {
         $operations = Operation::with('tags', 'fleet_commander', 'attendees', 'staging')
+            ->where(function ($query) {
+                if (! auth()->user()->isAdmin()) {
+                    $query->whereIn('role_name', auth()->user()->roles->pluck('title')->toArray());
+                    $query->orWhereNull('role_name');
+                }
+            })
             ->where('start_at', '>', carbon()->now())
             ->where('is_cancelled', false);
 
@@ -54,8 +66,13 @@ class AjaxController
                                    $query->where('start_at', '<', carbon()->now())
                                          ->where('end_at', '<', carbon()->now());
                                })
+                               ->where(function ($query) {
+                                   if (! auth()->user()->isAdmin()) {
+                                       $query->whereIn('role_name', auth()->user()->roles->pluck('title')->toArray());
+                                       $query->orWhereNull('role_name');
+                                   }
+                               })
                                ->orWhere('is_cancelled', true);
-
 
         return $this->buildOperationDataTable($operations);
     }
@@ -66,7 +83,7 @@ class AjaxController
      */
     public function getDetail($operation_id)
     {
-        if (auth()->user()->can('calendar.view', false)) {
+        if (auth()->user()->can('calendar.view')) {
             $op = Operation::with('tags')->find($operation_id);
             return view('calendar::operation.modals/details.content', compact('op'));
         }
