@@ -35,7 +35,7 @@ class AddAnalytics extends Migration {
 
         Schema::table('kassie_calendar_paps', function(Blueprint $table){
 
-            $table->dropColumn('quantifier');
+            $table->dropColumn('value');
 
         });
     }

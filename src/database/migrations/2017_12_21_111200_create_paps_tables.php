@@ -46,4 +46,10 @@ class CreatePapsTables extends Migration {
         });
     }
 
+    public function down()
+    {
+        Schema::dropIfExists('kassie_calendar_paps');
+        Schema::dropIfExists('kassie_calendar_esi_tokens');
+    }
+
 }
