@@ -116,13 +116,13 @@ class UpdateSettingsTable extends Migration
         if (is_null($settings['slack_integration']))
             $settings['slack_integration'] = 0;
 
-        $settings['slack_webhook'] = setting('kassie.calendar.slack_webhook', true);
+        $settings['slack_webhook'] = setting('kassie.calendar.slack_webhook', true) ?: '';
 
-        $settings['slack_emoji_importance_full'] = setting('kassie.calendar.slack_emoji_importance_full', true);
+        $settings['slack_emoji_importance_full'] = setting('kassie.calendar.slack_emoji_importance_full', true) ?: '';
 
-        $settings['slack_emoji_importance_half'] = setting('kassie.calendar.slack_emoji_importance_half', true);
+        $settings['slack_emoji_importance_half'] = setting('kassie.calendar.slack_emoji_importance_half', true) ?: '';
 
-        $settings['slack_emoji_importance_empty'] = setting('kassie.calendar.slack_emoji_importance_empty', true);
+        $settings['slack_emoji_importance_empty'] = setting('kassie.calendar.slack_emoji_importance_empty', true) ?: '';
 
         DB::table('calendar_settings')->insert($settings);
     }
