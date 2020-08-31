@@ -4,7 +4,7 @@ var op_modals = {
     subscribe: $('#modalSubscribe')
 };
 
-op_modals.create.on('show.bs.modal', function(e) {
+op_modals.create.on('show.bs.modal', function (e) {
     var ROUNDING = 15 * 60 * 1000;
     nowRounded = moment.utc();
     nowRounded = moment.utc(Math.ceil((+nowRounded) / ROUNDING) * ROUNDING);
@@ -29,7 +29,7 @@ op_modals.create.on('show.bs.modal', function(e) {
 
     if ($('#sliderImportance').length <= 0)
         $('#modalCreateOperation').find('input[name="importance"]').slider({
-            formatter: function(value) {
+            formatter: function (value) {
                 return value;
             }
         });
@@ -41,37 +41,37 @@ op_modals.create.find('input[name="known_duration"]')
         op_modals.create.find('.datepicker').toggleClass("d-none");
     });
 
-$('#create_operation_submit').click(function(){
+$('#create_operation_submit').click(function () {
     $('#formCreateOperation').submit();
 });
 
-$('#confirm_cancel_submit').click(function(){
+$('#confirm_cancel_submit').click(function () {
     $('#formCancel').submit();
 });
 
-$('#confirm_activate_submit').click(function(){
+$('#confirm_activate_submit').click(function () {
     $('#formActivate').submit();
 });
 
-$('#confirm_delete_submit').click(function(){
+$('#confirm_delete_submit').click(function () {
     $('#formDelete').submit();
 });
 
-$('#confirm_close_submit').click(function(){
+$('#confirm_close_submit').click(function () {
     $('#formClose').submit();
 });
 
-$('#formCreateOperation').submit(function(e) {
+$('#formCreateOperation').submit(function (e) {
     e.preventDefault();
 
     $('#create_operation_submit').prop('disabled', true);
 
     $.ajax({
         type: "POST",
-        url: "operation",
+        url: seat_calendar.url.create_operation,
         data: $(this).serializeArray(),
         headers: {
-            'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function (response) {
             $(location).attr('href', 'operation');
@@ -89,7 +89,7 @@ $('#formCreateOperation').submit(function(e) {
     });
 });
 
-op_modals.update.on('show.bs.modal', function(e) {
+op_modals.update.on('show.bs.modal', function (e) {
     var ROUNDING = 15 * 60 * 1000;
     var operation_id = $(e.relatedTarget).data('op-id');
 
@@ -105,7 +105,7 @@ op_modals.update.on('show.bs.modal', function(e) {
     op_modals.update.find('input[name="time_start"]').closest('div.form-group').removeClass('d-none');
     op_modals.update.find('input[name="time_start_end"]').closest('div.form-group').addClass('d-none');
 
-    $.getJSON("/calendar/operation/find/" + operation_id, function(op) {
+    $.getJSON("/calendar/operation/find/" + operation_id, function (op) {
         op_modals.update.find('input[name="title"]').val(op.title);
 
         if (op.role_name !== null) {
@@ -126,7 +126,7 @@ op_modals.update.on('show.bs.modal', function(e) {
         op_modals.update.find('input[name="fc_character_id"]').val(op.fc_character_id);
         op_modals.update.find('textarea[name="description"]').val(op.description);
 
-        $.each(op.tags, function(i, tag) {
+        $.each(op.tags, function (i, tag) {
             $('#checkbox-update-' + tag.id).prop('checked', true);
         });
 
@@ -165,11 +165,11 @@ op_modals.update.on('show.bs.modal', function(e) {
 
         op_modals.update.find('input[name="importance"]').attr('data-slider-value', op.importance);
         op_modals.update.find('input[name="importance"]').slider({
-            formatter: function(value) {
+            formatter: function (value) {
                 return value;
             }
         });
-    }).fail(function() {
+    }).fail(function () {
         $(location).attr('href', 'operation');
     }).done(function () {
         op_modals.update.find('.overlay').addClass('d-none').removeClass('d-flex');
@@ -181,21 +181,21 @@ op_modals.update.find('input[name="known_duration"]')
         op_modals.update.find('.datepicker').toggleClass("d-none");
     });
 
-$('#update_operation_submit').click(function(){
+$('#update_operation_submit').click(function () {
     $('#formUpdateOperation').submit();
 });
 
-$('#formUpdateOperation').submit(function(e) {
+$('#formUpdateOperation').submit(function (e) {
     e.preventDefault();
 
     $('#update_operation_submit').prop('disabled', true);
 
     $.ajax({
         type: "POST",
-        url: "operation/update",
+        url: seat_calendar.url.update_operation,
         data: $(this).serializeArray(),
         headers: {
-            'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function (response) {
             $(location).attr('href', 'operation');
@@ -214,7 +214,7 @@ $('#formUpdateOperation').submit(function(e) {
 });
 
 op_modals.subscribe
-    .on('show.bs.modal', function(e) {
+    .on('show.bs.modal', function (e) {
         var operation_id = $(e.relatedTarget).data('op-id');
         var character_id = $(e.relatedTarget).data('character-id');
         var status = $(e.relatedTarget).data('status');
@@ -230,15 +230,14 @@ op_modals.subscribe
         }
     });
 
-$('#subscribe_submit').click(function(){
+$('#subscribe_submit').click(function () {
     $('#formSubscribe').submit();
 });
 
-$("#status").change(function() {
+$("#status").change(function () {
     $("#headerModalSubscribe").removeClass('modal-calendar-green modal-calendar-yellow modal-calendar-red');
 
-    switch ($(this).find(":selected").val())
-    {
+    switch ($(this).find(":selected").val()) {
         case "yes":
             $("#headerModalSubscribe").addClass('modal-calendar-green');
             break;
@@ -251,14 +250,14 @@ $("#status").change(function() {
     }
 });
 
-$('#modalConfirmDelete, #modalConfirmClose, #modalConfirmCancel, #modalConfirmActivate').on('show.bs.modal', function(e) {
+$('#modalConfirmDelete, #modalConfirmClose, #modalConfirmCancel, #modalConfirmActivate').on('show.bs.modal', function (e) {
     var operation_id = $(e.relatedTarget).data('op-id');
 
     $(e.currentTarget).find('input[name="operation_id"]').val(operation_id);
 });
 
 $('input[name=fc]').autocomplete({
-    serviceUrl: 'lookup/characters/',
+    serviceUrl: seat_calendar.url.characters_lookup,
     onSelect: function (suggestion) {
         $('input[name="fc_character_id"]').val(suggestion.data);
         $('input[name="fc"]').css('border-color', 'green');
@@ -271,7 +270,7 @@ $('input[name=fc]').autocomplete({
 });
 
 $('input[name=staging_sys]').autocomplete({
-    serviceUrl: 'lookup/systems/',
+    serviceUrl: seat_calendar.url.systems_lookup,
     onSelect: function (suggestion) {
         $('input[name="staging_sys_id"]').val(suggestion.data);
         $('input[name="staging_sys"]').css('border-color', 'green');
@@ -283,7 +282,7 @@ $('input[name=staging_sys]').autocomplete({
     minChars: 1
 });
 
-$('input[name="staging_sys"]').focusout(function() {
+$('input[name="staging_sys"]').focusout(function () {
     if ($('input[name="staging_sys_id"]').val() == '')
         $('input[name="staging_sys"]').val(null);
 });

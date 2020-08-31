@@ -52,6 +52,17 @@
 @endpush
 
 @push('javascript')
+    <script>
+        var seat_calendar = {
+            url: {
+                create_operation: '{{ route('operation.store') }}',
+                update_operation: '{{ route('operation.update') }}',
+                characters_lookup: '{{ route('calendar.lookups.characters') }}',
+                systems_lookup: '{{ route('calendar.lookups.systems') }}'
+            }
+        };
+    </script>
+
     <script src="{{ asset('web/js/daterangepicker.js') }}"></script>
     <script src="{{ asset('web/js/bootstrap-slider.min.js') }}"></script>
     <script src="{{ asset('web/js/jquery.autocomplete.min.js') }}"></script>
