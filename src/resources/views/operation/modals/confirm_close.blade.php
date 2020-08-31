@@ -17,11 +17,11 @@
                 </form>
             </div>
             <div class="modal-footer bg-aqua">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
-                    {{ trans('calendar::seat.close_confirm_button_no') }}
+                <button type="button" class="btn btn-light pull-left" data-dismiss="modal">
+                    <i class="fas fa-times-circle"></i> {{ trans('calendar::seat.close_confirm_button_no') }}
                 </button>
-                <button type="button" class="btn btn-outline" id="confirm_close_submit">
-                    {{ trans('calendar::seat.close_confirm_button_yes') }}
+                <button type="button" class="btn btn-success" id="confirm_close_submit">
+                    <i class="fas fa-check-circle"></i> {{ trans('calendar::seat.close_confirm_button_yes') }}
                 </button>
             </div>
         </div>

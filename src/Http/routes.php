@@ -182,8 +182,8 @@ Route::group([
         'prefix' => 'lookup'
     ], function() {
 
-        Route::get('characters', 'LookupController@lookupCharacters');
-        Route::get('systems', 'LookupController@lookupSystems');
+        Route::get('characters', 'LookupController@lookupCharacters')->name('calendar.lookups.characters');
+        Route::get('systems', 'LookupController@lookupSystems')->name('calendar.lookups.systems');
         Route::get('attendees', 'LookupController@lookupAttendees');
         Route::get('confirmed', 'LookupController@lookupConfirmed');
 
