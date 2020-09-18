@@ -341,7 +341,7 @@ class OperationController extends Controller
                 ->back()
                 ->with('error', 'No fleet commander has been set for this operation.');
 
-        if (! in_array($operation->fc_character_id, auth()->user()->associatedCharacterIds()->toArray()))
+        if (! in_array($operation->fc_character_id, auth()->user()->associatedCharacterIds()))
             return redirect()
                 ->back()
                 ->with('error', 'You are not the fleet commander or wrong character has been set.');
