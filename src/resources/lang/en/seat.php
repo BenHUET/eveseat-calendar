@@ -115,6 +115,13 @@ return [
     'help_emoji'        => 'Setup which emoji to use to display the "importance" of an operation when relaying to Slack.',
     'save'              => 'Save',
 
+    'events'            => 'Events',
+    'event_create'      => 'Event Create',
+    'event_edit'        => 'Event Edit',
+    'event_remind'      => 'Event Remind',
+    'event_cancel'      => 'Event Cancel',
+    'event_start'       => 'Event Start',
+    
     'warning_no_character' => "You can't subscribe to an operation without any character registered in SeAT. Please add an API Key and retry.",
 
     'in' => 'In',
