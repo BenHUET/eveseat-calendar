@@ -150,6 +150,17 @@ Route::group([
         });
 
         Route::group([
+            'prefix' => 'events'
+        ], function() {
+
+            Route::post('update', [
+                'as' => 'setting.events.update',
+                'uses' => 'SettingController@updateEvents'
+            ]);
+
+        });
+        
+        Route::group([
             'prefix' => 'tag'
         ], function() {
 
