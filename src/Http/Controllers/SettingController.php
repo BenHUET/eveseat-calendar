@@ -41,4 +41,34 @@ class SettingController extends Controller
 
         return redirect()->back();
     }
+    
+    public function updateEvents(Request $request) 
+    {
+        setting([
+            'kassie.calendar.event.create',
+            $request->event_create == 1 ? 1 : 0,
+        ], true);
+
+        setting([
+            'kassie.calendar.event.edit',
+            $request->event_edit == 1 ? 1 : 0,
+        ], true);
+
+        setting([
+            'kassie.calendar.event.remind',
+            $request->event_remind == 1 ? 1 : 0,
+        ], true);
+
+        setting([
+            'kassie.calendar.event.cancel',
+            $request->event_cancel == 1 ? 1 : 0,
+        ], true);
+
+        setting([
+            'kassie.calendar.event.start',
+            $request->event_start == 1 ? 1 : 0,
+        ], true);
+
+        return redirect()->back();
+    }        
 }
