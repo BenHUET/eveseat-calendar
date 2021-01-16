@@ -15,6 +15,10 @@
     @include('calendar::setting.includes.modals.edit_tag')
 @stop
 
+@section('right')
+    @include('calendar::setting.includes.events')
+@stop
+
 @push('head')
     <link rel="stylesheet" href="{{ asset('web/css/bootstrap-colorpicker.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('web/css/calendar.css') }}" />
