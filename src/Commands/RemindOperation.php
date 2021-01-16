@@ -24,13 +24,15 @@ class RemindOperation extends Command
     public function handle()
     {
         if (setting('kassie.calendar.slack_integration', true) == 1) {
-            $ops = Operation::all()->take(-50);
-            $now = Carbon::now('UTC');
+            if (setting('kassie.calendar.event.remind', true) == 1) {            
+                $ops = Operation::all()->take(-50);
+                $now = Carbon::now('UTC');
 
-            foreach($ops as $op)
-            {
-                if ($op->status == 'incoming' && in_array($now->diffInMinutes($op->start_at, false), $this->marks))
-                    Notification::send($op, new OperationPinged());
+                foreach($ops as $op)
+                {
+                    if ($op->status == 'incoming' && in_array($now->diffInMinutes($op->start_at, false), $this->marks))
+                        Notification::send($op, new OperationPinged());
+                }
             }
         }
     }
