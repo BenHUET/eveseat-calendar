@@ -6,7 +6,7 @@
         {{ csrf_field() }}
         <div class="box-body">
             <div class="form-group">
-                <label for="event_create" class="col-sm-3 control-label">{{ trans('calendar::seat.event.create') }}</label>
+                <label for="event_create" class="col-sm-3 control-label">{{ trans('calendar::seat.event_create') }}</label>
                 <div class="col-sm-9">
                     <div class="checkbox">
                         <label>
@@ -15,7 +15,7 @@
                         </label>
                     </div>
                 </div>
-                <label for="event_edit" class="col-sm-3 control-label">{{ trans('calendar::seat.event.edit') }}</label>
+                <label for="event_edit" class="col-sm-3 control-label">{{ trans('calendar::seat.event_edit') }}</label>
                 <div class="col-sm-9">
                     <div class="checkbox">
                         <label>
@@ -24,7 +24,7 @@
                         </label>
                     </div>
                 </div>
-                <label for="event_remind" class="col-sm-3 control-label">{{ trans('calendar::seat.event.remind') }}</label>
+                <label for="event_remind" class="col-sm-3 control-label">{{ trans('calendar::seat.event_remind') }}</label>
                 <div class="col-sm-9">
                     <div class="checkbox">
                         <label>
@@ -33,7 +33,7 @@
                         </label>
                     </div>
                 </div>
-                <label for="event_cancel" class="col-sm-3 control-label">{{ trans('calendar::seat.event.cancel') }}</label>
+                <label for="event_cancel" class="col-sm-3 control-label">{{ trans('calendar::seat.event_cancel') }}</label>
                 <div class="col-sm-9">
                     <div class="checkbox">
                         <label>
@@ -42,7 +42,7 @@
                         </label>
                     </div>
                 </div>
-                <label for="event_start" class="col-sm-3 control-label">{{ trans('calendar::seat.event.start') }}</label>
+                <label for="event_start" class="col-sm-3 control-label">{{ trans('calendar::seat.event_start') }}</label>
                 <div class="col-sm-9">
                     <div class="checkbox">
                         <label>
