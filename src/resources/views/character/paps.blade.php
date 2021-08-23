@@ -19,7 +19,7 @@
         <div class="chart">
             <canvas id="papPerType" height="150" width="1000"></canvas>
         </div>
-        <h4>All of fame</h4>
+        <h4>Hall of fame</h4>
         <div class="row">
             <div class="col-md-4">
                 <h5>This week</h5>
