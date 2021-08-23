@@ -9,15 +9,25 @@ use Seat\Kassie\Calendar\Notifications\OperationUpdated;
 use Seat\Kassie\Calendar\Notifications\OperationCancelled;
 use Seat\Kassie\Calendar\Notifications\OperationActivated;
 
-
+/**
+ * Class OperationObserver.
+ *
+ * @package Seat\Kassie\Calendar\Observers
+ */
 class OperationObserver
 {
+    /**
+     * @param \Seat\Kassie\Calendar\Models\Operation $operation
+     */
     public function created(Operation $operation)
     {
         if (setting('kassie.calendar.slack_integration', true) == 1 && !is_null($operation->integration))
             Notification::send($operation, new OperationPosted());
     }
 
+    /**
+     * @param \Seat\Kassie\Calendar\Models\Operation $new_operation
+     */
     public function updating(Operation $new_operation)
     {
         if (setting('kassie.calendar.slack_integration', true) == 1 && !is_null($new_operation->integration)) {

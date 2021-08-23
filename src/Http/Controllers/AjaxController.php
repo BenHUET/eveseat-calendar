@@ -21,11 +21,17 @@ class AjaxController
      */
     public function getOngoing()
     {
-        $operations = Operation::with('tags', 'fleet_commander', 'attendees')
+        $operations = Operation::with('tags', 'fleet_commander', 'attendees', 'staging')
                                ->where('start_at', '<', carbon()->now())
                                ->where(function ($query) {
                                    $query->where('end_at', '>', carbon()->now());
                                    $query->orWhereNull('end_at');
+                               })
+                               ->where(function ($query) {
+                                   if (! auth()->user()->isAdmin()) {
+                                       $query->whereIn('role_name', auth()->user()->roles->pluck('title')->toArray());
+                                       $query->orWhereNull('role_name');
+                                   }
                                })
                                ->where('is_cancelled', false);
 
@@ -37,7 +43,13 @@ class AjaxController
      */
     public function getIncoming()
     {
-        $operations = Operation::with('tags', 'fleet_commander', 'attendees')
+        $operations = Operation::with('tags', 'fleet_commander', 'attendees', 'staging')
+            ->where(function ($query) {
+                if (! auth()->user()->isAdmin()) {
+                    $query->whereIn('role_name', auth()->user()->roles->pluck('title')->toArray());
+                    $query->orWhereNull('role_name');
+                }
+            })
             ->where('start_at', '>', carbon()->now())
             ->where('is_cancelled', false);
 
@@ -49,13 +61,18 @@ class AjaxController
      */
     public function getFaded()
     {
-        $operations = Operation::with('tags', 'fleet_commander', 'attendees')
+        $operations = Operation::with('tags', 'fleet_commander', 'attendees', 'staging')
                                ->where(function ($query) {
                                    $query->where('start_at', '<', carbon()->now())
                                          ->where('end_at', '<', carbon()->now());
                                })
+                               ->where(function ($query) {
+                                   if (! auth()->user()->isAdmin()) {
+                                       $query->whereIn('role_name', auth()->user()->roles->pluck('title')->toArray());
+                                       $query->orWhereNull('role_name');
+                                   }
+                               })
                                ->orWhere('is_cancelled', true);
-
 
         return $this->buildOperationDataTable($operations);
     }
@@ -66,9 +83,9 @@ class AjaxController
      */
     public function getDetail($operation_id)
     {
-        if (auth()->user()->has('calendar.view', false)) {
-            $op = Operation::find($operation_id)->load('tags');
-            return view('calendar::ajax.detail_body', compact('op'));
+        if (auth()->user()->can('calendar.view')) {
+            $op = Operation::with('tags')->find($operation_id);
+            return view('calendar::operation.modals/details.content', compact('op'));
         }
 
         return redirect()
@@ -84,14 +101,13 @@ class AjaxController
     {
         return app('datatables')::of($operations)
             ->editColumn('title', function ($row) {
-                return sprintf('<span>%s</span><span class="pull-right">%s</span>',
-                    $row->title, view('calendar::operation.includes.attendees', ['op' => $row]));
+                return view('calendar::operation.partials.title', compact('row'));
             })
             ->editColumn('tags', function ($row) {
-                return view('calendar::operation.includes.tags', ['op' => $row]);
+                return view('calendar::operation.partials.tags', ['op' => $row]);
             })
             ->editColumn('importance', function ($row) {
-                return view('calendar::operation.includes.importance', ['op' => $row]);
+                return view('calendar::operation.partials.importance', ['op' => $row]);
             })
             ->editColumn('start_at', function ($row) {
                 return sprintf('<span data-toggle="tooltip" title="%s">%s</span>',
@@ -102,20 +118,20 @@ class AjaxController
                     $row->end_at, human_diff($row->end_at));
             })
             ->editColumn('fleet_commander', function ($row) {
-                return view('calendar::operation.includes.fleet_commander', ['op' => $row]);
+                return view('calendar::operation.partials.fleet_commander', ['op' => $row]);
             })
             ->addColumn('duration', function ($row) {
                 return sprintf('<span data-toggle="tooltip" title="%s">%s</span>',
                     $row->end_at, $row->duration);
             })
             ->editColumn('staging_sys', function ($row) {
-                return view('calendar::operation.includes.staging', ['op' => $row]);
+                return view('calendar::operation.partials.staging', ['op' => $row]);
             })
             ->addColumn('subscription', function ($row) {
-                return view('calendar::operation.includes.subscription', ['op' => $row]);
+                return view('calendar::operation.partials.registration', ['op' => $row]);
             })
             ->addColumn('actions', function ($row) {
-                return view('calendar::operation.includes.actions', ['op' => $row]);
+                return view('calendar::operation.partials.actions.actions', ['op' => $row]);
             })
             ->setRowClass(function ($row) {
                 return $row->is_cancelled == 0 ? 'text-muted' : 'danger text-muted';

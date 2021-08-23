@@ -6,10 +6,18 @@ use Illuminate\Http\Request;
 use Seat\Web\Http\Controllers\Controller;
 use Seat\Kassie\Calendar\Models\Tag;
 
-
+/**
+ * Class TagController.
+ *
+ * @package Seat\Kassie\Calendar\Http\Controllers
+ */
 class TagController extends Controller
 {
-
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -42,6 +50,10 @@ class TagController extends Controller
             ->with('success', sprintf('The tag "%s" has been successfully created.', $tag->name));
     }
 
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function delete(Request $request)
     {
         $tag = Tag::find($request->tag_id);
@@ -53,6 +65,10 @@ class TagController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * @param int $tag_id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function get(int $tag_id)
     {
         $tag = Tag::find($tag_id);

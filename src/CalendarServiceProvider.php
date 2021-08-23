@@ -35,11 +35,11 @@ class CalendarServiceProvider extends AbstractSeatPlugin
         $this->mergeConfigFrom(__DIR__ . '/Config/package.sidebar.php', 'package.sidebar');
         $this->mergeConfigFrom(__DIR__ . '/Config/calendar.character.menu.php', 'package.character.menu');
         $this->mergeConfigFrom(__DIR__ . '/Config/calendar.corporation.menu.php', 'package.corporation.menu');
-        $this->mergeConfigFrom(__DIR__ . '/Config/calendar.permissions.php', 'web.permissions');
-        $this->mergeConfigFrom(__DIR__ . '/Config/character.permission.php', 'web.permissions.character');
-        $this->mergeConfigFrom(__DIR__ . '/Config/corporation.permission.php', 'web.permissions.corporation');
         $this->mergeConfigFrom(__DIR__ . '/Config/calendar.config.php', 'calendar.config');
-        $this->mergeConfigFrom(__DIR__ . '/Config/calendar.locale.php', 'calendar.locale');
+
+        $this->registerPermissions(__DIR__ . '/Config/Permissions/calendar.php', 'calendar');
+        $this->registerPermissions(__DIR__ . '/Config/Permissions/character.php', 'character');
+        $this->registerPermissions(__DIR__ . '/Config/Permissions/corporation.php', 'corporation');
     }
 
     private function addRoutes()
@@ -69,8 +69,6 @@ class CalendarServiceProvider extends AbstractSeatPlugin
             __DIR__ . '/resources/assets/vendors/css' => public_path('web/css'),
             __DIR__ . '/resources/assets/js' => public_path('web/js'),
             __DIR__ . '/resources/assets/vendors/js' => public_path('web/js'),
-            app_path() . '/../vendor/itsjavi/bootstrap-colorpicker/dist/js' => public_path('web/js'),
-            app_path() . '/../vendor/itsjavi/bootstrap-colorpicker/dist/css' => public_path('web/css'),
         ]);
     }
 

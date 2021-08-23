@@ -5,12 +5,12 @@
 
 @section('full')
 
-    @if(auth()->user()->has('calendar.create', false))
+    @if(auth()->user()->can('calendar.create'))
     <div class="row margin-bottom">
         <div class="col-md-offset-8 col-md-4">
             <div class="pull-right">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCreateOperation">
-                    <i class="fa fa-plus"></i>&nbsp;&nbsp;
+                    <i class="fas fa-plus"></i>&nbsp;&nbsp;
                     {{ trans('calendar::seat.add_operation') }}
                 </button>
             </div>
@@ -18,28 +18,28 @@
     </div>
     @endif
 
-    @include('calendar::operation.includes.modals.create_operation')
-    @include('calendar::operation.includes.modals.update_operation')
-    @include('calendar::operation.includes.modals.confirm_delete')
-    @include('calendar::operation.includes.modals.confirm_close')
-    @include('calendar::operation.includes.modals.confirm_cancel')
-    @include('calendar::operation.includes.modals.confirm_activate')
-    @include('calendar::operation.includes.modals.subscribe')
-    @include('calendar::operation.includes.modals.details')
+    @include('calendar::operation.modals.create_operation')
+    @include('calendar::operation.modals.update_operation')
+    @include('calendar::operation.modals.confirm_delete')
+    @include('calendar::operation.modals.confirm_close')
+    @include('calendar::operation.modals.confirm_cancel')
+    @include('calendar::operation.modals.confirm_activate')
+    @include('calendar::operation.modals.subscribe')
+    @include('calendar::operation.modals.details')
 
     <div class="row">
         <div class="col-md-12">
-            @include('calendar::operation.includes.ongoing')
+            @include('calendar::operation.ongoing')
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            @include('calendar::operation.includes.incoming')
+            @include('calendar::operation.incoming')
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            @include('calendar::operation.includes.faded')
+            @include('calendar::operation.faded')
         </div>
     </div>
 
@@ -52,6 +52,17 @@
 @endpush
 
 @push('javascript')
+    <script>
+        var seat_calendar = {
+            url: {
+                create_operation: '{{ route('operation.store') }}',
+                update_operation: '{{ route('operation.update') }}',
+                characters_lookup: '{{ route('calendar.lookups.characters') }}',
+                systems_lookup: '{{ route('calendar.lookups.systems') }}'
+            }
+        };
+    </script>
+
     <script src="{{ asset('web/js/daterangepicker.js') }}"></script>
     <script src="{{ asset('web/js/bootstrap-slider.min.js') }}"></script>
     <script src="{{ asset('web/js/jquery.autocomplete.min.js') }}"></script>
@@ -152,10 +163,11 @@
         $('#modalDetails')
             .on('show.bs.modal', function(e){
                 var link = '{{ route('operation.detail', 0) }}';
+
                 // load detail content dynamically
                 $(this).find('.modal-body')
-                    .html('Loading...')
-                    .load(link.replace(/0$/gi, $(e.relatedTarget).attr('data-op-id')), "", function(){
+                    .html('<div class="overlay dark d-flex justify-content-center align-items-center"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div> Loading...')
+                    .load(link.replace(/0$/gi, $(e.relatedTarget).attr('data-op-id')), "", function() {
                         // attach the datatable to the loaded modal
                         var attendees_table = $('#attendees');
                         var confirmed_table = $('#confirmed');
@@ -223,9 +235,17 @@
             });
 
         // direct link
-        $(function(){
-            if ($('tr[data-attr-default=true]').length > 0)
-                $('tr[data-attr-default]').find('.hidden-xs').find('.fa-eye').click();
-        });
+        @if(request()->route()->hasParameter('id'))
+            var dl = $('<i>');
+            dl.attr('data-op-id', {{ request()->route()->parameter('id') }});
+            dl.attr('data-toggle', 'modal');
+            dl.attr('data-target', '#modalDetails');
+
+            $('body').find('.wrapper').append(dl);
+
+            dl.click();
+
+            dl.remove();
+        @endif
     </script>
 @endpush

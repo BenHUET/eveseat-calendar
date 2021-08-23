@@ -7,12 +7,17 @@
 
 namespace Seat\Kassie\Calendar\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 use Seat\Eveapi\Models\Character\CharacterInfo;
-use Seat\Kassie\Calendar\Models\Sde\InvType;
+use Seat\Eveapi\Models\RefreshToken;
+use Seat\Eveapi\Models\Sde\InvType;
 use Seat\Web\Models\User;
 
+/**
+ * Class Pap.
+ *
+ * @package Seat\Kassie\Calendar\Models
+ */
 class Pap extends Model {
 
     /**
@@ -69,19 +74,26 @@ class Pap extends Model {
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function character()
     {
-        return $this->belongsTo(CharacterInfo::class, 'character_id', 'character_id');
+        return $this->hasOne(CharacterInfo::class, 'character_id', 'character_id')
+            ->withDefault([
+                'name' => trans('web::seat.unknown'),
+            ]);
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasOneThrough
      */
     public function user()
     {
-        return $this->belongsTo(User::class, 'character_id', 'id');
+        return $this->hasOneThrough(User::class, RefreshToken::class,
+            'character_id', 'id','character_id', 'user_id')
+            ->withDefault([
+                'name' => trans('web::seat.unknown'),
+            ]);
     }
 
     /**
@@ -89,7 +101,10 @@ class Pap extends Model {
      */
     public function operation()
     {
-        return $this->belongsTo(Operation::class, 'operation_id', 'id');
+        return $this->belongsTo(Operation::class, 'operation_id', 'id')
+            ->withDefault([
+                'title' => trans('web::seat.unknown'),
+            ]);
     }
 
     /**
@@ -97,7 +112,9 @@ class Pap extends Model {
      */
     public function type()
     {
-        return $this->hasOne(InvType::class, 'typeID', 'ship_type_id');
+        return $this->hasOne(InvType::class, 'typeID', 'ship_type_id')
+            ->withDefault([
+                'typeName' => trans('web::seat.unknown'),
+            ]);
     }
-
 }

@@ -8,19 +8,31 @@ use Carbon\Carbon;
 use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Notifications\OperationPinged;
 
-
+/**
+ * Class RemindOperation.
+ *
+ * @package Seat\Kassie\Calendar\Commands
+ */
 class RemindOperation extends Command
 {
+    /**
+     * @var string
+     */
     protected $signature = 'calendar:remind';
+
+    /**
+     * @var string
+     */
     protected $description = 'Check for operation to be reminded on Slack';
 
+    /**
+     * @var array
+     */
     private $marks = [15, 30, 60];
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
+    /**
+     * Process the command.
+     */
     public function handle()
     {
         if (setting('kassie.calendar.slack_integration', true) == 1) {

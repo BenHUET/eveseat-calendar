@@ -6,105 +6,109 @@
 @inject('request', 'Illuminate\Http\Request')
 
 @section('corporation_content')
-<div class="panel panel-default">
-    <div class="panel-heading clearfix">
-        <h3 class="panel-title pull-left">{{ trans('calendar::seat.paps') }}</h3>
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">{{ trans('calendar::seat.paps') }}</h3>
     </div>
-    <div class="panel-body">
+    <div class="card-body">
         <h3>Stats</h3>
         <div class="row">
             <div class="col-sm-4">
                 <div class="input-group input-group-sm" id="yearChartSettings">
-                    <span class="input-group-addon">
-                        <input type="checkbox" name="grouped" />
-                        <b>Use people groups settings ?</b>
-                    </span>
+                    <div class="form-check mr-3">
+                        <input type="checkbox" name="grouped" class="form-check-input" />
+                        <label class="form-check-label">Use people groups settings ?</label>
+                    </div>
                     <input type="text" name="year" class="form-control" value="{{ carbon()->year }}" placeholder="year" />
-                    <span class="input-group-btn">
+                    <span class="input-group-append">
                         <button type="button" class="btn btn-info btn-flat">Display</button>
                     </span>
                 </div>
             </div>
             <div class="chart">
-                <canvas id="yearPaps" height="200" width="900"></canvas>
+                <canvas id="yearPaps" height="600" width="1200"></canvas>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-5">
                 <div class="input-group input-group-sm" id="monthlyStackedChartSettings">
-                    <span class="input-group-addon">
-                        <input type="checkbox" name="grouped" />
-                        <b>Use people groups settings ?</b>
-                    </span>
+                    <div class="form-check mr-3">
+                        <input type="checkbox" name="grouped" class="form-check-input" />
+                        <label class="form-check-label">Use people groups settings ?</label>
+                    </div>
                     <select name="month" class="form-control">
                         @for($i = 1; $i < 13; $i++)
                         <option value="{{ $i }}" @if($i == carbon()->month)selected="selected"@endif>{{ $i }}</option>
                         @endfor
                     </select>
                     <input type="text" name="year" class="form-control" value="{{ carbon()->year }}" placeholder="year" />
-                    <span class="input-group-addon">
+                    <span class="input-group-append">
                         <button type="button" class="btn btn-info btn-flat">Display</button>
                     </span>
                 </div>
             </div>
             <div class="chart">
-                <canvas id="monthlyStackedChart" width="900"></canvas>
+                <canvas id="monthlyStackedChart" width="1200"></canvas>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <h3>Ranking</h3>
-                <div class="col-md-4">
-                    <h4>This week</h4>
-                    <table class="table table-striped @if($weeklyRanking->count() > 0) ranking-table @endif">
-                        <thead>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4>This week</h4>
+                        <table class="table table-striped @if($weeklyRanking->count() > 0) ranking-table @endif">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Character</th>
+                                    <th>Paps</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($weeklyRanking as $pap)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>
+                                        @include('web::partials.character', ['character' => $pap->character])
+                                    <td>{{ $pap->qty }}</td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="3">There are no paps for the current week.</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-4">
+                        <h4>This month</h4>
+                        <table class="table table-striped @if($monthlyRanking->count() > 0) ranking-table @endif">
+                            <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Character</th>
                                 <th>Paps</th>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($weeklyRanking as $pap)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{!! img('character', $pap->character_id, 32, ['class' => 'img-circle eve-icon small-icon'], false) !!} {{ $pap->character->name }}</td>
-                                <td>{{ $pap->qty }}</td>
-                            </tr>
+                            </thead>
+                            <tbody>
+                            @forelse($monthlyRanking as $pap)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>
+                                        @include('web::partials.character', ['character' => $pap->character])
+                                    </td>
+                                    <td>{{ $pap->qty }}</td>
+                                </tr>
                             @empty
-                            <tr>
-                                <td colspan="3">There are no paps for the current week.</td>
-                            </tr>
+                                <tr>
+                                    <td colspan="3">There are no paps for the current week.</td>
+                                </tr>
                             @endforelse
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-md-4">
-                    <h4>This month</h4>
-                    <table class="table table-striped @if($monthlyRanking->count() > 0) ranking-table @endif">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Character</th>
-                            <th>Paps</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @forelse($monthlyRanking as $pap)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{!! img('character', $pap->character_id, 32, ['class' => 'img-circle eve-icon small-icon'], false) !!} {{ $pap->character->name }}</td>
-                                <td>{{ $pap->qty }}</td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="3">There are no paps for the current week.</td>
-                            </tr>
-                        @endforelse
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-md-4">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-4">
                     <h4>This year</h4>
                     <table class="table table-striped @if($yearlyRanking->count() > 0) ranking-table @endif">
                         <thead>
@@ -118,7 +122,9 @@
                         @forelse($yearlyRanking as $pap)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{!! img('character', $pap->character_id, 32, ['class' => 'img-circle eve-icon small-icon'], false) !!} {{ $pap->character->name }}</td>
+                                <td>
+                                    @include('web::partials.character', ['character' => $pap->character])
+                                </td>
                                 <td>{{ $pap->qty }}</td>
                             </tr>
                         @empty
@@ -128,6 +134,7 @@
                         @endforelse
                         </tbody>
                     </table>
+                </div>
                 </div>
             </div>
         </div>
@@ -143,10 +150,10 @@ $(function(){
     var rainbow = new Rainbow();
     var yearChartParameters = $('#yearChartSettings');
     var monthChartParameters = $('#monthlyStackedChartSettings');
-    var themeColor = rgb2hex($('nav.navbar').css('backgroundColor'));
+    var themeColor = rgb2hex($('.nav-pills .nav-link.active').css('backgroundColor'));
 
     // just in case we're on white paper, reverse color
-    if (themeColor.substr(4) === rgb2hex($('.panel').css('backgroundColor')).substr(4))
+    if (themeColor.substr(4) === rgb2hex($('.card').css('backgroundColor')).substr(4))
         themeColor = '#000000';
 
     var yearChartSettings = {
@@ -232,7 +239,7 @@ $(function(){
 
     yearChartParameters.find('button').on('click', function(){
         $.ajax({
-            url: '{{ route('corporation.ajax.paps.year', request()->route('corporation_id')) }}',
+            url: '{{ route('corporation.ajax.paps.year', request()->route('corporation')) }}',
             data: {
                 year: yearChartParameters.find('input[type="text"]').val(),
                 grouped: yearChartParameters.find('input[type="checkbox"]').is(':checked') ? 1 : 0
@@ -292,7 +299,7 @@ $(function(){
 
     monthChartParameters.find('button').on('click', function(){
         $.ajax({
-            url: '{{ route('corporation.ajax.paps.stacked', request()->route('corporation_id')) }}',
+            url: '{{ route('corporation.ajax.paps.stacked', request()->route('corporation')) }}',
             data: {
                 year: monthChartParameters.find('input[name="year"]').val(),
                 month: monthChartParameters.find('select[name="month"]').val(),
@@ -396,9 +403,6 @@ $(function(){
 
                 if (monthChartParameters.find('input[type="checkbox"]').is(':checked'))
                     monthChartSettings.options.title.text = 'grouped ' + monthChartSettings.options.title.text;
-
-                console.debug(series);
-                console.debug(monthChartSettings);
 
                 monthChart = new Chart(document.getElementById('monthlyStackedChart').getContext('2d'), monthChartSettings);
             }
