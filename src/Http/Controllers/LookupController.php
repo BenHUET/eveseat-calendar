@@ -99,7 +99,7 @@ class LookupController extends Controller
     {
         $confirmed = Pap::with([
                 'character:character_id,name',
-                'character.affiliation:corporation_id',
+                'character.affiliation',
                 'user:id',
                 'type:typeID,typeName,groupID',
                 'type.group:groupID,groupName'
