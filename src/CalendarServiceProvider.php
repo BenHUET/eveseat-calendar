@@ -131,14 +131,4 @@ class CalendarServiceProvider extends AbstractSeatPlugin
     {
         return 'kassie';
     }
-
-    /**
-     * Return the plugin installed version.
-     *
-     * @return string
-     */
-    public function getVersion(): string
-    {
-        return config('calendar.config.version');
-    }
 }
