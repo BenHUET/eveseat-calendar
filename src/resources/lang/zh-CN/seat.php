@@ -102,6 +102,7 @@ return [
     'notification_edit_operation'     => '<!channel> :pencil2: 一个行动被编辑了！',
     'notification_cancel_operation'   => '<!channel> :no_entry_sign: 一个行动被取消！',
     'notification_activate_operation' => '<!channel> :white_check_mark: 一个已取消的行动被重新激活了！',
+    'notification_end_operation'      => '<!here> :no_entry_sign: 此操作已结束！',
     'notification_ping_operation'     => '<!channel> :bell: ',
     'notification_enable'             => '通知到 Slack',
     'integration_channel'             => '集成频道',
