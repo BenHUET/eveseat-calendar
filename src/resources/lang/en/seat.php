@@ -109,6 +109,7 @@ return [
 
     'slack_integration' => 'Slack Integration',
     'enabled'           => 'Enabled',
+    'default_channel'   => 'Default Channel',
     'webhook'           => 'Webhook',
     'emoji_full'        => 'Full Emoji',
     'emoji_half'        => 'Half Emoji',

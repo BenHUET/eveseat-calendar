@@ -139,7 +139,14 @@
                             <select name="integration_id" id="create-operation-channel" style="width: 100%;">
                                 <option value=""></option>
                                 @foreach($notification_channels as $channel)
-                                <option value="{{ $channel->id }}">{{ $channel->name }}</option>
+                                @php
+                                    if ($channel->id == setting('kassie.calendar.slack_integration_default_channel', true)) {
+                                        $selected = "selected";
+                                    } else {
+                                        $selected = "";
+                                    }
+                                @endphp
+                                <option value="{{ $channel->id }}" {{ $selected }}>{{ $channel->name }}</option>
                                 @endforeach
                             </select>
                         </div>
