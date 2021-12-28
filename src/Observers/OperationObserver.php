@@ -8,6 +8,7 @@ use Seat\Kassie\Calendar\Notifications\OperationPosted;
 use Seat\Kassie\Calendar\Notifications\OperationUpdated;
 use Seat\Kassie\Calendar\Notifications\OperationCancelled;
 use Seat\Kassie\Calendar\Notifications\OperationActivated;
+use Seat\Kassie\Calendar\Notifications\OperationEnded;
 
 /**
  * Class OperationObserver.
@@ -37,6 +38,9 @@ class OperationObserver
                     Notification::send($new_operation, new OperationCancelled());
                 else
                     Notification::send($new_operation, new OperationActivated());
+            }
+            elseif ($old_operation->end_at != $new_operation->end_at && $new_operation->is_cancelled == false) {
+                Notification::send($new_operation, new OperationEnded());
             }
             else {
                 Notification::send($new_operation, new OperationUpdated());
