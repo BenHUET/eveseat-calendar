@@ -35,7 +35,6 @@ class CalendarServiceProvider extends AbstractSeatPlugin
         $this->mergeConfigFrom(__DIR__ . '/Config/package.sidebar.php', 'package.sidebar');
         $this->mergeConfigFrom(__DIR__ . '/Config/calendar.character.menu.php', 'package.character.menu');
         $this->mergeConfigFrom(__DIR__ . '/Config/calendar.corporation.menu.php', 'package.corporation.menu');
-        $this->mergeConfigFrom(__DIR__ . '/Config/calendar.config.php', 'calendar.config');
 
         $this->registerPermissions(__DIR__ . '/Config/Permissions/calendar.php', 'calendar');
         $this->registerPermissions(__DIR__ . '/Config/Permissions/character.php', 'character');
