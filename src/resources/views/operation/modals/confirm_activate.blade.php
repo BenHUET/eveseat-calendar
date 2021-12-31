@@ -14,7 +14,7 @@
                     {{ csrf_field() }}
                     <input type="hidden" name="operation_id">
 
-                    @if(setting('kassie.calendar.slack_integration', true) == true)
+                    @if(setting('kassie.calendar.slack_integration', true) == true && setting('kassie.calendar.notify_activate_operation', true))
                     <div class="form-group row">
                         <label for="activate-operation-channel" class="col-sm-4 col-form-label">
                             {{ trans('calendar::seat.notification_enable') }}

@@ -51,6 +51,31 @@ class SettingController extends Controller
         ], true);
 
         setting([
+            'kassie.calendar.notify_create_operation',
+            !!$request->notify_create_operation,
+        ], true);
+
+        setting([
+            'kassie.calendar.notify_update_operation',
+            !!$request->notify_update_operation,
+        ], true);
+
+        setting([
+            'kassie.calendar.notify_cancel_operation',
+            !!$request->notify_cancel_operation,
+        ], true);
+
+        setting([
+            'kassie.calendar.notify_activate_operation',
+            !!$request->notify_activate_operation,
+        ], true);
+
+        setting([
+            'kassie.calendar.notify_end_operation',
+            !!$request->notify_end_operation,
+        ], true);
+
+        setting([
             'kassie.calendar.slack_emoji_importance_full',
             $validated_data['slack_emoji_importance_full'],
         ], true);

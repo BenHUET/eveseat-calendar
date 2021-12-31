@@ -22,7 +22,9 @@ class OperationObserver
      */
     public function created(Operation $operation)
     {
-        if (setting('kassie.calendar.slack_integration', true) == 1 && !is_null($operation->integration))
+        if (setting('kassie.calendar.slack_integration', true) == 1 &&
+            !is_null($operation->integration) &&
+            setting('kassie.calendar.notify_create_operation', true))
             Notification::send($operation, new OperationPosted());
     }
 
@@ -34,15 +36,17 @@ class OperationObserver
         if (setting('kassie.calendar.slack_integration', true) == 1 && !is_null($new_operation->integration)) {
             $old_operation = Operation::find($new_operation->id);
             if ($old_operation->is_cancelled != $new_operation->is_cancelled) {
-                if ($new_operation->is_cancelled == true)
+                if ($new_operation->is_cancelled == true && setting('kassie.calendar.notify_cancel_operation', true))
                     Notification::send($new_operation, new OperationCancelled());
-                else
+                elseif (setting('kassie.calendar.notify_activate_operation', true))
                     Notification::send($new_operation, new OperationActivated());
             }
-            elseif ($old_operation->end_at != $new_operation->end_at && $new_operation->is_cancelled == false) {
+            elseif ($old_operation->end_at != $new_operation->end_at &&
+                    $new_operation->is_cancelled == false &&
+                    setting('kassie.calendar.notify_end_operation', true)) {
                 Notification::send($new_operation, new OperationEnded());
             }
-            else {
+            elseif (setting('kassie.calendar.notify_update_operation', true)) {
                 Notification::send($new_operation, new OperationUpdated());
             }
         }
