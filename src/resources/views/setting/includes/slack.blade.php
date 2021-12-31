@@ -21,17 +21,14 @@
                 <label for="slack_integration_default_channel" class="col-sm-3 col-form-label">{{ trans('calendar::seat.default_channel') }}</label>
                 <div class="col-sm-9">
                     <select name="slack_integration_default_channel" class="form-control">
-                        <option>None</option>
+                        <option value="">None</option>
 
-                        @foreach ($slackIntegrations as $slackIntegration)
-                            @php
-                                if ($slackIntegration->id == setting('kassie.calendar.slack_integration_default_channel', true)) {
-                                    $selected = "selected";
-                                } else {
-                                    $selected = "";
-                                }
-                            @endphp
-                            <option value="{{ $slackIntegration->id }}" {{ $selected }}>{{ $slackIntegration->name }}</option>
+                        @foreach ($slack_integrations as $slack_integration)
+                            @if ($slack_integration->id == setting('kassie.calendar.slack_integration_default_channel', true)) {
+                                <option value="{{ $slack_integration->id }}" selected>{{ $slack_integration->name }}</option>
+                            @else
+                                <option value="{{ $slack_integration->id }}">{{ $slack_integration->name }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>

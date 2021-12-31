@@ -23,7 +23,7 @@ class SettingController extends Controller
 
         return view('calendar::setting.index', [
             'tags' => $tags,
-            'slackIntegrations' => $notification_channels,
+            'slack_integrations' => $notification_channels,
         ]);
     }
 
@@ -33,28 +33,36 @@ class SettingController extends Controller
      */
     public function updateSlack(Request $request)
     {
-        setting([
-            'kassie.calendar.slack_integration_default_channel',
-            $request->slack_integration_default_channel,
-        ], true);
+        $validated_data = $request->validate([
+            'slack_integration_default_channel' => ['nullable', 'exists:integrations,id'],
+            'slack_emoji_importance_full' => ['nullable', 'string'],
+            'slack_emoji_importance_half' => ['nullable', 'string'],
+            'slack_emoji_importance_empty' => ['nullable', 'string'],
+        ]);
+
         setting([
             'kassie.calendar.slack_integration',
             $request->slack_integration == 1 ? 1 : 0,
         ], true);
 
         setting([
+            'kassie.calendar.slack_integration_default_channel',
+            $validated_data['slack_integration_default_channel'],
+        ], true);
+
+        setting([
             'kassie.calendar.slack_emoji_importance_full',
-            $request->slack_emoji_importance_full
+            $validated_data['slack_emoji_importance_full'],
         ], true);
 
         setting([
             'kassie.calendar.slack_emoji_importance_half',
-            $request->slack_emoji_importance_half
+            $validated_data['slack_emoji_importance_half'],
         ], true);
 
         setting([
             'kassie.calendar.slack_emoji_importance_empty',
-            $request->slack_emoji_importance_empty
+            $validated_data['slack_emoji_importance_empty'],
         ], true);
 
         return redirect()->back();
