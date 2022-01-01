@@ -38,6 +38,7 @@ class SettingController extends Controller
             'slack_emoji_importance_full' => ['nullable', 'string'],
             'slack_emoji_importance_half' => ['nullable', 'string'],
             'slack_emoji_importance_empty' => ['nullable', 'string'],
+            'notify_operation_interval' => ['nullable', 'string'],
         ]);
 
         setting([
@@ -73,6 +74,11 @@ class SettingController extends Controller
         setting([
             'kassie.calendar.notify_end_operation',
             !!$request->notify_end_operation,
+        ], true);
+
+        setting([
+            'kassie.calendar.notify_operation_interval',
+            $validated_data['notify_operation_interval'],
         ], true);
 
         setting([

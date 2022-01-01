@@ -73,6 +73,17 @@
             </div>
 
             <p class="callout callout-info text-justify">
+                {{ trans('calendar::seat.help_notify_operation_interval') }}
+            </p>
+            <div class="form-group row">
+                <label for="notify_operation_interval" class="col-sm-3 col-form-label">{{ trans('calendar::seat.ping_intervals') }}</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="notify_operation_interval"
+                           value="{{ setting('kassie.calendar.notify_operation_interval', true) }}">
+                </div>
+            </div>
+
+            <p class="callout callout-info text-justify">
                 {{ trans('calendar::seat.help_emoji') }}
             </p>
 
