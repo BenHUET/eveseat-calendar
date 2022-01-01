@@ -109,7 +109,7 @@ return [
 
     'notifications_to_send' => 'Notifications to send',
 
-    'help_notify_operation_interval' => 'Decide how many pings to send before each operation. Each value is the number of minutes prior to the operation to send the ping. Separate numbers with commas. Default value of "15,30,60" will send 3 notifications: 15 minutes, 30 minutes, and 60 minutes prior to the operation start time.',
+    'help_notify_operation_interval' => 'Decide how many pings to send before each operation. Each value is the number of minutes prior to the operation to send the ping. Separate numbers with commas. Default value of :default_interval will send 3 notifications: 15 minutes, 30 minutes, and 60 minutes prior to the operation start time.',
     'ping_intervals' => 'Ping intervals',
 
     'slack_integration'  => 'Slack Integration',

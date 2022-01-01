@@ -73,7 +73,7 @@
             </div>
 
             <p class="callout callout-info text-justify">
-                {{ trans('calendar::seat.help_notify_operation_interval') }}
+                {!! trans('calendar::seat.help_notify_operation_interval', ['default_interval' => '<code>15,30,60</code>']) !!}
             </p>
             <div class="form-group row">
                 <label for="notify_operation_interval" class="col-sm-3 col-form-label">{{ trans('calendar::seat.ping_intervals') }}</label>
