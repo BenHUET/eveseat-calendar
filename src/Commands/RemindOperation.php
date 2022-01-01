@@ -41,7 +41,7 @@ class RemindOperation extends Command
         foreach ($marks as $mark)
         {
             $when = Carbon::now('UTC')->floorMinute()->addMinutes($mark);
-            $ops = Operation::where('is_cancelled', 'false')
+            $ops = Operation::where('is_cancelled', false)
                 ->where('start_at', $when)
                 ->get();
             foreach($ops as $op)
