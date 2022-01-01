@@ -114,8 +114,12 @@ class AjaxController
                     $row->start_at, human_diff($row->start_at));
             })
             ->editColumn('end_at', function ($row) {
-                return sprintf('<span data-toggle="tooltip" title="%s">%s</span>',
-                    $row->end_at, human_diff($row->end_at));
+                if ($row->end_at) {
+                    return sprintf('<span data-toggle="tooltip" title="%s">%s</span>',
+                        $row->end_at, human_diff($row->end_at));
+                } else {
+                    return '<span data-toggle="tooltip" title="no end set"></span>';
+                }
             })
             ->editColumn('fleet_commander', function ($row) {
                 return view('calendar::operation.partials.fleet_commander', ['op' => $row]);
