@@ -33,7 +33,9 @@ class RemindOperation extends Command
         # Ensure we send reminders starting with furthest in the future. That way
         # when more than one event is being reminded, the last reminder in chat
         # is the next event to occur.
-        $marks = array_map('intval', explode(',', setting('kassie.calendar.notify_operation_interval', true)));
+        $configured_marks = setting('kassie.calendar.notify_operation_interval', true);
+        if ($configured_marks === null) return;
+        $marks = explode(',', $configured_marks);
         rsort($marks);
 
         foreach ($marks as $mark)
