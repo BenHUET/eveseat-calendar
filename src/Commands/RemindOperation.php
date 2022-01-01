@@ -34,22 +34,19 @@ class RemindOperation extends Command
         # when more than one event is being reminded, the last reminder in chat
         # is the next event to occur.
         $configured_marks = setting('kassie.calendar.notify_operation_interval', true);
-        if ($configured_marks === null) return;
+        if ($configured_marks === null || setting('kassie.calendar.slack_integration', true) == 0) return;
         $marks = explode(',', $configured_marks);
         rsort($marks);
 
         foreach ($marks as $mark)
         {
-            if (setting('kassie.calendar.slack_integration', true) == 1)
+            $when = Carbon::now('UTC')->floorMinute()->addMinutes($mark);
+            $ops = Operation::where('is_cancelled', 'false')
+                ->where('start_at', $when)
+                ->get();
+            foreach($ops as $op)
             {
-                $when = Carbon::now('UTC')->floorMinute()->addMinutes($mark);
-                $ops = Operation::where('is_cancelled', 'false')
-                    ->where('start_at', $when)
-                    ->get();
-                foreach($ops as $op)
-                {
-                    Notification::send($op, new OperationPinged());
-                }
+                Notification::send($op, new OperationPinged());
             }
         }
     }
