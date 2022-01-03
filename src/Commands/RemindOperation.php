@@ -26,23 +26,27 @@ class RemindOperation extends Command
     protected $description = 'Check for operation to be reminded on Slack';
 
     /**
-     * @var array
-     */
-    private $marks = [15, 30, 60];
-
-    /**
      * Process the command.
      */
     public function handle()
     {
-        if (setting('kassie.calendar.slack_integration', true) == 1) {
-            $ops = Operation::all()->take(-50);
-            $now = Carbon::now('UTC');
+        # Ensure we send reminders starting with furthest in the future. That way
+        # when more than one event is being reminded, the last reminder in chat
+        # is the next event to occur.
+        $configured_marks = setting('kassie.calendar.notify_operation_interval', true);
+        if ($configured_marks === null || !setting('kassie.calendar.slack_integration', true)) return;
+        $marks = explode(',', $configured_marks);
+        rsort($marks);
 
+        foreach ($marks as $mark)
+        {
+            $when = Carbon::now('UTC')->floorMinute()->addMinutes($mark);
+            $ops = Operation::where('is_cancelled', false)
+                ->where('start_at', $when)
+                ->get();
             foreach($ops as $op)
             {
-                if ($op->status == 'incoming' && in_array($now->diffInMinutes($op->start_at, false), $this->marks))
-                    Notification::send($op, new OperationPinged());
+                Notification::send($op, new OperationPinged());
             }
         }
     }

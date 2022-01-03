@@ -129,7 +129,7 @@
                         </div>
                     </div>
                     {{-- Operation slack --}}
-                    @if(setting('kassie.calendar.slack_integration', true) == true)
+                    @if(setting('kassie.calendar.slack_integration', true))
                     <div class="form-group row">
                         <label for="create-operation-channel" class="col-sm-3 col-form-label">
                             <i class="fas fa-bell"></i>&nbsp;
