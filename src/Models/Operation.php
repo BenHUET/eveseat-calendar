@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use s9e\TextFormatter\Bundles\Forum as TextFormatter;
 use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use \DateTime;
 use Seat\Eveapi\Models\Character\CharacterInfo;
 use Seat\Eveapi\Models\Sde\MapDenormalize;
@@ -139,7 +140,12 @@ class Operation extends Model
      */
     public function getDurationAttribute() {
         if ($this->end_at)
-            return $this->diffToHumanFormat($this->start_at, $this->end_at);
+            return $this->start_at->diffForHumans($this->end_at,
+                [
+                    'syntax' => CarbonInterface::DIFF_RELATIVE_TO_NOW,
+                    'options' => Carbon::ROUND,
+                ]
+            );
 
         return null;
     }
@@ -164,21 +170,36 @@ class Operation extends Model
      * @return string
      */
     public function getStartsInAttribute() {
-        return $this->diffToHumanFormat(Carbon::now('UTC'), $this->start_at);
+        return $this->start_at->diffForHumans(Carbon::now('UTC'),
+            [
+                'syntax' => CarbonInterface::DIFF_RELATIVE_TO_NOW,
+                'options' => Carbon::ROUND,
+            ]
+        );
     }
 
     /**
      * @return string
      */
     public function getEndsInAttribute() {
-        return $this->diffToHumanFormat(Carbon::now('UTC'), $this->end_at);
+        return $this->end_at->longRelativeToNowDiffForHumans(Carbon::now('UTC'),
+            [
+                'syntax' => CarbonInterface::DIFF_RELATIVE_TO_NOW,
+                'options' => Carbon::ROUND,
+            ]
+        );
     }
 
     /**
      * @return string
      */
     public function getStartedAttribute() {
-        return $this->diffToHumanFormat($this->start_at, Carbon::now('UTC'));
+        return $this->start_at->longRelativeToNowDiffForHumans(Carbon::now('UTC'),
+            [
+                'syntax' => CarbonInterface::DIFF_RELATIVE_TO_NOW,
+                'options' => Carbon::ROUND,
+            ]
+        );
     }
 
     /**
@@ -192,36 +213,6 @@ class Operation extends Model
             return $entry->status;
 
         return null;
-    }
-
-    /**
-     * @param $_date1
-     * @param $_date2
-     * @return string
-     * @throws \Exception
-     */
-    private function diffToHumanFormat($_date1, $_date2) {
-        $diff = (new DateTime($_date1))->diff(new DateTime($_date2));
-
-        $duration = '';
-
-        if ($diff->m > 0)
-            $duration .= $diff->m . ' ' . trans_choice('calendar::seat.month', $diff->m) . ' ';
-
-        if ($diff->d > 0)
-            $duration .= $diff->d . ' ' . trans_choice('calendar::seat.day', $diff->d) . ' ';
-
-        if ($diff->h > 0)
-            $duration .= $diff->h . ' ' . trans_choice('calendar::seat.hour', $diff->h) . ' ';
-
-        if ($diff->i > 0)
-            $duration .= $diff->i . ' ' . trans_choice('calendar::seat.minute', $diff->i) . ' ';
-
-        if ($duration == '')
-            if ($diff->s > 0)
-                $duration .= $diff->s . ' ' . trans_choice('calendar::seat.second', $diff->s) . ' ';
-
-        return $duration;
     }
 
     /**
