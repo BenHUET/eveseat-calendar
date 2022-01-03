@@ -50,11 +50,17 @@ class SettingsValidation extends FormRequest
     public function rules()
     {
         return [
+            'slack_integration' => ['boolean'],
             'slack_integration_default_channel' => ['nullable', 'exists:integrations,id'],
             'slack_emoji_importance_full' => ['nullable', 'string'],
             'slack_emoji_importance_half' => ['nullable', 'string'],
             'slack_emoji_importance_empty' => ['nullable', 'string'],
             'notify_operation_interval' => ['nullable', 'string'],
+            'notify_create_operation' => ['boolean'],
+            'notify_update_operation' => ['boolean'],
+            'notify_cancel_operation' => ['boolean'],
+            'notify_activate_operation' => ['boolean'],
+            'notify_end_operation' => ['boolean'],
         ];
     }
 }

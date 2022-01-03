@@ -34,7 +34,7 @@ class RemindOperation extends Command
         # when more than one event is being reminded, the last reminder in chat
         # is the next event to occur.
         $configured_marks = setting('kassie.calendar.notify_operation_interval', true);
-        if ($configured_marks === null || setting('kassie.calendar.slack_integration', true) == 0) return;
+        if ($configured_marks === null || !setting('kassie.calendar.slack_integration', true)) return;
         $marks = explode(',', $configured_marks);
         rsort($marks);
 

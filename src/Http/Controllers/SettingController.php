@@ -34,17 +34,13 @@ class SettingController extends Controller
      */
     public function updateSlack(SettingsValidation $request)
     {
-        setting([
-            'kassie.calendar.slack_integration',
-            $request->slack_integration == 1 ? 1 : 0,
-        ], true);
-
+        setting(['kassie.calendar.slack_integration', (bool)$request->slack_integration], true);
         setting(['kassie.calendar.slack_integration_default_channel', $request['slack_integration_default_channel']], true);
-        setting(['kassie.calendar.notify_create_operation', !!$request->notify_create_operation], true);
-        setting(['kassie.calendar.notify_update_operation', !!$request->notify_update_operation], true);
-        setting(['kassie.calendar.notify_cancel_operation', !!$request->notify_cancel_operation], true);
-        setting(['kassie.calendar.notify_activate_operation', !!$request->notify_activate_operation], true);
-        setting(['kassie.calendar.notify_end_operation', !!$request->notify_end_operation], true);
+        setting(['kassie.calendar.notify_create_operation', (bool)$request->notify_create_operation], true);
+        setting(['kassie.calendar.notify_update_operation', (bool)$request->notify_update_operation], true);
+        setting(['kassie.calendar.notify_cancel_operation', (bool)$request->notify_cancel_operation], true);
+        setting(['kassie.calendar.notify_activate_operation', (bool)$request->notify_activate_operation], true);
+        setting(['kassie.calendar.notify_end_operation', (bool)$request->notify_end_operation], true);
         setting(['kassie.calendar.notify_operation_interval', $request['notify_operation_interval']], true);
         setting(['kassie.calendar.slack_emoji_importance_full', $request['slack_emoji_importance_full']], true);
         setting(['kassie.calendar.slack_emoji_importance_half', $request['slack_emoji_importance_half']], true);
