@@ -62,6 +62,7 @@ class Helper
                 setting('kassie.calendar.slack_emoji_importance_empty', true));
 
         $fields[trans('calendar::seat.fleet_commander')] = $op->fc ? $op->fc : trans('calendar::seat.unknown');
+        $fields[trans('calendar::seat.staging_system')] = $op->staging_sys ? $op->staging_sys : trans('calendar::seat.unknown');
 
         return function ($attachment) use ($op, $url, $fields) {
             $attachment->title($op->title, $url)
