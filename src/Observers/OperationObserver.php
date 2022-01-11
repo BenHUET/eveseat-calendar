@@ -9,6 +9,7 @@ use Seat\Kassie\Calendar\Notifications\OperationUpdated;
 use Seat\Kassie\Calendar\Notifications\OperationCancelled;
 use Seat\Kassie\Calendar\Notifications\OperationActivated;
 use Seat\Kassie\Calendar\Notifications\OperationEnded;
+use Carbon\Carbon;
 
 /**
  * Class OperationObserver.
@@ -41,7 +42,8 @@ class OperationObserver
                 elseif (setting('kassie.calendar.notify_activate_operation', true))
                     Notification::send($new_operation, new OperationActivated());
             }
-            elseif ($old_operation->end_at != $new_operation->end_at &&
+            elseif ($new_operation->end_at &&
+                    $new_operation->end_at->lessThan(Carbon::now('UTC')) &&
                     $new_operation->is_cancelled == false &&
                     setting('kassie.calendar.notify_end_operation', true)) {
                 Notification::send($new_operation, new OperationEnded());
