@@ -96,6 +96,7 @@ return [
     'staging_sys'     => 'Staging system',
     'staging_info'    => 'Staging info',
     'fleet_commander' => 'Fleet Commander',
+    'staging_system'  => 'Staging System',
     'character'       => 'Character',
 
     'notification_new_operation'      => '<!channel> :rocket: A new operation has been posted !',
