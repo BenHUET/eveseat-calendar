@@ -140,9 +140,9 @@ class Operation extends Model
      */
     public function getDurationAttribute() {
         if ($this->end_at)
-            return $this->start_at->diffForHumans($this->end_at,
+            return $this->end_at->diffForHumans($this->start_at,
                 [
-                    'syntax' => CarbonInterface::DIFF_RELATIVE_TO_NOW,
+                    'syntax' => CarbonInterface::DIFF_ABSOLUTE,
                     'options' => Carbon::ROUND,
                 ]
             );
