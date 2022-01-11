@@ -5,6 +5,7 @@ namespace Seat\Kassie\Calendar\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\SlackMessage;
+use Seat\Kassie\Calendar\Helpers\Helper;
 
 /**
  * Class OperationPinged.
@@ -30,11 +31,12 @@ class OperationPinged extends Notification
      */
     public function toSlack($notifiable)
     {
-        $content = trans('calendar::seat.notification_ping_operation') . '*' . trans('calendar::seat.starts_in') . ' ' . $notifiable->starts_in . '* : <' . url('/calendar/operation') . '|' . $notifiable->title . '>';
+        $attachment = Helper::BuildSlackNotificationAttachment($notifiable);
 
         return (new SlackMessage)
             ->success()
             ->from('SeAT Calendar', ':calendar:')
-            ->content($content);
+            ->content(trans('calendar::seat.notification_ping_operation') . '*' . trans('calendar::seat.starts_in') . ' ' . $notifiable->starts_in . '*')
+            ->attachment($attachment);
     }
 }
