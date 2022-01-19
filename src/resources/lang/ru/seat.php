@@ -94,7 +94,7 @@ return [
     'importance'      => 'Важность',
     'staging'         => 'Место',
     'staging_sys'     => 'Система сбора',
-    'staging_info'    => 'Формат',
+    'staging_info'    => 'Информация о сборе',
     'fleet_commander' => 'Флитком',
     'character'       => 'Персонаж',
 
