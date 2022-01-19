@@ -68,7 +68,7 @@ return [
     'placeholder_title'        => 'Название операции',
     'placeholder_staging'      => 'Место сбора (система, станция, цитадель...)',
     'placeholder_staging_sys'  => 'Где собираемся',
-    'placeholder_staging_info' => 'Какой формат кораблей',
+    'placeholder_staging_info' => 'Доп. информация о сборе',
     'placeholder_fc'           => 'Выбрать флиткома, мин. 3 символа',
     'placeholder_description'  => 'Дополнительная информация. Поддерживает BBCode только в календаре.',
     'placeholder_comment'      => 'Дополнительная иформация',
