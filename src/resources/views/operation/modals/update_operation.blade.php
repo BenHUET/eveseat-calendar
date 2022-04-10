@@ -75,15 +75,15 @@
                         <label for="known_duration" class="col-sm-3 col-form-label">{{ trans('calendar::seat.known_duration') }}</label>
                         <div class="col-sm-9">
                             <label class="radio-inline">
-                                <input type="radio" name="known_duration" value="yes"> {{ trans('calendar::seat.yes') }}
+                                <input type="radio" name="known_duration" value="yes" checked> {{ trans('calendar::seat.yes') }}
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="known_duration" value="no" checked> {{ trans('calendar::seat.no') }}
+                                <input type="radio" name="known_duration" value="no"> {{ trans('calendar::seat.no') }}
                             </label>
                         </div>
                     </div>
                     {{-- Operation starts --}}
-                    <div class="form-group row datepicker">
+                    <div class="form-group row datepicker d-none">
                         <label for="time_start" class="col-sm-3 col-form-label">{{ trans('calendar::seat.starts_at') }}
                             <span class="text-danger">*</span>
                         </label>
@@ -92,7 +92,7 @@
                         </div>
                     </div>
                     {{-- Operation duration --}}
-                    <div class="form-group row datepicker d-none">
+                    <div class="form-group row datepicker">
                         <label for="time_start_end" class="col-sm-3 col-form-label">{{ trans('calendar::seat.duration') }}
                             <span class="text-danger">*</span>
                         </label>
