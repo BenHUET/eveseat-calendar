@@ -24,7 +24,7 @@ op_modals.create.on('show.bs.modal', function (e) {
     options.singleDatePicker = true;
     op_modals.create.find('input[name="time_start"]').daterangepicker(options);
     options.singleDatePicker = false;
-    options.endDate = nowRounded.clone().add('2', 'h');
+    options.endDate = nowRounded.clone().add('3', 'h');
     op_modals.create.find('input[name="time_start_end"]').daterangepicker(options);
 
     if ($('#sliderImportance').length <= 0)
@@ -100,8 +100,8 @@ op_modals.update.on('show.bs.modal', function (e) {
     nowRounded = moment.utc();
     nowRounded = moment.utc(Math.ceil((+nowRounded) / ROUNDING) * ROUNDING);
 
-    op_modals.update.find('input[name="known_duration"][value="yes"]').prop('checked', false);
-    op_modals.update.find('input[name="known_duration"][value="no"]').prop('checked', true);
+    op_modals.update.find('input[name="known_duration"][value="yes"]').prop('checked', true);
+    op_modals.update.find('input[name="known_duration"][value="no"]').prop('checked', false);
     op_modals.update.find('input[name="time_start"]').closest('div.form-group').removeClass('d-none');
     op_modals.update.find('input[name="time_start_end"]').closest('div.form-group').addClass('d-none');
 
@@ -152,7 +152,7 @@ op_modals.update.on('show.bs.modal', function (e) {
             op_modals.update.find('input[name="time_start"]').closest('div.form-group').addClass('hidden');
             op_modals.update.find('input[name="time_start_end"]').closest('div.form-group').removeClass('hidden');
         } else {
-            options.endDate = moment.utc(op.start_at).clone().add('2', 'h');
+            options.endDate = moment.utc(op.start_at).clone().add('3', 'h');
             op_modals.update.find('input[name="time_start"]').closest('div.form-group').removeClass('hidden');
             op_modals.update.find('input[name="time_start_end"]').closest('div.form-group').addClass('hidden');
         }
