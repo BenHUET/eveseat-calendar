@@ -153,6 +153,9 @@ return [
 
     'direct_link' => 'Direct link',
 
+    'add_to_calendar' => 'Add To Calendar',
+    'google_calendar' => 'Google Calendar',
+
     'paps' => 'Paps',
 
     'analytic'   => 'Analytic Axis',
