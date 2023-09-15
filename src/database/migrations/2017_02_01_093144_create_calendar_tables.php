@@ -24,7 +24,6 @@ class CreateCalendarTables extends Migration
             $table->string('description')->nullable();
             $table->string('staging')->nullable();
             $table->string('fc')->nullable();
-            $table->bigInteger('fc_character_id')->nullable();
             $table->boolean('is_cancelled')->default(false);
             $table->nullableTimestamps();
 
@@ -33,6 +32,7 @@ class CreateCalendarTables extends Migration
                 ->on('users')
                 ->cascadeOnDelete();
             $table->foreignIdFor(\Seat\Eveapi\Models\Character\CharacterInfo::class,'fc_character_id')
+                ->nullable()
                 ->references('character_id')
                 ->on('character_infos')
                 ->cascadeOnDelete();
