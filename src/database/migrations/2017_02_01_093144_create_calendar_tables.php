@@ -41,31 +41,22 @@ class CreateCalendarTables extends Migration
         Schema::create('calendar_attendees', function (Blueprint $table): void {
             $table->increments('id');
 
-            $table->integer('operation_id')->unsigned();
-
-            if (Schema::hasTable('groups')) {
-                $table->bigInteger('user_id');
-            } else {
-                $table->unsignedInteger('user_id');
-            }
-
-            $table->bigInteger('character_id');
             $table->enum('status', ['yes', 'no', 'maybe']);
             $table->string('comment')->nullable();
             $table->nullableTimestamps();
 
-            $table->foreign('operation_id')
+            $table->foreignIdFor(\Seat\Kassie\Calendar\Models\Operation::class, 'operation_id')
                 ->references('id')
                 ->on('calendar_operations')
-                ->onDelete('cascade');
-            $table->foreign('user_id')
+                ->cascadeOnDelete();
+            $table->foreignIdFor(\Seat\Web\Models\User::class, 'user_id')
                 ->references('id')
                 ->on('users')
-                ->onDelete('cascade');
-            $table->foreign('character_id')
+                ->cascadeOnDelete();
+            $table->foreignIdFor(\Seat\Eveapi\Models\Character\CharacterInfo::class,'character_id')
                 ->references('character_id')
                 ->on('character_infos')
-                ->onDelete('cascade');
+                ->cascadeOnDelete();
         });
 
         Schema::create('calendar_settings', function (Blueprint $table): void {
