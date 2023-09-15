@@ -34,14 +34,14 @@ class CreateCalendarTables extends Migration
             $table->boolean('is_cancelled')->default(false);
             $table->nullableTimestamps();
 
-            $table->foreign('user_id')
+            $table->foreignIdFor(\Seat\Web\Models\User::class, 'user_id')
                 ->references('id')
                 ->on('users')
-                ->onDelete('cascade');
-            $table->foreign('fc_character_id')
+                ->cascadeOnDelete();
+            $table->foreignIdFor(\Seat\Eveapi\Models\Character\CharacterInfo::class,'fc_character_id')
                 ->references('character_id')
                 ->on('character_infos')
-                ->onDelete('cascade');
+                ->cascadeOnDelete();
         });
 
         Schema::create('calendar_attendees', function (Blueprint $table): void {
