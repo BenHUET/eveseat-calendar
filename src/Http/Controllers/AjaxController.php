@@ -122,6 +122,6 @@ class AjaxController
             ->addRowAttr('data-attr-op', fn($row) => $row->id)
             ->rawColumns(['title', 'tags', 'importance', 'start_at', 'end_at', 'duration',
                           'fleet_commander', 'staging_sys', 'subscription', 'actions'])
-            ->make(true);
+            ->toJson();
     }
 }

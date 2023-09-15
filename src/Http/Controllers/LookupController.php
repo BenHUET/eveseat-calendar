@@ -71,7 +71,7 @@ class LookupController extends Controller
             ->addColumn('_status', fn($row) => view('calendar::operation.includes.cols.attendees.status', ['row' => $row]))
             ->addColumn('_timestamps', fn($row) => view('calendar::operation.includes.cols.attendees.timestamps', ['row' => $row]))
             ->rawColumns(['_character', '_status', '_timestamps'])
-            ->make(true);
+            ->toJson();
     }
 
     /**
@@ -95,6 +95,6 @@ class LookupController extends Controller
             ->editColumn('character.character_id', fn($row) => view('web::partials.character', ['character' => $row->character]))
             ->editColumn('character.corporation_id', fn($row) => view('web::partials.corporation', ['corporation' => $row->character->affiliation->corporation]))
             ->editColumn('type.typeID', fn($row) => view('web::partials.type', ['type_id' => $row->type->typeID, 'type_name' => $row->type->typeName]))
-            ->make(true);
+            ->toJson();
     }
 }
