@@ -16,10 +16,10 @@ class Helper
      * @param $emoji_empty
      * @return string
      */
-    public static function ImportanceAsEmoji($importance, $emoji_full, $emoji_half, $emoji_empty) {
+    public static function ImportanceAsEmoji($importance, string $emoji_full, string $emoji_half, string $emoji_empty): string {
         $output = "";
 
-        $tmp = explode('.', $importance);
+        $tmp = explode('.', (string) $importance);
         $val = $tmp[0];
         $dec = 0;
 
@@ -48,11 +48,10 @@ class Helper
     public static function BuildSlackNotificationAttachment($op) {
         $url = url('/calendar/operation', [$op->id]);
 
-        $fields = array();
+        $fields = [];
 
         $fields[trans('calendar::seat.starts_at')] = $op->start_at->format('F j @ H:i EVE');
-        $fields[trans('calendar::seat.duration')] = $op->getDurationAttribute() ?
-            $op->getDurationAttribute() : trans('calendar::seat.unknown');
+        $fields[trans('calendar::seat.duration')] = $op->getDurationAttribute() ?: trans('calendar::seat.unknown');
 
         $fields[trans('calendar::seat.importance')] =
             self::ImportanceAsEmoji(
@@ -61,12 +60,12 @@ class Helper
                 setting('kassie.calendar.slack_emoji_importance_half', true),
                 setting('kassie.calendar.slack_emoji_importance_empty', true));
 
-        $fields[trans('calendar::seat.fleet_commander')] = $op->fc ? $op->fc : trans('calendar::seat.unknown');
-        $fields[trans('calendar::seat.staging_system')] = $op->staging_sys ? $op->staging_sys : trans('calendar::seat.unknown');
-        $fields[trans('calendar::seat.staging_info')] = $op->staging_info ? $op->staging_info : trans('calendar::seat.unknown');
-	$fields[trans('calendar::seat.description')] = $op->description ? $op->description : trans('calendar::seat.unknown');
+        $fields[trans('calendar::seat.fleet_commander')] = $op->fc ?: trans('calendar::seat.unknown');
+        $fields[trans('calendar::seat.staging_system')] = $op->staging_sys ?: trans('calendar::seat.unknown');
+        $fields[trans('calendar::seat.staging_info')] = $op->staging_info ?: trans('calendar::seat.unknown');
+	$fields[trans('calendar::seat.description')] = $op->description ?: trans('calendar::seat.unknown');
 
-        return function ($attachment) use ($op, $url, $fields) {
+        return function ($attachment) use ($op, $url, $fields): void {
             $attachment->title($op->title, $url)
                 ->fields($fields)
                 ->footer(trans('calendar::seat.created_by') . ' ' . $op->user->name)

@@ -14,7 +14,7 @@ use Seat\Services\AbstractSeatPlugin;
  */
 class CalendarServiceProvider extends AbstractSeatPlugin
 {
-    public function boot()
+    public function boot(): void
     {
         $this->addCommands();
         $this->addRoutes();
@@ -24,13 +24,13 @@ class CalendarServiceProvider extends AbstractSeatPlugin
         $this->addPublications();
         $this->addObservers();
 
-        $this->app->booted(function () {
+        $this->app->booted(function (): void {
             $schedule = $this->app->make(Schedule::class);
             $schedule->command('calendar:remind')->everyMinute();
         });
     }
 
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/Config/package.sidebar.php', 'package.sidebar');
         $this->mergeConfigFrom(__DIR__ . '/Config/calendar.character.menu.php', 'package.character.menu');
@@ -41,27 +41,27 @@ class CalendarServiceProvider extends AbstractSeatPlugin
         $this->registerPermissions(__DIR__ . '/Config/Permissions/corporation.php', 'corporation');
     }
 
-    private function addRoutes()
+    private function addRoutes(): void
     {
         $this->loadRoutesFrom(__DIR__ . '/Http/routes.php');
     }
 
-    private function addViews()
+    private function addViews(): void
     {
         $this->loadViewsFrom(__DIR__ . '/resources/views', 'calendar');
     }
 
-    private function addTranslations()
+    private function addTranslations(): void
     {
         $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'calendar');
     }
 
-    private function addMigrations()
+    private function addMigrations(): void
     {
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
     }
 
-    private function addPublications() 
+    private function addPublications(): void 
     {
         $this->publishes([
             __DIR__ . '/resources/assets/css' => public_path('web/css'),
@@ -71,12 +71,12 @@ class CalendarServiceProvider extends AbstractSeatPlugin
         ]);
     }
 
-    private function addObservers() 
+    private function addObservers(): void 
     {
         Operation::observe(OperationObserver::class);
     }
 
-    private function addCommands() 
+    private function addCommands(): void 
     {
         $this->commands([
             RemindOperation::class,

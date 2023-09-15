@@ -7,7 +7,7 @@ use Seat\Services\Models\GlobalSetting;
 
 class DefaultNotificationSettings extends Migration
 {
-    const DEFAULT_SETTINGS = [
+    final public const DEFAULT_SETTINGS = [
         'kassie.calendar.notify_create_operation' => true,
         'kassie.calendar.notify_update_operation' => true,
         'kassie.calendar.notify_cancel_operation' => true,
@@ -21,7 +21,7 @@ class DefaultNotificationSettings extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         foreach (self::DEFAULT_SETTINGS as $name => $value) {
             setting([$name, $value], true);
@@ -33,7 +33,7 @@ class DefaultNotificationSettings extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         GlobalSetting::whereIn('name', array_keys(self::DEFAULT_SETTINGS))->delete();
     }

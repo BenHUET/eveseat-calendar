@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\DB;
  */
 class UpgradeCalendarOperationsToV4 extends Migration {
 
-    public function up()
+    public function up(): void
     {
         DB::table('calendar_operations')
             ->join('mig_groups', 'user_id', '=', 'old_user_id')
             ->orderBy('user_id')
-            ->each(function ($row) {
+            ->each(function ($row): void {
                 DB::table('calendar_operations')
                     ->where('user_id', $row->old_user_id)
                     ->update([
@@ -23,12 +23,12 @@ class UpgradeCalendarOperationsToV4 extends Migration {
 
     }
 
-    public function down()
+    public function down(): void
     {
         DB::table('calendar_operations')
             ->join('mig_groups', 'user_id', '=', 'new_user_id')
             ->orderBy('user_id')
-            ->each(function ($row) {
+            ->each(function ($row): void {
                 DB::table('calendar_operations')
                     ->where('user_id', $row->new_user_id)
                     ->update([

@@ -36,7 +36,7 @@ class SettingsValidation extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
 
         return true;
@@ -47,7 +47,7 @@ class SettingsValidation extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'slack_integration' => ['boolean'],

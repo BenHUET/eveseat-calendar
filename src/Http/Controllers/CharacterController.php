@@ -21,8 +21,6 @@ use Seat\Web\Http\Controllers\Controller;
 class CharacterController extends Controller
 {
     /**
-     * @param \Seat\Eveapi\Models\Character\CharacterInfo $character
-     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function paps(CharacterInfo $character)
@@ -37,7 +35,7 @@ class CharacterController extends Controller
         $shipTypePaps = InvType::rightJoin('invGroups', 'invGroups.groupID', '=', 'invTypes.groupID')
             ->leftJoin('kassie_calendar_paps', 'ship_type_id', '=', 'typeID')
             ->where('categoryID', 6)
-            ->where(function($query) use ($character) {
+            ->where(function($query) use ($character): void {
                 $query->where('character_id', $character->character_id)
                     ->orWhere('character_id', null);
             })
@@ -67,7 +65,6 @@ class CharacterController extends Controller
                          ->orderBy('qty', 'desc')
                          ->get();
 
-        return view('calendar::character.paps', compact('monthlyPaps', 'shipTypePaps',
-            'weeklyRanking', 'monthlyRanking', 'yearlyRanking', 'character'));
+        return view('calendar::character.paps', ['monthlyPaps' => $monthlyPaps, 'shipTypePaps' => $shipTypePaps, 'weeklyRanking' => $weeklyRanking, 'monthlyRanking' => $monthlyRanking, 'yearlyRanking' => $yearlyRanking, 'character' => $character]);
     }
 }

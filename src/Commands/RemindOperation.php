@@ -28,14 +28,14 @@ class RemindOperation extends Command
     /**
      * Process the command.
      */
-    public function handle()
+    public function handle(): void
     {
         # Ensure we send reminders starting with furthest in the future. That way
         # when more than one event is being reminded, the last reminder in chat
         # is the next event to occur.
         $configured_marks = setting('kassie.calendar.notify_operation_interval', true);
         if ($configured_marks === null || !setting('kassie.calendar.slack_integration', true)) return;
-        $marks = explode(',', $configured_marks);
+        $marks = explode(',', (string) $configured_marks);
         rsort($marks);
 
         foreach ($marks as $mark)

@@ -29,10 +29,7 @@ class Attendee extends Model
         'comment'
     ];
 
-    /**
-     * @var array
-     */
-    protected $dates = ['created_at', 'updated_at'];
+    protected $casts = ['created_at' => 'datetime', 'updated_at' => 'datetime'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

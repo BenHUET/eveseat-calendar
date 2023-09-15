@@ -14,7 +14,6 @@ use Seat\Kassie\Calendar\Models\Tag;
 class TagController extends Controller
 {
     /**
-     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -51,7 +50,6 @@ class TagController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function delete(Request $request)
@@ -66,7 +64,6 @@ class TagController extends Controller
     }
 
     /**
-     * @param int $tag_id
      * @return \Illuminate\Http\JsonResponse
      */
     public function get(int $tag_id)

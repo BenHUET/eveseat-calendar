@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 
 class CalendarSettingsTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         setting([
             'kassie.calendar.slack_integration',

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class CalendarTagsSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         DB::table('calendar_tags')->insert([
             [

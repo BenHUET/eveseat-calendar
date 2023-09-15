@@ -11,9 +11,9 @@ class AlterCalendarOperationsDescriptionField extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('calendar_operations', function (Blueprint $table) {
+        Schema::table('calendar_operations', function (Blueprint $table): void {
             $table->text('description_new')->nullable();
         });
 
@@ -24,9 +24,9 @@ class AlterCalendarOperationsDescriptionField extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('calendar_operations', function (Blueprint $table) {
+        Schema::table('calendar_operations', function (Blueprint $table): void {
             $table->dropColumn('description_new');
         });
     }

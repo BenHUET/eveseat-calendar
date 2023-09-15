@@ -11,9 +11,9 @@ class AlterCalendarOperations extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('calendar_operations', function (Blueprint $table) {
+        Schema::table('calendar_operations', function (Blueprint $table): void {
             $table->dropColumn('staging');
 
             $table->string('staging_sys')->nullable();
@@ -29,9 +29,9 @@ class AlterCalendarOperations extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('calendar_operations', function (Blueprint $table) {
+        Schema::table('calendar_operations', function (Blueprint $table): void {
             $table->dropForeign(['staging_sys_id']);
 
             $table->dropColumn('staging_sys');

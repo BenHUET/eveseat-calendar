@@ -17,7 +17,6 @@ use Seat\Kassie\Calendar\Models\Attendee;
 class LookupController extends Controller
 {
     /**
-     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function lookupCharacters(Request $request)
@@ -27,20 +26,16 @@ class LookupController extends Controller
             ->get()
             ->unique('character_id');
 
-        $results = array();
+        $results = [];
 
         foreach ($characters as $character) {
-            array_push($results, array(
-                "value" => $character->name,
-                "data" => $character->character_id
-            ));
+            $results[] = ["value" => $character->name, "data" => $character->character_id];
         }
 
-        return response()->json(array('suggestions' => $results));
+        return response()->json(['suggestions' => $results]);
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function lookupSystems(Request $request)
@@ -50,20 +45,16 @@ class LookupController extends Controller
             ['itemName', 'like', $request->input('query') . '%']
         ])->take(10)->get();
 
-        $results = array();
+        $results = [];
 
         foreach ($systems as $system) {
-            array_push($results, array(
-                "value" => $system->itemName,
-                "data" => $system->itemID
-            ));
+            $results[] = ["value" => $system->itemName, "data" => $system->itemID];
         }
 
-        return response()->json(array('suggestions' => $results));
+        return response()->json(['suggestions' => $results]);
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
      * @return mixed
      */
     public function lookupAttendees(Request $request)
@@ -75,24 +66,15 @@ class LookupController extends Controller
 
         return app('DataTables')::collection($attendees)
             ->removeColumn('character_id', 'main_character', 'user_id', 'status', 'character', 'created_at', 'updated_at')
-            ->addColumn('_character', function ($row) {
-                return view('web::partials.character', ['character' => $row->character]);
-            })
-            ->addColumn('_character_name', function ($row) {
-                return is_null($row->character) ? '' : $row->character->name;
-            })
-            ->addColumn('_status', function ($row) {
-                return view('calendar::operation.includes.cols.attendees.status', compact('row'));
-            })
-            ->addColumn('_timestamps', function ($row) {
-                return view('calendar::operation.includes.cols.attendees.timestamps', compact('row'));
-            })
+            ->addColumn('_character', fn($row) => view('web::partials.character', ['character' => $row->character]))
+            ->addColumn('_character_name', fn($row) => is_null($row->character) ? '' : $row->character->name)
+            ->addColumn('_status', fn($row) => view('calendar::operation.includes.cols.attendees.status', ['row' => $row]))
+            ->addColumn('_timestamps', fn($row) => view('calendar::operation.includes.cols.attendees.timestamps', ['row' => $row]))
             ->rawColumns(['_character', '_status', '_timestamps'])
             ->make(true);
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
      * @return mixed
      */
     public function lookupConfirmed(Request $request)
@@ -110,15 +92,9 @@ class LookupController extends Controller
 
         return app('DataTables')::collection($confirmed)
             ->removeColumn('ship_type_id', 'character_id')
-            ->editColumn('character.character_id', function ($row) {
-                return view('web::partials.character', ['character' => $row->character]);
-            })
-            ->editColumn('character.corporation_id', function ($row) {
-                return view('web::partials.corporation', ['corporation' => $row->character->affiliation->corporation]);
-            })
-            ->editColumn('type.typeID', function ($row) {
-                return view('web::partials.type', ['type_id' => $row->type->typeID, 'type_name' => $row->type->typeName]);
-            })
+            ->editColumn('character.character_id', fn($row) => view('web::partials.character', ['character' => $row->character]))
+            ->editColumn('character.corporation_id', fn($row) => view('web::partials.corporation', ['corporation' => $row->character->affiliation->corporation]))
+            ->editColumn('type.typeID', fn($row) => view('web::partials.type', ['type_id' => $row->type->typeID, 'type_name' => $row->type->typeName]))
             ->make(true);
     }
 }

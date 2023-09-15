@@ -46,10 +46,7 @@ class Operation extends Model
         'role_name',
     ];
 
-    /**
-     * @var array
-     */
-    protected $dates = ['start_at', 'end_at', 'created_at', 'updated_at'];
+    protected $casts = ['start_at' => 'datetime', 'end_at' => 'datetime', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -100,7 +97,7 @@ class Operation extends Model
             ->withDefault();
     }
 
-    public function getIsFleetCommanderAttribute()
+    public function getIsFleetCommanderAttribute(): bool
     {
         if ($this->fc_character_id == null)
             return false;
@@ -119,7 +116,7 @@ class Operation extends Model
     /**
      * @param $value
      */
-    public function setDescriptionAttribute($value) {
+    public function setDescriptionAttribute($value): void {
         $this->attributes['description_new'] = $value;
     }
 
@@ -153,7 +150,7 @@ class Operation extends Model
     /**
      * @return string
      */
-    public function getStatusAttribute() {
+    public function getStatusAttribute(): string {
         if ($this->is_cancelled)
             return "cancelled";
 
@@ -230,7 +227,6 @@ class Operation extends Model
     /**
      * Return true if the user can see the operation
      *
-     * @param User $user
      * @return bool
      */
     public function isUserGranted(User $user) : bool

@@ -11,13 +11,13 @@ class AlterCalendarOperationsForTags extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('calendar_operations', function (Blueprint $table) {
+        Schema::table('calendar_operations', function (Blueprint $table): void {
             $table->dropColumn('type');
         });
 
-        Schema::create('calendar_tags', function (Blueprint $table) {
+        Schema::create('calendar_tags', function (Blueprint $table): void {
             $table->increments('id');
 
             $table->string('name');
@@ -25,7 +25,7 @@ class AlterCalendarOperationsForTags extends Migration
             $table->string('text_color');
         });
 
-        Schema::create('calendar_tag_operation', function (Blueprint $table) {
+        Schema::create('calendar_tag_operation', function (Blueprint $table): void {
             $table->integer('tag_id')->unsigned()->nullable();
             $table->integer('operation_id')->unsigned()->nullable();
 
@@ -46,13 +46,13 @@ class AlterCalendarOperationsForTags extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('calendar_operations', function (Blueprint $table) {
+        Schema::table('calendar_operations', function (Blueprint $table): void {
             $table->enum('type', ['PvP', 'PvE', 'PvR', 'Other'])->nullable();
         });
 
-        Schema::table('calendar_tag_operation', function (Blueprint $table) {
+        Schema::table('calendar_tag_operation', function (Blueprint $table): void {
             $table->dropForeign('calendar_tag_operation_operation_id_foreign');
             $table->dropForeign('calendar_tag_operation_tag_id_foreign');
         });

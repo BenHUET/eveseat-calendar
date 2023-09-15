@@ -11,9 +11,9 @@ class CreateCalendarTables extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('calendar_operations', function (Blueprint $table) {
+        Schema::create('calendar_operations', function (Blueprint $table): void {
             $table->increments('id');
 
             if (Schema::hasTable('groups')) {
@@ -44,7 +44,7 @@ class CreateCalendarTables extends Migration
                 ->onDelete('cascade');
         });
 
-        Schema::create('calendar_attendees', function (Blueprint $table) {
+        Schema::create('calendar_attendees', function (Blueprint $table): void {
             $table->increments('id');
 
             $table->integer('operation_id')->unsigned();
@@ -74,7 +74,7 @@ class CreateCalendarTables extends Migration
                 ->onDelete('cascade');
         });
 
-        Schema::create('calendar_settings', function (Blueprint $table) {
+        Schema::create('calendar_settings', function (Blueprint $table): void {
             $table->increments('id');
 
             $table->boolean('slack_integration');
@@ -90,7 +90,7 @@ class CreateCalendarTables extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::drop('calendar_attendees');
         Schema::drop('calendar_operations');

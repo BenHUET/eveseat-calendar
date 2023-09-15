@@ -18,10 +18,7 @@ use Carbon\Carbon;
  */
 class OperationObserver
 {
-    /**
-     * @param \Seat\Kassie\Calendar\Models\Operation $operation
-     */
-    public function created(Operation $operation)
+    public function created(Operation $operation): void
     {
         if (setting('kassie.calendar.slack_integration', true) &&
             !is_null($operation->integration) &&
@@ -29,10 +26,7 @@ class OperationObserver
             Notification::send($operation, new OperationPosted());
     }
 
-    /**
-     * @param \Seat\Kassie\Calendar\Models\Operation $new_operation
-     */
-    public function updating(Operation $new_operation)
+    public function updating(Operation $new_operation): void
     {
         if (setting('kassie.calendar.slack_integration', true) && !is_null($new_operation->integration)) {
             $old_operation = Operation::find($new_operation->id);
