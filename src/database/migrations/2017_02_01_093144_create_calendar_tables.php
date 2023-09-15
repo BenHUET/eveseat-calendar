@@ -16,6 +16,8 @@ class CreateCalendarTables extends Migration
         Schema::create('calendar_operations', function (Blueprint $table): void {
             $table->increments('id');
 
+            $table->bigInteger('user_id');
+
             $table->string('title');
             $table->timestamp('start_at')->nullable();
             $table->timestamp('end_at')->nullable();
@@ -24,39 +26,44 @@ class CreateCalendarTables extends Migration
             $table->string('description')->nullable();
             $table->string('staging')->nullable();
             $table->string('fc')->nullable();
+            $table->bigInteger('fc_character_id')->nullable();
             $table->boolean('is_cancelled')->default(false);
             $table->nullableTimestamps();
 
-            $table->foreignIdFor(\Seat\Web\Models\User::class, 'user_id')
+            $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->cascadeOnDelete();
-            $table->foreignIdFor(\Seat\Eveapi\Models\Character\CharacterInfo::class,'fc_character_id')
-                ->nullable()
+                ->onDelete('cascade');
+            $table->foreign('fc_character_id')
                 ->references('character_id')
                 ->on('character_infos')
-                ->cascadeOnDelete();
+                ->onDelete('cascade');
         });
 
         Schema::create('calendar_attendees', function (Blueprint $table): void {
             $table->increments('id');
 
+            $table->integer('operation_id')->unsigned();
+
+            $table->bigInteger('user_id');
+
+            $table->bigInteger('character_id');
             $table->enum('status', ['yes', 'no', 'maybe']);
             $table->string('comment')->nullable();
             $table->nullableTimestamps();
 
-            $table->foreignIdFor(\Seat\Kassie\Calendar\Models\Operation::class, 'operation_id')
+            $table->foreign('operation_id')
                 ->references('id')
                 ->on('calendar_operations')
-                ->cascadeOnDelete();
-            $table->foreignIdFor(\Seat\Web\Models\User::class, 'user_id')
+                ->onDelete('cascade');
+            $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->cascadeOnDelete();
-            $table->foreignIdFor(\Seat\Eveapi\Models\Character\CharacterInfo::class,'character_id')
+                ->onDelete('cascade');
+            $table->foreign('character_id')
                 ->references('character_id')
                 ->on('character_infos')
-                ->cascadeOnDelete();
+                ->onDelete('cascade');
         });
 
         Schema::create('calendar_settings', function (Blueprint $table): void {
