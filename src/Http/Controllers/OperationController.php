@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Seat\Eseye\Containers\EsiAuthentication;
+use Seat\Eseye\Eseye;
 use Seat\Eseye\Exceptions\EsiScopeAccessDeniedException;
 use Seat\Eseye\Exceptions\RequestFailedException;
 use Seat\Eveapi\Models\RefreshToken;
@@ -387,9 +388,7 @@ class OperationController extends Controller
      */
     private function eseye(RefreshToken $token)
     {
-        $client = app('esi-client');
-
-        return $client = $client->get(new EsiAuthentication([
+        return $client = new Eseye(new EsiAuthentication([
             'refresh_token' => $token->refresh_token,
             'access_token'  => $token->token,
             'token_expires' => $token->expires_on,
