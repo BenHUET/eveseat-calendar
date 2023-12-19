@@ -389,7 +389,10 @@ class OperationController extends Controller
      */
     private function eseye(RefreshToken $token)
     {
-        return app()->make(EsiClient::class);
+        $client = app()->make(EsiClient::class);
+        $client->setAuthentication($token);
+
+        return $client;
     }
 
     private function updateToken(RefreshToken $token, EsiAuthentication $last_auth): void
