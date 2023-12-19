@@ -351,9 +351,6 @@ class OperationController extends Controller
                 ]);
             }
         } catch (RequestFailedException $e) {
-
-            $this->updateToken($token, $client->getAuthentication());
-
             if ($e->getError() == 'Character is not in a fleet')
                 return redirect()
                     ->back()
@@ -368,15 +365,10 @@ class OperationController extends Controller
                 ->back()
                 ->with('error', 'Esi respond with an unhandled error : (' . $e->getCode() . ') ' . $e->getError());
         } catch (EsiScopeAccessDeniedException) {
-
-            $this->updateToken($token, $client->getAuthentication());
-
             return redirect()
                 ->back()
                 ->with('error', 'Registered tokens has not enough privileges. Please bind your character and pap again.');
         }
-
-        $this->updateToken($token, $client->getAuthentication());
 
         return redirect()
             ->back()
@@ -394,16 +386,4 @@ class OperationController extends Controller
 
         return $client;
     }
-
-    private function updateToken(RefreshToken $token, EsiAuthentication $last_auth): void
-    {
-        if (! empty($last_auth->refresh_token))
-            $token->refresh_token = $last_auth->refresh_token;
-
-        $token->token = $last_auth->access_token ?? '-';
-        $token->expires_on = $last_auth->token_expires;
-
-        $token->save();
-    }
-
 }
