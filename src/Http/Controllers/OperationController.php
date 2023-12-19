@@ -12,6 +12,7 @@ use Seat\Eseye\Exceptions\RequestFailedException;
 use Seat\Eveapi\Models\RefreshToken;
 use Seat\Kassie\Calendar\Models\Pap;
 use Seat\Notifications\Models\Integration;
+use Seat\Services\Contracts\EsiClient;
 use Seat\Web\Http\Controllers\Controller;
 use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Models\Attendee;
@@ -383,17 +384,12 @@ class OperationController extends Controller
     }
 
     /**
-     * @return mixed
+     * @return EsiClient
      * @throws \Seat\Eseye\Exceptions\InvalidContainerDataException
      */
     private function eseye(RefreshToken $token)
     {
-        return $client = new Eseye(new EsiAuthentication([
-            'refresh_token' => $token->refresh_token,
-            'access_token'  => $token->token,
-            'token_expires' => $token->expires_on,
-            'scopes'        => $token->scopes,
-        ]));
+        return app()->make(EsiClient::class);
     }
 
     private function updateToken(RefreshToken $token, EsiAuthentication $last_auth): void
