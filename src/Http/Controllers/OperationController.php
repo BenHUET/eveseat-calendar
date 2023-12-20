@@ -338,7 +338,7 @@ class OperationController extends Controller
             ]);
 
             $members = $client->setVersion('v1')->invoke('get', '/fleets/{fleet_id}/members/', [
-                'fleet_id' => $fleet->fleet_id,
+                'fleet_id' => $fleet->getBody()->fleet_id,
             ]);
 
             foreach ($members as $member) {
