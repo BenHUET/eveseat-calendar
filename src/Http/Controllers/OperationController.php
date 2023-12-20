@@ -337,11 +337,11 @@ class OperationController extends Controller
                 'character_id' => $token->character_id,
             ]);
 
-            $members = $client->setVersion('v1')->invoke('get', '/fleets/{fleet_id}/members/', [
+            $membersResponse = $client->setVersion('v1')->invoke('get', '/fleets/{fleet_id}/members/', [
                 'fleet_id' => $fleet->getBody()->fleet_id,
             ]);
 
-            foreach ($members as $member) {
+            foreach ($membersResponse->getBody() as $member) {
                 Pap::firstOrCreate([
                     'character_id' => $member->character_id,
                     'operation_id' => $operation_id,
