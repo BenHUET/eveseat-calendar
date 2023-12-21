@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Seat\Eseye\Containers\EsiAuthentication;
+use Seat\Eseye\Eseye;
 use Seat\Eseye\Exceptions\EsiScopeAccessDeniedException;
 use Seat\Eseye\Exceptions\RequestFailedException;
 use Seat\Eveapi\Models\RefreshToken;
 use Seat\Kassie\Calendar\Models\Pap;
 use Seat\Notifications\Models\Integration;
+use Seat\Services\Contracts\EsiClient;
 use Seat\Web\Http\Controllers\Controller;
 use Seat\Kassie\Calendar\Models\Operation;
 use Seat\Kassie\Calendar\Models\Attendee;
@@ -32,7 +34,6 @@ class OperationController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Seat\Services\Exceptions\SettingException
      */
@@ -48,25 +49,20 @@ class OperationController extends Controller
 
         if ($main_character != null) {
             $main_character->main = true;
-            $user_characters = $user_characters->reject(function ($character) use ($main_character) {
-                return $character->character_id == $main_character->character_id;
-            });
+            $user_characters = $user_characters->reject(fn($character): bool => $character->character_id == $main_character->character_id);
             $user_characters->prepend($main_character);
         }
 
         return view('calendar::operation.index', [
             'roles'                 => $roles,
             'characters'            => $user_characters,
-            'default_op'            => $request->id ? $request->id : 0,
+            'default_op'            => $request->id ?: 0,
             'tags'                  => $tags,
             'notification_channels' => $notification_channels,
         ]);
     }
 
-    /**
-     * @param Request $request
-     */
-    public function store(Request $request)
+    public function store(Request $request): void
     {
         $this->validate($request, [
             'title' => 'required',
@@ -77,12 +73,12 @@ class OperationController extends Controller
         ]);
 
         $operation = new Operation($request->all());
-        $tags = array();
+        $tags = [];
 
         foreach ($request->toArray() as $name => $value) {
-            if (empty($value))
+            if (empty($value)) {
                 $operation->{$name} = null;
-            else if (strpos($name, 'checkbox-') !== false) {
+            } elseif (str_contains($name, 'checkbox-')) {
                 $tags[] = $value;
             }
         }
@@ -90,7 +86,7 @@ class OperationController extends Controller
         if ($request->known_duration == "no")
             $operation->start_at = Carbon::parse($request->time_start);
         else {
-            $dates = explode(" - ", $request->time_start_end);
+            $dates = explode(" - ", (string) $request->time_start_end);
             $operation->start_at = Carbon::parse($dates[0]);
             $operation->end_at = Carbon::parse($dates[1]);
         }
@@ -110,7 +106,6 @@ class OperationController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request)
@@ -124,15 +119,16 @@ class OperationController extends Controller
         ]);
 
         $operation = Operation::find($request->operation_id);
-        $tags = array();
+        $tags = [];
 
         if (auth()->user()->can('calendar.update_all') || $operation->user->id == auth()->user()->id) {
 
             foreach ($request->toArray() as $name => $value) {
-                if (empty($value))
+                if (empty($value)) {
                     $operation->{$name} = null;
-                else if (strpos($name, 'checkbox-') !== false)
+                } elseif (str_contains($name, 'checkbox-')) {
                     $tags[] = $value;
+                }
             }
 
             $operation->title           = $request->title;
@@ -149,7 +145,7 @@ class OperationController extends Controller
                 $operation->start_at = Carbon::parse($request->time_start);
                 $operation->end_at = null;
             } else {
-                $dates = explode(" - ", $request->time_start_end);
+                $dates = explode(" - ", (string) $request->time_start_end);
                 $operation->start_at = Carbon::parse($dates[0]);
                 $operation->end_at = Carbon::parse($dates[1]);
             }
@@ -175,21 +171,16 @@ class OperationController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function delete(Request $request)
     {
         $operation = Operation::find($request->operation_id);
-        if (auth()->user()->can('calendar.delete_all') || $operation->user->id == auth()->user()->id) {
-            if ($operation != null) {
-
-                if (! $operation->isUserGranted(auth()->user()))
-                    return redirect()->back()->with('error', 'You are not granted to this operation !');
-
-                Operation::destroy($operation->id);
-                return redirect()->route('operation.index');
-            }
+        if ((auth()->user()->can('calendar.delete_all') || $operation->user->id == auth()->user()->id) && $operation != null) {
+            if (! $operation->isUserGranted(auth()->user()))
+                return redirect()->back()->with('error', 'You are not granted to this operation !');
+            Operation::destroy($operation->id);
+            return redirect()->route('operation.index');
         }
 
         return redirect()
@@ -198,19 +189,15 @@ class OperationController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function close(Request $request)
     {
         $operation = Operation::find($request->operation_id);
-        if (auth()->user()->can('calendar.close_all') || $operation->user->id == auth()->user()->id) {
-
-            if ($operation != null) {
-                $operation->end_at = Carbon::now('UTC');
-                $operation->save();
-                return redirect()->route('operation.index');
-            }
+        if ((auth()->user()->can('calendar.close_all') || $operation->user->id == auth()->user()->id) && $operation != null) {
+            $operation->end_at = Carbon::now('UTC');
+            $operation->save();
+            return redirect()->route('operation.index');
         }
 
         return redirect()
@@ -219,23 +206,18 @@ class OperationController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function cancel(Request $request)
     {
         $operation = Operation::find($request->operation_id);
-        if (auth()->user()->can('calendar.close_all') || $operation->user->id == auth()->user()->id) {
-            if ($operation != null) {
-
-                $operation->timestamps = false;
-                $operation->is_cancelled = true;
-                $operation->integration_id = ($request->get('integration_id') == "") ?
-                    null : $request->get('integration_id');
-                $operation->save();
-
-                return redirect()->route('operation.index');
-            }
+        if ((auth()->user()->can('calendar.close_all') || $operation->user->id == auth()->user()->id) && $operation != null) {
+            $operation->timestamps = false;
+            $operation->is_cancelled = true;
+            $operation->integration_id = ($request->get('integration_id') == "") ?
+                null : $request->get('integration_id');
+            $operation->save();
+            return redirect()->route('operation.index');
         }
 
         return redirect()
@@ -244,22 +226,18 @@ class OperationController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function activate(Request $request)
     {
         $operation = Operation::find($request->operation_id);
-        if (auth()->user()->can('calendar.close_all') || $operation->user->id == auth()->user()->id) {
-            if ($operation != null) {
-                $operation->timestamps = false;
-                $operation->is_cancelled = false;
-                $operation->integration_id = ($request->get('integration_id') == "") ?
-                    null : $request->get('integration_id');
-                $operation->save();
-
-                return redirect()->route('operation.index');
-            }
+        if ((auth()->user()->can('calendar.close_all') || $operation->user->id == auth()->user()->id) && $operation != null) {
+            $operation->timestamps = false;
+            $operation->is_cancelled = false;
+            $operation->integration_id = ($request->get('integration_id') == "") ?
+                null : $request->get('integration_id');
+            $operation->save();
+            return redirect()->route('operation.index');
         }
 
         return redirect()
@@ -268,7 +246,6 @@ class OperationController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function subscribe(Request $request)
@@ -321,7 +298,6 @@ class OperationController extends Controller
     }
 
     /**
-     * @param int $operation_id
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Seat\Eseye\Exceptions\InvalidContainerDataException
      */
@@ -361,11 +337,11 @@ class OperationController extends Controller
                 'character_id' => $token->character_id,
             ]);
 
-            $members = $client->setVersion('v1')->invoke('get', '/fleets/{fleet_id}/members/', [
-                'fleet_id' => $fleet->fleet_id,
+            $membersResponse = $client->setVersion('v1')->invoke('get', '/fleets/{fleet_id}/members/', [
+                'fleet_id' => $fleet->getBody()->fleet_id,
             ]);
 
-            foreach ($members as $member) {
+            foreach ($membersResponse->getBody() as $member) {
                 Pap::firstOrCreate([
                     'character_id' => $member->character_id,
                     'operation_id' => $operation_id,
@@ -375,9 +351,6 @@ class OperationController extends Controller
                 ]);
             }
         } catch (RequestFailedException $e) {
-
-            $this->updateToken($token, $client->getAuthentication());
-
             if ($e->getError() == 'Character is not in a fleet')
                 return redirect()
                     ->back()
@@ -391,17 +364,11 @@ class OperationController extends Controller
             return redirect()
                 ->back()
                 ->with('error', 'Esi respond with an unhandled error : (' . $e->getCode() . ') ' . $e->getError());
-        } catch (EsiScopeAccessDeniedException $e) {
-
-            $this->updateToken($token, $client->getAuthentication());
-
+        } catch (EsiScopeAccessDeniedException) {
             return redirect()
                 ->back()
-                ->with('error', 'Registered tokens has not enough privileges. '.
-                                'Please bind your character and pap again.');
+                ->with('error', 'Registered tokens has not enough privileges. Please bind your character and pap again.');
         }
-
-        $this->updateToken($token, $client->getAuthentication());
 
         return redirect()
             ->back()
@@ -409,35 +376,14 @@ class OperationController extends Controller
     }
 
     /**
-     * @param RefreshToken $token
-     * @return mixed
+     * @return EsiClient
      * @throws \Seat\Eseye\Exceptions\InvalidContainerDataException
      */
     private function eseye(RefreshToken $token)
     {
-        $client = app('esi-client');
+        $client = app()->make(EsiClient::class);
+        $client->setAuthentication($token);
 
-        return $client = $client->get(new EsiAuthentication([
-            'refresh_token' => $token->refresh_token,
-            'access_token'  => $token->token,
-            'token_expires' => $token->expires_on,
-            'scopes'        => $token->scopes,
-        ]));
+        return $client;
     }
-
-    /**
-     * @param RefreshToken $token
-     * @param EsiAuthentication $last_auth
-     */
-    private function updateToken(RefreshToken $token, EsiAuthentication $last_auth)
-    {
-        if (! empty($last_auth->refresh_token))
-            $token->refresh_token = $last_auth->refresh_token;
-
-        $token->token = $last_auth->access_token ?? '-';
-        $token->expires_on = $last_auth->token_expires;
-
-        $token->save();
-    }
-
 }

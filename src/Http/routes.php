@@ -4,7 +4,7 @@ Route::group([
     'namespace' => 'Seat\Kassie\Calendar\Http\Controllers',
     'middleware' => ['web', 'auth', 'locale'],
     'prefix' => 'character',
-], function() {
+], function(): void {
 
     Route::get('/{character}/paps', [
         'as' => 'character.view.paps',
@@ -18,7 +18,7 @@ Route::group([
     'namespace' => 'Seat\Kassie\Calendar\Http\Controllers',
     'middleware' => ['web', 'auth', 'locale'],
     'prefix' => 'corporation',
-], function() {
+], function(): void {
 
     Route::get('/{corporation}/paps', [
         'as' => 'corporation.view.paps',
@@ -44,11 +44,11 @@ Route::group([
     'namespace' => 'Seat\Kassie\Calendar\Http\Controllers',
     'middleware' => ['web', 'auth', 'locale', 'can:calendar.view'],
     'prefix' => 'calendar'
-], function () {
+], function (): void {
 
     Route::group([
         'prefix' => 'ajax'
-    ], function(){
+    ], function(): void{
 
         Route::get('/operation/{id}', [
             'as' => 'operation.detail',
@@ -73,7 +73,7 @@ Route::group([
 
     Route::group([
         'prefix' => 'operation'
-    ], function() {
+    ], function(): void {
 
         Route::get('/', [
             'as' => 'operation.index',
@@ -130,7 +130,7 @@ Route::group([
     Route::group([
         'prefix' => 'setting',
         'middleware' => 'can:calendar.setup'
-    ], function() {
+    ], function(): void {
 
         Route::get('/', [
             'as' => 'setting.index',
@@ -140,7 +140,7 @@ Route::group([
 
         Route::group([
             'prefix' => 'slack'
-        ], function() {
+        ], function(): void {
 
             Route::post('update', [
                 'as' => 'setting.slack.update',
@@ -151,7 +151,7 @@ Route::group([
 
         Route::group([
             'prefix' => 'tag'
-        ], function() {
+        ], function(): void {
 
             Route::post('create', [
             'as' => 'setting.tag.create',
@@ -180,7 +180,7 @@ Route::group([
 
     Route::group([
         'prefix' => 'lookup'
-    ], function() {
+    ], function(): void {
 
         Route::get('characters', 'LookupController@lookupCharacters')->name('calendar.lookups.characters');
         Route::get('systems', 'LookupController@lookupSystems')->name('calendar.lookups.systems');

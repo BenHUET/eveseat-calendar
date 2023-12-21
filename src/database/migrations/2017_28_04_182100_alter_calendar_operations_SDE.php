@@ -12,17 +12,14 @@ class AlterCalendarOperationsSDE extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         try {
-            Schema::table('calendar_operations', function (Blueprint $table) {
+            Schema::table('calendar_operations', function (Blueprint $table): void {
                 $table->dropForeign('calendar_operations_staging_sys_id_foreign');
             });
         }
-        catch (QueryException $e) {
-
-        }
-        catch (PDOException $e) {
+        catch (QueryException|PDOException) {
 
         }
     }
@@ -32,9 +29,9 @@ class AlterCalendarOperationsSDE extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('calendar_operations', function (Blueprint $table) {
+        Schema::table('calendar_operations', function (Blueprint $table): void {
             $table->foreign('staging_sys_id')
                 ->references('itemID')
                 ->on('invUniqueNames')

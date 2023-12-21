@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class ScheduleSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $job = [
             'command'           => 'calendar:remind',

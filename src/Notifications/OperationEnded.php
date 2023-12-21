@@ -20,7 +20,7 @@ class OperationEnded extends Notification
      * @param $notifiable
      * @return array
      */
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         return ['slack'];
     }
